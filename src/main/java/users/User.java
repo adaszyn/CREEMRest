@@ -3,6 +3,9 @@ package users;
 public class User {
     private String name, surname;
     private int age;
+    private long ID=0;
+
+    private static long counter;
 
     public String getName() {
         return name;
@@ -29,8 +32,14 @@ public class User {
     }
 
     public User(String name, String surname, int age) {
+        counter++;
+        this.ID=counter;
         this.name=name;
         this.surname=surname;
         this.age=age;
+    }
+
+    public long getID() {
+        return ID;
     }
 }

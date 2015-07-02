@@ -12,10 +12,10 @@ public class UserArray {
         return users;
     }
 
-    public static ArrayList<User> getUser(String name, String surname) {
+    public static ArrayList<User> getUser(long ID) {
         ArrayList<User> tmp=new ArrayList<>();
         for (User user:users) {
-            if (user.getName().equals(name) && user.getSurname().equals(surname)) {
+            if (user.getID()==ID) {
                 tmp.add(user);
             }
         }
@@ -26,4 +26,21 @@ public class UserArray {
         users.add(user);
     }
 
+    public static void deleteUser(long ID) {
+        for (User user:users) {
+            if (user.getID()==ID) {
+                users.remove(user);
+            }
+        }
+    }
+
+    public static void updateUser(long ID, String name, String surname, int age) {
+        for (User user:users) {
+            if (user.getID()==ID) {
+                user.setName(name);
+                user.setSurname(surname);
+                user.setAge(age);
+            }
+        }
+    }
 }

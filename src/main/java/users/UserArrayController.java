@@ -9,18 +9,15 @@ import org.springframework.ui.Model;
 
 import java.util.ArrayList;
 
-import static users.UserArray.createUser;
-import static users.UserArray.getUser;
-import static users.UserArray.getUsers;
+import static users.UserArray.*;
 
 
 @RestController
 public class UserArrayController {
     @RequestMapping(value="/user", method=RequestMethod.GET)
-    public ArrayList<User> UsersGet(@RequestParam(value="name", defaultValue="") String name,
-                           @RequestParam(value="surname", defaultValue="") String surname) {
-        if (name.equals("") && surname.equals("")) return getUsers();
-        else return getUser(name, surname);
+    public ArrayList<User> UsersGet(@RequestParam(value="ID", required=false) Integer ID) {
+        if (ID==null) return getUsers();
+        else return getUser(ID);
     }
 
     @RequestMapping(value="/user", method=RequestMethod.POST)
@@ -30,12 +27,12 @@ public class UserArrayController {
     }
 
     @RequestMapping(value="/user", method=RequestMethod.DELETE)
-    public String UserDelete(@ModelAttribute User user, Model model) {
-        return "result";
+    public void UserDelete(long ID) {
+        deleteUser(ID);
     }
 
     @RequestMapping(value="/user", method=RequestMethod.PUT)
-    public String UserUpdate(@ModelAttribute User user, Model model) {
-        return "result";
+    public void UserUpdate(long ID, String name, String surname, int age) {
+        updateUser(ID, name, surname, age);
     }
 }
