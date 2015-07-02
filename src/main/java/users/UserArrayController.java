@@ -19,8 +19,7 @@ public class UserArrayController {
     @RequestMapping(value="/user", method=RequestMethod.GET)
     public ArrayList<User> UsersGet(@RequestParam(value="name", defaultValue="") String name,
                            @RequestParam(value="surname", defaultValue="") String surname) {
-
-        if (name =="" && surname=="") return getUsers();
+        if (name.equals("") && surname.equals("")) return getUsers();
         else return getUser(name, surname);
     }
 

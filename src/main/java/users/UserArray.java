@@ -8,12 +8,14 @@ public class UserArray {
     private static User test2=new User("emiel","regis",415);
     private static ArrayList<User> users=new ArrayList<>(Arrays.asList(test, test2));
 
-    public static ArrayList<User> getUsers() {return users;}
+    public static ArrayList<User> getUsers() {
+        return users;
+    }
 
     public static ArrayList<User> getUser(String name, String surname) {
         ArrayList<User> tmp=new ArrayList<>();
         for (User user:users) {
-            if (user.getName()==name && user.getSurname()==surname) {
+            if (user.getName().equals(name) && user.getSurname().equals(surname)) {
                 tmp.add(user);
             }
         }
