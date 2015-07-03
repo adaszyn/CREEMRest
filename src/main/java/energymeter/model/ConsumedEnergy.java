@@ -49,6 +49,6 @@ public class ConsumedEnergy {
     }
 
     public String toString(){
-        return Double.toString(value);
+        return String.format("[%d, %f, %f]", id, value, delta);
     }
 }

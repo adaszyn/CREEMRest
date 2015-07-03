@@ -8,10 +8,7 @@ import energymeter.model.ConsumedEnergy;
 import energymeter.dao.ConsumedEnergyDAO;
 
 import javax.sql.DataSource;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 
 
@@ -29,8 +26,8 @@ public class JdbcConsumedEnergyDAO implements ConsumedEnergyDAO {
     }
 
     @Override
-    public ConsumedEnergy getConsumedEnergyById(int id) {
-        String sql = "select * from  t_data_total_active_energy_consumed WHERE DEVICE_ID = ? LIMIT 1";
+    public ArrayList<ConsumedEnergy> getConsumedEnergyById(int id) {
+        String sql = "select * from  t_data_total_active_energy_consumed WHERE DEVICE_ID = ?";
 
         Connection conn = null;
 
@@ -39,18 +36,19 @@ public class JdbcConsumedEnergyDAO implements ConsumedEnergyDAO {
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setInt(1, id);
             ConsumedEnergy consumedEnergy = null;
+            ArrayList<ConsumedEnergy> consumedEnergies = new ArrayList<>();
             ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
-                consumedEnergy = new ConsumedEnergy(
+            while (rs.next()) {
+                consumedEnergies.add(new ConsumedEnergy(
                         rs.getInt("DEVICE_ID"),
                         rs.getDouble("MEASURE_VALUE"),
                         rs.getDouble("MEASURE_V_DELTA"),
                         rs.getTimestamp("MEASURE_TIMESTAMP")
-                );
+                ));
             }
             rs.close();
             ps.close();
-            return consumedEnergy;
+            return consumedEnergies;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         } finally {
@@ -93,5 +91,42 @@ public class JdbcConsumedEnergyDAO implements ConsumedEnergyDAO {
             }
         }
     }
+
+    @Override
+    public ArrayList<ConsumedEnergy> getConsumedEnergyByIdDate(int id, Date date) {
+
+        String sql = "select * from  t_data_total_active_energy_consumed where DEVICE_ID = ? and FROM_UNIXTIME(MEASURE_TIMESTAMP) = ? ";
+
+        Connection conn = null;
+
+        try {
+            conn = dataSource.getConnection();
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setInt(1, id);
+            ps.setDate(2, date);
+            ArrayList<ConsumedEnergy> consumedEnergyPortions = new ArrayList<>();
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                consumedEnergyPortions.add(new ConsumedEnergy(
+                        rs.getInt("DEVICE_ID"),
+                        rs.getDouble("MEASURE_VALUE"),
+                        rs.getDouble("MEASURE_V_DELTA"),
+                        rs.getTimestamp("MEASURE_TIMESTAMP")
+                ));
+            }
+            rs.close();
+            ps.close();
+            return consumedEnergyPortions;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException e) {}
+            }
+        }
+    }
+
 }
 
