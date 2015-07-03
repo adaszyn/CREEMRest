@@ -16,6 +16,7 @@ import static users.UserArray.*;
 public class UserArrayController {
     @RequestMapping(value="/user", method=RequestMethod.GET)
     public ArrayList<User> UsersGet(@RequestParam(value="ID", required=false) Integer ID) {
+
         if (ID==null) return getUsers();
         else return getUser(ID);
     }
