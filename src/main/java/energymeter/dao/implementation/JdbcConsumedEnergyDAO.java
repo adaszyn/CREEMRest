@@ -9,6 +9,7 @@ import energymeter.dao.ConsumedEnergyDAO;
 
 import javax.sql.DataSource;
 import java.sql.*;
+import java.util.Date;
 import java.util.ArrayList;
 
 
@@ -26,8 +27,8 @@ public class JdbcConsumedEnergyDAO implements ConsumedEnergyDAO {
     }
 
     @Override
-    public ArrayList<ConsumedEnergy> getConsumedEnergyById(int id) {
-        String sql = "select * from  t_data_total_active_energy_consumed WHERE DEVICE_ID = ?";
+    public ArrayList<ConsumedEnergy> getConsumedEnergyById(int id, Integer limit) {
+        String sql = "select * from  t_data_total_active_energy_consumed WHERE DEVICE_ID = ? LIMIT ?";
 
         Connection conn = null;
 
@@ -35,6 +36,10 @@ public class JdbcConsumedEnergyDAO implements ConsumedEnergyDAO {
             conn = dataSource.getConnection();
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setInt(1, id);
+            if(limit == null)
+                ps.setInt(2, 10);
+            else
+                ps.setInt(2, limit);
             ConsumedEnergy consumedEnergy = null;
             ArrayList<ConsumedEnergy> consumedEnergies = new ArrayList<>();
             ResultSet rs = ps.executeQuery();
@@ -60,17 +65,21 @@ public class JdbcConsumedEnergyDAO implements ConsumedEnergyDAO {
         }
     }
     @Override
-    public ArrayList<ConsumedEnergy> getAllConsumedEnergy(){
-        String sql = "select * from  t_data_total_active_energy_consumed limit 1";
+    public ArrayList<ConsumedEnergy> getAllConsumedEnergy(Integer limit){
+        String sql = "select * from  t_data_total_active_energy_consumed LIMIT ?";
 
         Connection conn = null;
 
         try {
             conn = dataSource.getConnection();
             PreparedStatement ps = conn.prepareStatement(sql);
+            if(limit == null)
+                ps.setInt(1, 10);
+            else
+                ps.setInt(1, limit);
             ArrayList<ConsumedEnergy> consumedEnergyPortions = new ArrayList<>();
             ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
+            while (rs.next()) {
                 consumedEnergyPortions.add(new ConsumedEnergy(
                         rs.getInt("DEVICE_ID"),
                         rs.getDouble("MEASURE_VALUE"),
@@ -93,20 +102,26 @@ public class JdbcConsumedEnergyDAO implements ConsumedEnergyDAO {
     }
 
     @Override
-    public ArrayList<ConsumedEnergy> getConsumedEnergyByIdDate(int id, Date date) {
+    public ArrayList<ConsumedEnergy> getConsumedEnergyByIdDate(int id, Date date, Integer limit) {
 
-        String sql = "select * from  t_data_total_active_energy_consumed where DEVICE_ID = ? and FROM_UNIXTIME(MEASURE_TIMESTAMP) = ? ";
+        String sql = "select * from  t_data_total_active_energy_consumed where DEVICE_ID = ? and DATE(MEASURE_TIMESTAMP) = ? LIMIT ?";
 
         Connection conn = null;
 
         try {
             conn = dataSource.getConnection();
             PreparedStatement ps = conn.prepareStatement(sql);
+            java.sql.Date sqlDate = new java.sql.Date(date.getTime());
+            Timestamp timestamp = new Timestamp(date.getTime());
             ps.setInt(1, id);
-            ps.setDate(2, date);
+            ps.setDate(2, sqlDate);
+            if(limit == null)
+                ps.setInt(3, 10);
+            else
+                ps.setInt(3, limit);
             ArrayList<ConsumedEnergy> consumedEnergyPortions = new ArrayList<>();
             ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
+            while (rs.next()) {
                 consumedEnergyPortions.add(new ConsumedEnergy(
                         rs.getInt("DEVICE_ID"),
                         rs.getDouble("MEASURE_VALUE"),

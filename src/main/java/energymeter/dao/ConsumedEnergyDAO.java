@@ -2,8 +2,7 @@ package energymeter.dao;
 
 import energymeter.model.ConsumedEnergy;
 
-import java.sql.Date;
-import java.sql.Timestamp;
+import java.util.Date;
 import java.util.ArrayList;
 
 /**
@@ -11,7 +10,7 @@ import java.util.ArrayList;
  */
 public interface ConsumedEnergyDAO {
     public void insert(ConsumedEnergy consumedEnergy);
-    public ArrayList<ConsumedEnergy> getConsumedEnergyById(int id);
-    public ArrayList<ConsumedEnergy> getAllConsumedEnergy();
-    public ArrayList<ConsumedEnergy> getConsumedEnergyByIdDate(int id, Date date);
+    public ArrayList<ConsumedEnergy> getConsumedEnergyById(int id, Integer limit);
+    public ArrayList<ConsumedEnergy> getAllConsumedEnergy(Integer limit);
+    public ArrayList<ConsumedEnergy> getConsumedEnergyByIdDate(int id, Date date, Integer limit);
 }
