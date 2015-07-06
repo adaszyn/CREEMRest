@@ -6,8 +6,19 @@ app.config(function($stateProvider, $urlRouterProvider) {
             url: "/home",
             templateUrl: "js/partials/home.html"
         })
-        .state('users', {
-            url: "/users",
-            templateUrl: "js/partials/users.html"
+        .state('power', {
+            url: "/power",
+            templateUrl: "js/partials/power.html",
+            controller: "PowerCtrl"
+        })
+        .state('consumed', {
+            url: "/consumed",
+            templateUrl: "js/partials/consumed.html",
+            controller: "ConsumedCtrl"
+        })
+        .state('produced', {
+            url: "/produced",
+            templateUrl: "js/partials/produced.html",
+            controller: "ProducedCtrl"
         });
 });

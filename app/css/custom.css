@@ -1,8 +1,36 @@
+@font-face {
+    src: url(/css/Raleway-ExtraLight.ttf);
+    font-family: Raleway;
+}
 .header{
     font-size: 30px;
     color: #555555;
-    border-bottom: 1px solid #555555;
+    border-bottom: 1px solid #dddddd;
 }
 .header p {
-    margin-bottom: 0px;
+    margin-bottom: 0;
+}
+.menu-element{
+    cursor: pointer;
+    vertical-align: middle;
+    transition: all 0.4s ease-out;
+    text-align: center;
+}
+.menu-element:hover{
+    color: white;
+    background-color: #959b76;
+}
+.no-margin{
+    margin: 0 0 0 0;
+}
+.footer{
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+    left: 0;
+    border-top: 1px solid #bbbbbb;
+}
+.title{
+    color: #888888;
+    text-shadow: #bbbbbb;
 }

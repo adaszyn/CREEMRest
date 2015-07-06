@@ -1,0 +1,22 @@
+{
+  "name": "EnergyStatisticsClient",
+  "version": "0.0.0",
+  "homepage": "https://github.com/wojciechAdaszynski/SpringRESTapp",
+  "authors": [
+    "Wojciech A. <wojciech.adaszynski@gmail.com>"
+  ],
+  "main": "index.html",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angularjs": "~1.4.1",
+    "angular-ui-router": "~0.2.15",
+    "tc-angular-chartjs": "~1.0.11"
+  }
+}
