@@ -5,6 +5,7 @@ package energymeter.controllers;
  */
 import energymeter.dao.EnergyDAO;
 import energymeter.model.EnergyAbstract;
+import energymeter.util.EnergyTypesEnum;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -25,8 +26,8 @@ public class EnergyController {
     @RequestMapping(value="/{type}", method=RequestMethod.GET)
     public String getAll(@PathVariable(value="type") String type,
                          @RequestParam(value = "limit", required=false) Integer limit) throws Exception {
-        ArrayList<EnergyAbstract> energyAbstractPortions = energyDAO.getAllEnergy(type, limit);
-        System.out.println(energyAbstractPortions);
+        EnergyTypesEnum typeEnum = EnergyTypesEnum.valueOf(type.toUpperCase());
+        ArrayList<EnergyAbstract> energyAbstractPortions = energyDAO.getAllEnergy(typeEnum, limit);
         return energyAbstractPortions.toString();
     }
 
@@ -35,7 +36,8 @@ public class EnergyController {
     String getByDevice(@PathVariable(value="type") String type,
                        @PathVariable(value="deviceID") int deviceID,
                        @RequestParam(value = "limit", required=false) Integer limit) throws Exception {
-        ArrayList<EnergyAbstract> energies = energyDAO.getEnergyById(type, deviceID, limit);
+        EnergyTypesEnum typeEnum = EnergyTypesEnum.valueOf(type.toUpperCase());
+        ArrayList<EnergyAbstract> energies = energyDAO.getEnergyById(typeEnum, deviceID, limit);
         return energies.toString();
     }
 
@@ -45,7 +47,8 @@ public class EnergyController {
                            @PathVariable(value="deviceID") int deviceID,
                            @PathVariable(value="date") @DateTimeFormat(iso= DateTimeFormat.ISO.DATE) Date date,
                            @RequestParam(value = "limit", required=false) Integer limit) throws Exception {
-        ArrayList<EnergyAbstract> energies = energyDAO.getEnergyByIdDate(type, deviceID, date, limit);
+        EnergyTypesEnum typeEnum = EnergyTypesEnum.valueOf(type.toUpperCase());
+        ArrayList<EnergyAbstract> energies = energyDAO.getEnergyByIdDate(typeEnum, deviceID, date, limit);
         return energies.toString();
     }
 }

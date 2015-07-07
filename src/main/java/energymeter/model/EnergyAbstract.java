@@ -7,8 +7,8 @@ import java.sql.Timestamp;
  */
 
 public abstract class EnergyAbstract {
-    protected int id;
-    protected double value;
+    private int id;
+    private double value;
     private Timestamp timestamp;
 
     public EnergyAbstract() {}
@@ -44,7 +44,7 @@ public abstract class EnergyAbstract {
     }
 
     public String toString(){
-        return String.format("[%d, %f]", id, value);
+        return String.format("[%d, %f, %s]", getId(), getValue(), getTimestamp().toString());
     }
 
 

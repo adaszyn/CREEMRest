@@ -26,6 +26,6 @@ public class ConsumedEnergy extends EnergyAbstract {
 
     @Override
     public String toString(){
-        return String.format("[%d, %f, %f]", super.id, super.value, delta);
+        return String.format("[%d, %f, %f, %s]", super.getId(), super.getValue(), getDelta(), super.getTimestamp().toString());
     }
 }

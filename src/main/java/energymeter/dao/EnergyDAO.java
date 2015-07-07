@@ -2,6 +2,7 @@ package energymeter.dao;
 
 import energymeter.model.ConsumedEnergy;
 import energymeter.model.EnergyAbstract;
+import energymeter.util.EnergyTypesEnum;
 
 import java.util.Date;
 import java.util.ArrayList;
@@ -11,7 +12,7 @@ import java.util.ArrayList;
  */
 public interface EnergyDAO {
     public void insert(ConsumedEnergy consumedEnergy);
-    public ArrayList<EnergyAbstract> getEnergyById(String type, int id, Integer limit) throws Exception;
-    public ArrayList<EnergyAbstract> getAllEnergy(String type, Integer limit) throws Exception;
-    public ArrayList<EnergyAbstract> getEnergyByIdDate(String type, int id, Date date, Integer limit) throws Exception;
+    public ArrayList<EnergyAbstract> getEnergyById(EnergyTypesEnum type, int id, Integer limit) throws Exception;
+    public ArrayList<EnergyAbstract> getAllEnergy(EnergyTypesEnum type, Integer limit) throws Exception;
+    public ArrayList<EnergyAbstract> getEnergyByIdDate(EnergyTypesEnum type, int id, Date date, Integer limit) throws Exception;
 }

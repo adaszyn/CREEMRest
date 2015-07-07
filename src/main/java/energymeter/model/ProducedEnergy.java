@@ -25,6 +25,6 @@ public class ProducedEnergy extends EnergyAbstract {
 
     @Override
     public String toString(){
-        return String.format("[%d, %f, %f]", id, value, delta);
+        return String.format("[%d, %f, %f, %s]", super.getId(), super.getValue(), getDelta(), super.getTimestamp().toString());
     }
 }
