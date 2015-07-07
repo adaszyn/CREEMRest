@@ -2,36 +2,52 @@
  * Created by wojtek on 7/6/15.
  */
 
-app.controller("PowerCtrl", ['$scope', function($scope){
-    $scope.title = "Power statistics";
-
+app.controller("PowerCtrl", ['$scope', '$http', 'RESTUrlService', function($scope, $http, RESTUrlService){
+    $scope.title = "Consumed energy statistics";
+    $scope.dataLimit = 10;
+    $scope.deviceID = "1091002370";
+    $scope.date = "";
     $scope.chartData = {
-        labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+        labels: [],
         datasets: [
             {
-                label: 'My First dataset',
+                label: 'Main dataset',
                 fillColor: 'rgba(220,220,220,0.2)',
                 strokeColor: 'rgba(220,220,220,1)',
                 pointColor: 'rgba(220,220,220,1)',
                 pointStrokeColor: '#fff',
                 pointHighlightFill: '#fff',
                 pointHighlightStroke: 'rgba(220,220,220,1)',
-                data: [65, 59, 80, 81, 56, 55, 40]
-            },
-            {
-                label: 'My Second dataset',
-                fillColor: 'rgba(151,187,205,0.2)',
-                strokeColor: 'rgba(151,187,205,1)',
-                pointColor: 'rgba(151,187,205,1)',
-                pointStrokeColor: '#fff',
-                pointHighlightFill: '#fff',
-                pointHighlightStroke: 'rgba(151,187,205,1)',
-                data: [28, 48, 40, 19, 86, 27, 90]
+                data: []
             }
         ]
     };
 
-    $scope.chartOptions =  {
-        // Chart.js options can go here.
+    $scope.chartOptions = {
+        responsive : true
     };
+
+    $scope.submit = function(){
+        var url = RESTUrlService.REST_URL + RESTUrlService.createUrl({
+                deviceID: $scope.deviceID,
+                limit: $scope.dataLimit,
+                date: $scope.date,
+                type: "power"
+            });
+        console.log(url);
+        $http.get(url)
+            .success(function(data){
+                $scope.updateCharts(data);
+            })
+            .error(function(data){
+                console.log("NO");
+            })
+    };
+
+    $scope.updateCharts = function updateCharts(data){
+        var chartData = RESTUrlService.getChartData(data);
+        $scope.chartData.labels = chartData.labels;
+        $scope.chartData.datasets[0].data = chartData.values;
+    };
+
 }]);
