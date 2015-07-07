@@ -2,10 +2,10 @@
  * Created by wojtek on 7/6/15.
  */
 
-app.controller("ConsumedCtrl", ['$scope', '$http', function($scope, $http){
+app.controller("ConsumedCtrl", ['$scope', '$http', 'RESTUrlService', function($scope, $http, RESTUrlService){
     $scope.title = "Consumed energy statistics";
-    $scope.dataLimit = "";
-    $scope.deviceID = "";
+    $scope.dataLimit = 10;
+    $scope.deviceID = "1091002370";
     $scope.date = "";
     $scope.chartData = {
         labels: [],
@@ -26,9 +26,16 @@ app.controller("ConsumedCtrl", ['$scope', '$http', function($scope, $http){
     $scope.chartOptions = {
         responsive : true
     };
+
     $scope.submit = function(){
-        console.log($scope.date, $scope.deviceID, $scope.dataLimit);
-        $http.get("http://localhost:8080/consumed/" + $scope.deviceID + "/" + $scope.date)
+        var url = RESTUrlService.REST_URL + RESTUrlService.createUrl({
+                deviceID: $scope.deviceID,
+                limit: $scope.dataLimit,
+                date: $scope.date,
+                type: "consumed"
+            });
+        console.log(url);
+        $http.get(url)
             .success(function(data){
                 $scope.updateCharts(data);
             })
@@ -38,24 +45,9 @@ app.controller("ConsumedCtrl", ['$scope', '$http', function($scope, $http){
     };
 
     $scope.updateCharts = function updateCharts(data){
-        var timestamps = [];
-        var values = [];
-        for (var i = 0; i < data.length; i++){
-            if(data[i].hasOwnProperty('timestamp')) {
-                timestamps.push(timeStampToDate(data[i]['timestamp']));
-            }
-            if(data[i].hasOwnProperty('value')) {
-                values.push(data[i]['value']);
-            }
-        }
-        console.log(timestamps);
-        console.log(values);
-        $scope.chartData.labels = timestamps;
-        $scope.chartData.datasets[0].data = values;
-
+        var chartData = RESTUrlService.getChartData(data);
+        $scope.chartData.labels = chartData.labels;
+        $scope.chartData.datasets[0].data = chartData.values;
     };
 
-    var timeStampToDate = function (timestamp) {
-        return new Date(timestamp*1000);
-    }
 }]);
