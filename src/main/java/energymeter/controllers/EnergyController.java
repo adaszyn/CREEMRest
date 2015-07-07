@@ -4,13 +4,11 @@ package energymeter.controllers;
  * Created by wojtek on 7/3/15.
  */
 import energymeter.dao.EnergyDAO;
-import energymeter.model.ConsumedEnergy;
-import energymeter.model.Energy;
+import energymeter.model.EnergyAbstract;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.ui.Model;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -27,9 +25,9 @@ public class EnergyController {
     @RequestMapping(value="/{type}", method=RequestMethod.GET)
     public String getAll(@PathVariable(value="type") String type,
                          @RequestParam(value = "limit", required=false) Integer limit) throws Exception {
-        ArrayList<Energy> energyPortions = energyDAO.getAllEnergy(type, limit);
-        System.out.println(energyPortions);
-        return energyPortions.toString();
+        ArrayList<EnergyAbstract> energyAbstractPortions = energyDAO.getAllEnergy(type, limit);
+        System.out.println(energyAbstractPortions);
+        return energyAbstractPortions.toString();
     }
 
     @RequestMapping("{type}/{deviceID}")
@@ -37,7 +35,7 @@ public class EnergyController {
     String getByDevice(@PathVariable(value="type") String type,
                        @PathVariable(value="deviceID") int deviceID,
                        @RequestParam(value = "limit", required=false) Integer limit) throws Exception {
-        ArrayList<Energy> energies = energyDAO.getEnergyById(type, deviceID, limit);
+        ArrayList<EnergyAbstract> energies = energyDAO.getEnergyById(type, deviceID, limit);
         return energies.toString();
     }
 
@@ -47,7 +45,7 @@ public class EnergyController {
                            @PathVariable(value="deviceID") int deviceID,
                            @PathVariable(value="date") @DateTimeFormat(iso= DateTimeFormat.ISO.DATE) Date date,
                            @RequestParam(value = "limit", required=false) Integer limit) throws Exception {
-        ArrayList<Energy> energies = energyDAO.getEnergyByIdDate(type, deviceID, date, limit);
+        ArrayList<EnergyAbstract> energies = energyDAO.getEnergyByIdDate(type, deviceID, date, limit);
         return energies.toString();
     }
 }

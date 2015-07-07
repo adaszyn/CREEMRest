@@ -5,7 +5,7 @@ import java.sql.Timestamp;
  * Created by root on 7/6/15.
  */
 
-public class ConsumedEnergy extends Energy{
+public class ConsumedEnergy extends EnergyAbstract {
 
     private double delta;
 

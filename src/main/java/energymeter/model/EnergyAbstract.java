@@ -6,14 +6,14 @@ import java.sql.Timestamp;
  * Created by root on 7/6/15.
  */
 
-public abstract class Energy {
+public abstract class EnergyAbstract {
     protected int id;
     protected double value;
     private Timestamp timestamp;
 
-    public Energy() {}
+    public EnergyAbstract() {}
 
-    public Energy(int id, double value, Timestamp timestamp) {
+    public EnergyAbstract(int id, double value, Timestamp timestamp) {
         this.id = id;
         this.value = value;
         this.timestamp = timestamp;

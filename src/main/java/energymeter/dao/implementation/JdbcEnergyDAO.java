@@ -6,10 +6,10 @@ package energymeter.dao.implementation;
 
 import energymeter.model.ConsumedEnergy;
 import energymeter.dao.EnergyDAO;
-import energymeter.model.Energy;
-import energymeter.model.EnergyFactory;
+import energymeter.model.EnergyAbstract;
 import energymeter.model.ProducedEnergy;
-import energymeter.util.EnergyType;
+import energymeter.util.EnergyFactory;
+import energymeter.util.EnergyTableNameFactory;
 
 import javax.sql.DataSource;
 import java.sql.*;
@@ -31,22 +31,21 @@ public class JdbcEnergyDAO implements EnergyDAO {
     }
 
     @Override
-    public ArrayList<Energy> getEnergyById(String type, int id, Integer limit) throws Exception {
-        Energy objectType;
-        String table = EnergyType.getTable(type);
-        String sql = "select * from  "+table+" WHERE DEVICE_ID = ? LIMIT ?";
-        Connection conn = null;
+    public ArrayList<EnergyAbstract> getEnergyById(String type, int id, Integer limit) throws Exception {
+        EnergyAbstract objectType;
+        String table = EnergyTableNameFactory.getTable(type);
+        String sql = "select * from " + table + " WHERE DEVICE_ID = ? LIMIT ?";
+        Connection connection = null;
 
         try {
-            conn = dataSource.getConnection();
-            PreparedStatement ps = conn.prepareStatement(sql);
+            connection = dataSource.getConnection();
+            PreparedStatement ps = connection.prepareStatement(sql);
             ps.setInt(1, id);
             if(limit == null)
                 ps.setInt(2, 10);
             else
                 ps.setInt(2, limit);
-            Energy energy = null;
-            ArrayList<Energy> energies = new ArrayList<>();
+            ArrayList<EnergyAbstract> energies = new ArrayList<>();
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 objectType = EnergyFactory.getEnergyInstance(type);
@@ -67,28 +66,28 @@ public class JdbcEnergyDAO implements EnergyDAO {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         } finally {
-            if (conn != null) {
+            if (connection != null) {
                 try {
-                    conn.close();
+                    connection.close();
                 } catch (SQLException e) {}
             }
         }
     }
     @Override
-    public ArrayList<Energy> getAllEnergy(String type, Integer limit) throws Exception {
-        Energy objectType;
-        String table = EnergyType.getTable(type);
-        String sql = "select * from "+table+" LIMIT ?";
-        Connection conn = null;
+    public ArrayList<EnergyAbstract> getAllEnergy(String type, Integer limit) throws Exception {
+        EnergyAbstract objectType;
+        String table = EnergyTableNameFactory.getTable(type);
+        String sql = "select * from " + table + " LIMIT ?";
+        Connection connection = null;
 
         try {
-            conn = dataSource.getConnection();
-            PreparedStatement ps = conn.prepareStatement(sql);
+            connection = dataSource.getConnection();
+            PreparedStatement ps = connection.prepareStatement(sql);
             if(limit == null)
                 ps.setInt(1, 10);
             else
                 ps.setInt(1, limit);
-            ArrayList<Energy> energyPortions = new ArrayList<>();
+            ArrayList<EnergyAbstract> energyAbstractPortions = new ArrayList<>();
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 objectType = EnergyFactory.getEnergyInstance(type);
@@ -102,41 +101,41 @@ public class JdbcEnergyDAO implements EnergyDAO {
                     ((ProducedEnergy) objectType).setDelta(rs.getDouble("MEASURE_V_DELTA"));
                 }
                 objectType.setId(rs.getInt("DEVICE_ID"));
-                energyPortions.add(objectType);
+                energyAbstractPortions.add(objectType);
             }
             rs.close();
             ps.close();
-            return energyPortions;
+            return energyAbstractPortions;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         } finally {
-            if (conn != null) {
+            if (connection != null) {
                 try {
-                    conn.close();
+                    connection.close();
                 } catch (SQLException e) {}
             }
         }
     }
 
     @Override
-    public ArrayList<Energy> getEnergyByIdDate(String type, int id, Date date, Integer limit) throws Exception {
-        Energy objectType;
-        String table = EnergyType.getTable(type);
-        String sql = "select * from "+table+" where DEVICE_ID = ? and DATE(MEASURE_TIMESTAMP) = ? LIMIT ?";
-        Connection conn = null;
+    public ArrayList<EnergyAbstract> getEnergyByIdDate(String type, int id, Date date, Integer limit) throws Exception {
+        EnergyAbstract objectType;
+        String table = EnergyTableNameFactory.getTable(type);
+        String sql = "select * from " + table + " where DEVICE_ID = ? and DATE(MEASURE_TIMESTAMP) = ? LIMIT ?";
+        Connection connection = null;
 
         try {
-            conn = dataSource.getConnection();
-            PreparedStatement ps = conn.prepareStatement(sql);
+            connection = dataSource.getConnection();
+            PreparedStatement ps = connection.prepareStatement(sql);
             java.sql.Date sqlDate = new java.sql.Date(date.getTime());
-            Timestamp timestamp = new Timestamp(date.getTime());
             ps.setInt(1, id);
             ps.setDate(2, sqlDate);
             if(limit == null)
                 ps.setInt(3, 10);
             else
                 ps.setInt(3, limit);
-            ArrayList<Energy> energyPortions = new ArrayList<>();
+            ArrayList<EnergyAbstract> energyAbstractPortions = new ArrayList<>();
+            System.out.println(ps);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 objectType = EnergyFactory.getEnergyInstance(type);
@@ -149,17 +148,17 @@ public class JdbcEnergyDAO implements EnergyDAO {
                 else if (type.equals("produced")) {
                     ((ProducedEnergy) objectType).setDelta(rs.getDouble("MEASURE_V_DELTA"));
                 }
-                energyPortions.add(objectType);
+                energyAbstractPortions.add(objectType);
             }
             rs.close();
             ps.close();
-            return energyPortions;
+            return energyAbstractPortions;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         } finally {
-            if (conn != null) {
+            if (connection != null) {
                 try {
-                    conn.close();
+                    connection.close();
                 } catch (SQLException e) {}
             }
         }

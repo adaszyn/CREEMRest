@@ -4,7 +4,7 @@ package energymeter.util;
  * Created by root on 7/6/15.
  */
 
-public class EnergyType {
+public class EnergyTableNameFactory {
     public static String getTable(String type) throws Exception {
         switch(type) {
             case "consumed":
