@@ -23,14 +23,12 @@ app.service("RESTUrlService", function(){
                 + args.date.getFullYear() + "-"
                 + (Number(args.date.getMonth())+1) + "-"
                 + args.date.getDate().toString();
-            console.log("DATE STRING", dateString);
-            console.log("DATE", args.date.getUTCDay());
         }
 
         if (args.deviceID) {
             deviceID = "/" + args.deviceID;
         }
-        else{
+        else {
             return type;
         }
 
@@ -42,7 +40,6 @@ app.service("RESTUrlService", function(){
     };
 
     this.getChartData = function(data){
-        console.log("DATA received", data);
         var timestamps = [];
         var values = [];
         for (var i = 0; i < data.length; i++){
