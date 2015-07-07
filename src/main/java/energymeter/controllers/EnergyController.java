@@ -24,31 +24,31 @@ public class EnergyController {
     EnergyDAO energyDAO = (EnergyDAO) context.getBean("consumedenergyDAO");
 
     @RequestMapping(value="/{type}", method=RequestMethod.GET)
-    public String getAll(@PathVariable(value="type") String type,
+    public ArrayList<EnergyAbstract> getAll(@PathVariable(value="type") String type,
                          @RequestParam(value = "limit", required=false) Integer limit) throws Exception {
         EnergyTypesEnum typeEnum = EnergyTypesEnum.valueOf(type.toUpperCase());
         ArrayList<EnergyAbstract> energyAbstractPortions = energyDAO.getAllEnergy(typeEnum, limit);
-        return energyAbstractPortions.toString();
+        return energyAbstractPortions;
     }
 
     @RequestMapping("{type}/{deviceID}")
     public @ResponseBody
-    String getByDevice(@PathVariable(value="type") String type,
+    ArrayList<EnergyAbstract> getByDevice(@PathVariable(value="type") String type,
                        @PathVariable(value="deviceID") int deviceID,
                        @RequestParam(value = "limit", required=false) Integer limit) throws Exception {
         EnergyTypesEnum typeEnum = EnergyTypesEnum.valueOf(type.toUpperCase());
         ArrayList<EnergyAbstract> energies = energyDAO.getEnergyById(typeEnum, deviceID, limit);
-        return energies.toString();
+        return energies;
     }
 
     @RequestMapping("{type}/{deviceID}/{date}")
     public @ResponseBody
-    String getByDeviceDate(@PathVariable(value="type") String type,
+    ArrayList<EnergyAbstract> getByDeviceDate(@PathVariable(value="type") String type,
                            @PathVariable(value="deviceID") int deviceID,
                            @PathVariable(value="date") @DateTimeFormat(iso= DateTimeFormat.ISO.DATE) Date date,
                            @RequestParam(value = "limit", required=false) Integer limit) throws Exception {
         EnergyTypesEnum typeEnum = EnergyTypesEnum.valueOf(type.toUpperCase());
         ArrayList<EnergyAbstract> energies = energyDAO.getEnergyByIdDate(typeEnum, deviceID, date, limit);
-        return energies.toString();
+        return energies;
     }
 }
