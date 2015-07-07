@@ -5,13 +5,12 @@ import java.sql.Timestamp;
  * Created by root on 7/6/15.
  */
 
-public class ConsumedEnergy extends EnergyAbstract {
-
+public class ProducedEnergy extends EnergyAbstract {
     private double delta;
 
-    public ConsumedEnergy() {}
+    public ProducedEnergy() {}
 
-    public ConsumedEnergy(int id, double value, double delta, Timestamp timestamp) {
+    public ProducedEnergy(int id, double value, double delta, Timestamp timestamp) {
         super(id, value, timestamp);
         this.delta = delta;
     }
