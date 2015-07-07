@@ -18,7 +18,7 @@
 }
 .menu-element:hover{
     color: white;
-    background-color: #959b76;
+    background-color: darkred;
 }
 .no-margin{
     margin: 0 0 0 0;
@@ -29,6 +29,13 @@
     bottom: 0;
     left: 0;
     border-top: 1px solid #bbbbbb;
+    color: #222222;
+    transition: 0.1s all linear;
+}
+.footer:hover {
+    /*letter-spacing: 3px;*/
+    color: #030001;
+    font-weight: 900;
 }
 .title{
     color: #888888;
@@ -53,4 +60,12 @@
     cursor: pointer;
     box-sizing: border-box;
     width: 100%;
+}
+.logo{
+    font-weight: 900;
+    transition: 0.3s all ease-out;
+}
+.logo:hover{
+    font-weight: 900;
+    color: darkred;
 }
