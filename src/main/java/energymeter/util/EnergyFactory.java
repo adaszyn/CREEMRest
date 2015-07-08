@@ -11,15 +11,13 @@ import energymeter.model.ProducedEnergy;
 
 public class EnergyFactory {
     public static EnergyAbstract getEnergyInstance(EnergyTypesEnum type) throws Exception {
-        switch (type) {
-            case TOTAL_ACTIVE_CONSUMED:
-                return new ConsumedEnergy();
-            case TOTAL_ACTIVE_PRODUCED:
-                return new ProducedEnergy();
-            case TOTAL_ACTIVE_POWER:
-                return new Power();
-            default:
-                throw new Exception("Wrong case argument");
-        }
+        if (type.toString().contains("CONSUMED"))
+            return new ConsumedEnergy();
+        else if (type.toString().contains("PRODUCED"))
+            return new ProducedEnergy();
+        else if (type.toString().contains("POWER"))
+            return new Power();
+        else
+            throw new Exception("Wrong case argument");
     }
 }
