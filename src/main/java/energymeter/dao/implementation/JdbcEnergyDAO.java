@@ -51,10 +51,10 @@ public class JdbcEnergyDAO implements EnergyDAO {
                 objectType.setId(rs.getString("DEVICE_ID"));
                 objectType.setValue(rs.getDouble("MEASURE_VALUE"));
                 objectType.setTimestamp(rs.getTimestamp("MEASURE_TIMESTAMP"));
-                if ("CONSUMED".equalsIgnoreCase(type.toString())) {
+                if ("TOTAL_ACTIVE_CONSUMED".equalsIgnoreCase(type.toString())) {
                     ((ConsumedEnergy) objectType).setDelta(rs.getDouble("MEASURE_V_DELTA"));
                 }
-                else if ("PRODUCED".equalsIgnoreCase(type.toString())) {
+                else if ("TOTAL_ACTIVE_PRODUCED".equalsIgnoreCase(type.toString())) {
                     ((ProducedEnergy) objectType).setDelta(rs.getDouble("MEASURE_V_DELTA"));
                 }
                 energies.add(objectType);
@@ -92,10 +92,10 @@ public class JdbcEnergyDAO implements EnergyDAO {
                 objectType.setId(rs.getString("DEVICE_ID"));
                 objectType.setValue(rs.getDouble("MEASURE_VALUE"));
                 objectType.setTimestamp(rs.getTimestamp("MEASURE_TIMESTAMP"));
-                if ("CONSUMED".equalsIgnoreCase(type.toString())) {
+                if ("TOTAL_ACTIVE_CONSUMED".equalsIgnoreCase(type.toString())) {
                     ((ConsumedEnergy) objectType).setDelta(rs.getDouble("MEASURE_V_DELTA"));
                 }
-                else if ("PRODUCED".equalsIgnoreCase(type.toString())) {
+                else if ("TOTAL_ACTIVE_PRODUCED".equalsIgnoreCase(type.toString())) {
                     ((ProducedEnergy) objectType).setDelta(rs.getDouble("MEASURE_V_DELTA"));
                 }
                 energyAbstractPortions.add(objectType);
@@ -137,10 +137,10 @@ public class JdbcEnergyDAO implements EnergyDAO {
                 objectType.setId(rs.getString("DEVICE_ID"));
                 objectType.setValue(rs.getDouble("MEASURE_VALUE"));
                 objectType.setTimestamp(rs.getTimestamp("MEASURE_TIMESTAMP"));
-                if ("CONSUMED".equalsIgnoreCase(type.toString())) {
+                if ("TOTAL_ACTIVE_CONSUMED".equalsIgnoreCase(type.toString())) {
                     ((ConsumedEnergy) objectType).setDelta(rs.getDouble("MEASURE_V_DELTA"));
                 }
-                else if ("PRODUCED".equalsIgnoreCase(type.toString())) {
+                else if ("TOTAL_ACTIVE_PRODUCED".equalsIgnoreCase(type.toString())) {
                     ((ProducedEnergy) objectType).setDelta(rs.getDouble("MEASURE_V_DELTA"));
                 }
                 energyAbstractPortions.add(objectType);
@@ -184,10 +184,10 @@ public class JdbcEnergyDAO implements EnergyDAO {
                 objectType.setId(rs.getString("DEVICE_ID"));
                 objectType.setValue(rs.getDouble("MEASURE_VALUE"));
                 objectType.setTimestamp(rs.getTimestamp("MEASURE_TIMESTAMP"));
-                if ("CONSUMED".equalsIgnoreCase(type.toString())) {
+                if ("TOTAL_ACTIVE_CONSUMED".equalsIgnoreCase(type.toString())) {
                     ((ConsumedEnergy) objectType).setDelta(rs.getDouble("MEASURE_V_DELTA"));
                 }
-                else if ("PRODUCED".equalsIgnoreCase(type.toString())) {
+                else if ("TOTAL_ACTIVE_PRODUCED".equalsIgnoreCase(type.toString())) {
                     ((ProducedEnergy) objectType).setDelta(rs.getDouble("MEASURE_V_DELTA"));
                 }
                 energyAbstractPortions.add(objectType);
