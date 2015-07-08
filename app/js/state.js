@@ -9,7 +9,6 @@ app.config(function($stateProvider, $urlRouterProvider) {
                     templateUrl: 'js/partials/header.html'
                 },
                 'content': {
-
                 }
             }
         })
@@ -21,12 +20,12 @@ app.config(function($stateProvider, $urlRouterProvider) {
                 }
             }
         })
-        .state('root.power', {
-            url: "power",
+        .state('root.energymeter', {
+            url: "energymeter",
             views: {
                 'content@': {
-                    templateUrl: "js/partials/power.html",
-                    controller: "PowerCtrl"
+                    templateUrl: "js/partials/energymeter.html",
+                    controller: "EnergyMeterCtrl"
                 }
             }
 

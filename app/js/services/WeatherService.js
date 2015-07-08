@@ -12,7 +12,6 @@ app.service("WeatherService", ['$http', function($http){
             "S", "SSW", "SW", "WSW", "W", "WNW", "NW", "NNW"];
         var i = (degrees + 11.25)/22.5;
 
-        console.log(i)
         return directions[Math.floor(i) % 16];
     }
 }]);
