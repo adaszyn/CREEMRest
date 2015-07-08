@@ -51,10 +51,10 @@ public class JdbcEnergyDAO implements EnergyDAO {
                 objectType.setId(rs.getString("DEVICE_ID"));
                 objectType.setValue(rs.getDouble("MEASURE_VALUE"));
                 objectType.setTimestamp(rs.getTimestamp("MEASURE_TIMESTAMP"));
-                if ("TOTAL_ACTIVE_CONSUMED".equalsIgnoreCase(type.toString())) {
+                if (type.toString().contains("CONSUMED")) {
                     ((ConsumedEnergy) objectType).setDelta(rs.getDouble("MEASURE_V_DELTA"));
                 }
-                else if ("TOTAL_ACTIVE_PRODUCED".equalsIgnoreCase(type.toString())) {
+                else if (type.toString().contains("PRODUCED")) {
                     ((ProducedEnergy) objectType).setDelta(rs.getDouble("MEASURE_V_DELTA"));
                 }
                 energies.add(objectType);
@@ -92,10 +92,10 @@ public class JdbcEnergyDAO implements EnergyDAO {
                 objectType.setId(rs.getString("DEVICE_ID"));
                 objectType.setValue(rs.getDouble("MEASURE_VALUE"));
                 objectType.setTimestamp(rs.getTimestamp("MEASURE_TIMESTAMP"));
-                if ("TOTAL_ACTIVE_CONSUMED".equalsIgnoreCase(type.toString())) {
+                if (type.toString().contains("CONSUMED")) {
                     ((ConsumedEnergy) objectType).setDelta(rs.getDouble("MEASURE_V_DELTA"));
                 }
-                else if ("TOTAL_ACTIVE_PRODUCED".equalsIgnoreCase(type.toString())) {
+                else if (type.toString().contains("PRODUCED")) {
                     ((ProducedEnergy) objectType).setDelta(rs.getDouble("MEASURE_V_DELTA"));
                 }
                 energyAbstractPortions.add(objectType);
@@ -137,10 +137,10 @@ public class JdbcEnergyDAO implements EnergyDAO {
                 objectType.setId(rs.getString("DEVICE_ID"));
                 objectType.setValue(rs.getDouble("MEASURE_VALUE"));
                 objectType.setTimestamp(rs.getTimestamp("MEASURE_TIMESTAMP"));
-                if ("TOTAL_ACTIVE_CONSUMED".equalsIgnoreCase(type.toString())) {
+                if (type.toString().contains("CONSUMED")) {
                     ((ConsumedEnergy) objectType).setDelta(rs.getDouble("MEASURE_V_DELTA"));
                 }
-                else if ("TOTAL_ACTIVE_PRODUCED".equalsIgnoreCase(type.toString())) {
+                else if (type.toString().contains("PRODUCED")) {
                     ((ProducedEnergy) objectType).setDelta(rs.getDouble("MEASURE_V_DELTA"));
                 }
                 energyAbstractPortions.add(objectType);
@@ -184,10 +184,10 @@ public class JdbcEnergyDAO implements EnergyDAO {
                 objectType.setId(rs.getString("DEVICE_ID"));
                 objectType.setValue(rs.getDouble("MEASURE_VALUE"));
                 objectType.setTimestamp(rs.getTimestamp("MEASURE_TIMESTAMP"));
-                if ("TOTAL_ACTIVE_CONSUMED".equalsIgnoreCase(type.toString())) {
+                if (type.toString().contains("CONSUMED")) {
                     ((ConsumedEnergy) objectType).setDelta(rs.getDouble("MEASURE_V_DELTA"));
                 }
-                else if ("TOTAL_ACTIVE_PRODUCED".equalsIgnoreCase(type.toString())) {
+                else if (type.toString().contains("PRODUCED")) {
                     ((ProducedEnergy) objectType).setDelta(rs.getDouble("MEASURE_V_DELTA"));
                 }
                 energyAbstractPortions.add(objectType);
@@ -208,17 +208,24 @@ public class JdbcEnergyDAO implements EnergyDAO {
 
     @Override
     public ArrayList<String> getMeters() {
-        String sql = "select distinct DEVICE_ID from t_data_total_active_energy_produced \n" +
-                "union\n" +
-                "select distinct DEVICE_ID from t_data_total_active_energy_consumed\n" +
-                "union\n" +
-                "select distinct DEVICE_ID from t_data_total_active_power";
+        String sql;
         Connection connection = null;
 
         try {
             connection = dataSource.getConnection();
-            PreparedStatement ps = connection.prepareStatement(sql);
+
+            ArrayList<String> tables = new ArrayList<>();
+            for (EnergyTypesEnum energyType: EnergyTypesEnum.values()) {
+                tables.add(energyType.getTable());
+            }
+
             ArrayList<String> meters = new ArrayList<>();
+            sql = "select distinct DEVICE_ID from t_data_latest";
+            for (String table: tables) {
+                sql += " union select distinct DEVICE_ID from " + table;
+            }
+
+            PreparedStatement ps = connection.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 meters.add(rs.getString("DEVICE_ID"));
