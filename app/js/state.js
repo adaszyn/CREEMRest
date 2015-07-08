@@ -56,5 +56,15 @@ app.config(function($stateProvider, $urlRouterProvider) {
                     controller: "WeatherCtrl"
                 }
             }
+        })
+        .state('root.predictions', {
+            url: "predictions",
+            views: {
+                'content@': {
+                    templateUrl: "js/partials/predictions.html",
+                    controller: "PredictionsCtrl"
+                }
+            }
         });
+
 });
