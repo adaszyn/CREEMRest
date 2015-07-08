@@ -2,13 +2,17 @@
 
 <form ng-submit="submit()">
     <div class="row">
-        <div class="five columns">
+        <div class="three columns">
             <label for="idInput">ID of a device</label>
             <input class="u-full-width" type="text" placeholder="for example 1091002370" id="idInput" ng-model="deviceID" value="1091002370">
         </div>
-        <div class="four columns">
-            <label for="dateInput">Date</label>
-            <input class="dateinput" type="date" id="dateInput" ng-model="date">
+        <div class="three columns">
+            <label for="dateInputFrom">Date</label>
+            <input class="dateinput" type="date" placeholder="YYYY-MM-DD" id="dateInputFrom" ng-model="dateFrom">
+        </div>
+        <div class="three columns">
+            <label for="dateInputTo">To Date</label>
+            <input class="dateinput" type="date" placeholder="YYYY-MM-DD" id="dateInputTo" ng-model="dateTo">
         </div>
         <div class="three columns">
             <label for="inputLimit">Limit for results</label>
