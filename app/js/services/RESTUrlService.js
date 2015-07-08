@@ -44,7 +44,7 @@ app.service("RESTUrlService", function(){
             limit = "?limit=" + args.limit;
         }
 
-        return type + deviceID + dateFromString + dateToString + limit;
+        return "/energydata" + type + deviceID + dateFromString + dateToString + limit;
     };
 
     this.getChartData = function(data){

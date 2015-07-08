@@ -48,7 +48,7 @@ public class JdbcEnergyDAO implements EnergyDAO {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 objectType = EnergyFactory.getEnergyInstance(type);
-                objectType.setId(rs.getInt("DEVICE_ID"));
+                objectType.setId(rs.getString("DEVICE_ID"));
                 objectType.setValue(rs.getDouble("MEASURE_VALUE"));
                 objectType.setTimestamp(rs.getTimestamp("MEASURE_TIMESTAMP"));
                 if ("CONSUMED".equalsIgnoreCase(type.toString())) {
@@ -89,7 +89,7 @@ public class JdbcEnergyDAO implements EnergyDAO {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 objectType = EnergyFactory.getEnergyInstance(type);
-                objectType.setId(rs.getInt("DEVICE_ID"));
+                objectType.setId(rs.getString("DEVICE_ID"));
                 objectType.setValue(rs.getDouble("MEASURE_VALUE"));
                 objectType.setTimestamp(rs.getTimestamp("MEASURE_TIMESTAMP"));
                 if ("CONSUMED".equalsIgnoreCase(type.toString())) {
@@ -98,7 +98,6 @@ public class JdbcEnergyDAO implements EnergyDAO {
                 else if ("PRODUCED".equalsIgnoreCase(type.toString())) {
                     ((ProducedEnergy) objectType).setDelta(rs.getDouble("MEASURE_V_DELTA"));
                 }
-                objectType.setId(rs.getInt("DEVICE_ID"));
                 energyAbstractPortions.add(objectType);
             }
             rs.close();
@@ -135,7 +134,7 @@ public class JdbcEnergyDAO implements EnergyDAO {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 objectType = EnergyFactory.getEnergyInstance(type);
-                objectType.setId(rs.getInt("DEVICE_ID"));
+                objectType.setId(rs.getString("DEVICE_ID"));
                 objectType.setValue(rs.getDouble("MEASURE_VALUE"));
                 objectType.setTimestamp(rs.getTimestamp("MEASURE_TIMESTAMP"));
                 if ("CONSUMED".equalsIgnoreCase(type.toString())) {
@@ -182,7 +181,7 @@ public class JdbcEnergyDAO implements EnergyDAO {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 objectType = EnergyFactory.getEnergyInstance(type);
-                objectType.setId(rs.getInt("DEVICE_ID"));
+                objectType.setId(rs.getString("DEVICE_ID"));
                 objectType.setValue(rs.getDouble("MEASURE_VALUE"));
                 objectType.setTimestamp(rs.getTimestamp("MEASURE_TIMESTAMP"));
                 if ("CONSUMED".equalsIgnoreCase(type.toString())) {
@@ -196,6 +195,37 @@ public class JdbcEnergyDAO implements EnergyDAO {
             rs.close();
             ps.close();
             return energyAbstractPortions;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {}
+            }
+        }
+    }
+
+    @Override
+    public ArrayList<String> getMeters() {
+        String sql = "select distinct DEVICE_ID from t_data_total_active_energy_produced \n" +
+                "union\n" +
+                "select distinct DEVICE_ID from t_data_total_active_energy_consumed\n" +
+                "union\n" +
+                "select distinct DEVICE_ID from t_data_total_active_power";
+        Connection connection = null;
+
+        try {
+            connection = dataSource.getConnection();
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ArrayList<String> meters = new ArrayList<>();
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                meters.add(rs.getString("DEVICE_ID"));
+            }
+            rs.close();
+            ps.close();
+            return meters;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         } finally {
