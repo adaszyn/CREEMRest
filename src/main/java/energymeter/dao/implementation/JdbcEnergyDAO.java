@@ -207,28 +207,23 @@ public class JdbcEnergyDAO implements EnergyDAO {
     }
 
     @Override
-    public ArrayList<String> getMeters() {
-        String sql;
+    public ArrayList<EnergyAbstract> getMeters() throws Exception {
+        EnergyAbstract objectType;
+        String sql = "select distinct DEVICE_ID, MEASURE_VALUE, MEASURE_TIMESTAMP from t_data_latest where MEASURE_TYPE='active_power' or MEASURE_TYPE='total_active_power'";
         Connection connection = null;
 
         try {
             connection = dataSource.getConnection();
 
-            ArrayList<String> tables = new ArrayList<>();
-            for (EnergyTypesEnum energyType: EnergyTypesEnum.values()) {
-                tables.add(energyType.getTable());
-            }
-
-            ArrayList<String> meters = new ArrayList<>();
-            sql = "select distinct DEVICE_ID from t_data_latest";
-            for (String table: tables) {
-                sql += " union select distinct DEVICE_ID from " + table;
-            }
-
+            ArrayList<EnergyAbstract> meters = new ArrayList<>();
             PreparedStatement ps = connection.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                meters.add(rs.getString("DEVICE_ID"));
+                objectType = EnergyFactory.getEnergyInstance(EnergyTypesEnum.ACTIVE_POWER_1);
+                objectType.setId(rs.getString("DEVICE_ID"));
+                objectType.setValue(rs.getDouble("MEASURE_VALUE"));
+                objectType.setTimestamp(rs.getTimestamp("MEASURE_TIMESTAMP"));
+                meters.add(objectType);
             }
             rs.close();
             ps.close();

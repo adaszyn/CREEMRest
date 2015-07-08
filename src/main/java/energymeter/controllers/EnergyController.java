@@ -66,8 +66,8 @@ public class EnergyController {
 
     @RequestMapping("meters")
     public @ResponseBody
-    ArrayList<String> getByDeviceDates() {
-        ArrayList<String> meters = energyDAO.getMeters();
+    ArrayList<EnergyAbstract> getByDeviceDates() throws Exception {
+        ArrayList<EnergyAbstract> meters = energyDAO.getMeters();
         return meters;
     }
 }
