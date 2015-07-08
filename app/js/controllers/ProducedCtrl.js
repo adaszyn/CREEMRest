@@ -6,7 +6,8 @@ app.controller("ProducedCtrl", ['$scope', '$http', 'RESTUrlService', function($s
     $scope.title = "Produced energy statistics";
     $scope.dataLimit = 10;
     $scope.deviceID = "152522786";
-    $scope.date = "";
+    $scope.dateFrom = "";
+    $scope.dateTo = "";
     $scope.chartData = {
         labels: [],
         datasets: [
@@ -31,7 +32,8 @@ app.controller("ProducedCtrl", ['$scope', '$http', 'RESTUrlService', function($s
         var url = RESTUrlService.REST_URL + RESTUrlService.createUrl({
                 deviceID: $scope.deviceID,
                 limit: $scope.dataLimit,
-                date: $scope.date,
+                dateFrom: $scope.dateFrom,
+                dateTo: $scope.dateTo,
                 type: "produced"
             });
         $http.get(url)

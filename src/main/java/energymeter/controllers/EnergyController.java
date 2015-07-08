@@ -51,4 +51,16 @@ public class EnergyController {
         ArrayList<EnergyAbstract> energies = energyDAO.getEnergyByIdDate(typeEnum, deviceID, date, limit);
         return energies;
     }
+
+    @RequestMapping("{type}/{deviceID}/{datefrom}/{dateto}")
+    public @ResponseBody
+    ArrayList<EnergyAbstract> getByDeviceDates(@PathVariable(value="type") String type,
+                                              @PathVariable(value="deviceID") int deviceID,
+                                              @PathVariable(value="datefrom") @DateTimeFormat(iso= DateTimeFormat.ISO.DATE) Date datefrom,
+                                               @PathVariable(value="dateto") @DateTimeFormat(iso= DateTimeFormat.ISO.DATE) Date dateto,
+                                              @RequestParam(value = "limit", required=false) Integer limit) throws Exception {
+        EnergyTypesEnum typeEnum = EnergyTypesEnum.valueOf(type.toUpperCase());
+        ArrayList<EnergyAbstract> energies = energyDAO.getEnergyByIdDates(typeEnum, deviceID, datefrom, dateto, limit);
+        return energies;
+    }
 }

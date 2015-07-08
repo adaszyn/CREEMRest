@@ -7,9 +7,10 @@ app.service("RESTUrlService", function(){
         /**
          *
          * @param args
-         * args contains: deviceID, date, limit, type
+         * args contains: deviceID, dateFrom, dateTo, limit, type
          */
-        var dateString = "",
+        var dateFromString = "",
+            dateToString = "",
             deviceID = "",
             limit = "",
             type = "";
@@ -18,11 +19,18 @@ app.service("RESTUrlService", function(){
             type = "/" + args.type;
         }
 
-        if (args.date) {
-            dateString = "/"
-                + args.date.getFullYear() + "-"
-                + (Number(args.date.getMonth())+1) + "-"
-                + args.date.getDate().toString();
+        if (args.dateFrom) {
+            dateFromString = "/"
+                + args.dateFrom.getFullYear() + "-"
+                + (Number(args.dateFrom.getMonth())+1) + "-"
+                + args.dateFrom.getDate().toString();
+        }
+
+        if (args.dateTo) {
+            dateToString = "/"
+                + args.dateTo.getFullYear() + "-"
+                + (Number(args.dateTo.getMonth())+1) + "-"
+                + args.dateTo.getDate().toString();
         }
 
         if (args.deviceID) {
@@ -36,7 +44,7 @@ app.service("RESTUrlService", function(){
             limit = "?limit=" + args.limit;
         }
 
-        return type + deviceID + dateString + limit;
+        return type + deviceID + dateFromString + dateToString + limit;
     };
 
     this.getChartData = function(data){
