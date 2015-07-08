@@ -15,6 +15,7 @@ import javax.sql.DataSource;
 import java.sql.*;
 import java.util.Date;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 
 public class JdbcEnergyDAO implements EnergyDAO {
@@ -207,28 +208,18 @@ public class JdbcEnergyDAO implements EnergyDAO {
     }
 
     @Override
-    public ArrayList<String> getMeters() {
-        String sql;
+    public HashMap<String, Double> getMeters() {
+        String sql = "select distinct DEVICE_ID, MEASURE_VALUE from t_data_latest where MEASURE_TYPE='active_power' or MEASURE_TYPE='total_active_power'";
         Connection connection = null;
 
         try {
             connection = dataSource.getConnection();
 
-            ArrayList<String> tables = new ArrayList<>();
-            for (EnergyTypesEnum energyType: EnergyTypesEnum.values()) {
-                tables.add(energyType.getTable());
-            }
-
-            ArrayList<String> meters = new ArrayList<>();
-            sql = "select distinct DEVICE_ID from t_data_latest";
-            for (String table: tables) {
-                sql += " union select distinct DEVICE_ID from " + table;
-            }
-
+            HashMap<String, Double> meters = new HashMap<>();
             PreparedStatement ps = connection.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                meters.add(rs.getString("DEVICE_ID"));
+                meters.put(rs.getString("DEVICE_ID"), rs.getDouble("MEASURE_VALUE"));
             }
             rs.close();
             ps.close();

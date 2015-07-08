@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 
 
 @RestController
@@ -66,8 +67,8 @@ public class EnergyController {
 
     @RequestMapping("meters")
     public @ResponseBody
-    ArrayList<String> getByDeviceDates() {
-        ArrayList<String> meters = energyDAO.getMeters();
+    HashMap<String, Double> getByDeviceDates() {
+        HashMap<String, Double> meters = energyDAO.getMeters();
         return meters;
     }
 }
