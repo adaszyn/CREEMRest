@@ -31,7 +31,7 @@ public class EnergyController {
         return energyAbstractPortions;
     }
 
-    @RequestMapping("{type}/{deviceID}")
+    @RequestMapping("energydata/{type}/{deviceID}")
     public @ResponseBody
     ArrayList<EnergyAbstract> getByDevice(@PathVariable(value="type") String type,
                        @PathVariable(value="deviceID") int deviceID,
