@@ -18,5 +18,5 @@ public interface EnergyDAO {
     public ArrayList<EnergyAbstract> getAllEnergy(EnergyTypesEnum type, Integer limit) throws Exception;
     public ArrayList<EnergyAbstract> getEnergyByIdDate(EnergyTypesEnum type, int id, Date date, Integer limit) throws Exception;
     public ArrayList<EnergyAbstract> getEnergyByIdDates(EnergyTypesEnum type, int id, Date dateFrom, Date dateTo, Integer limit) throws Exception;
-    public HashMap<String, Double> getMeters();
+    public ArrayList<EnergyAbstract> getMeters() throws Exception;
 }

@@ -15,7 +15,6 @@ import javax.sql.DataSource;
 import java.sql.*;
 import java.util.Date;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 
 public class JdbcEnergyDAO implements EnergyDAO {
@@ -208,18 +207,23 @@ public class JdbcEnergyDAO implements EnergyDAO {
     }
 
     @Override
-    public HashMap<String, Double> getMeters() {
-        String sql = "select distinct DEVICE_ID, MEASURE_VALUE from t_data_latest where MEASURE_TYPE='active_power' or MEASURE_TYPE='total_active_power'";
+    public ArrayList<EnergyAbstract> getMeters() throws Exception {
+        EnergyAbstract objectType;
+        String sql = "select distinct DEVICE_ID, MEASURE_VALUE, MEASURE_TIMESTAMP from t_data_latest where MEASURE_TYPE='active_power' or MEASURE_TYPE='total_active_power'";
         Connection connection = null;
 
         try {
             connection = dataSource.getConnection();
 
-            HashMap<String, Double> meters = new HashMap<>();
+            ArrayList<EnergyAbstract> meters = new ArrayList<>();
             PreparedStatement ps = connection.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                meters.put(rs.getString("DEVICE_ID"), rs.getDouble("MEASURE_VALUE"));
+                objectType = EnergyFactory.getEnergyInstance(EnergyTypesEnum.ACTIVE_POWER_1);
+                objectType.setId(rs.getString("DEVICE_ID"));
+                objectType.setValue(rs.getDouble("MEASURE_VALUE"));
+                objectType.setTimestamp(rs.getTimestamp("MEASURE_TIMESTAMP"));
+                meters.add(objectType);
             }
             rs.close();
             ps.close();
