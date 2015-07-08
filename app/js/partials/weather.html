@@ -1,0 +1,57 @@
+<style>
+    .centered{
+        text-align: center;
+    }
+    .icon{
+        height: 100%;
+    }
+    .table-row{
+        transition: 0.15s background-color ease-out;
+
+    }
+    .table-row:hover{
+        background-color: #dcdcdc;
+    }
+    .even{
+        background-color: rgba(139, 0, 0, 0.12);
+    }
+
+</style>
+<h4 class="title">{{title}}</h4>
+<div class="container">
+    <table class="u-full-width">
+        <thead>
+        <tr>
+            <th>City</th>
+            <th>Temperature</th>
+            <th>Wind</th>
+            <th>State</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>{{weather.name}}</td>
+            <td>{{weather.main.temp}}</td>
+            <td>{{weather.wind.speed}} {{weather.wind.dir}}</td>
+            <td><img class="icon" src="http://openweathermap.org/img/w/{{weather.weather[0].icon}}.png"></td>
+        </tr>
+        </tbody>
+    </table>
+    <h5 class="title">Last updates</h5>
+    <table class="u-full-width centered">
+        <thead>
+        <tr>
+            <th ng-click="sortByID()">Device ID</th>
+            <th ng-click="sortByValue()">Value</th>
+            <th ng-click="sortByDate()">Date</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr class="table-row" ng-repeat="measure in testMeters" ng-class="{even: $even, odd: $odd}">
+            <td>{{measure.id}}</td>
+            <td>{{measure.value}}</td>
+            <td>{{measure.date}}</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
