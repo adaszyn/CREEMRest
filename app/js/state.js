@@ -7,17 +7,17 @@ app.config(function($stateProvider, $urlRouterProvider) {
             templateUrl: "js/partials/home.html"
         })
         .state('power', {
-            url: "/power",
+            url: "/energydata/power",
             templateUrl: "js/partials/power.html",
             controller: "PowerCtrl"
         })
         .state('consumed', {
-            url: "/consumed",
+            url: "/energydata/consumed",
             templateUrl: "js/partials/consumed.html",
             controller: "ConsumedCtrl"
         })
         .state('produced', {
-            url: "/produced",
+            url: "/energydata/produced",
             templateUrl: "js/partials/produced.html",
             controller: "ProducedCtrl"
         });

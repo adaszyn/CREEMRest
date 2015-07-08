@@ -7,23 +7,23 @@ import java.sql.Timestamp;
  */
 
 public abstract class EnergyAbstract {
-    private int id;
+    private String id;
     private double value;
     private Timestamp timestamp;
 
     public EnergyAbstract() {}
 
-    public EnergyAbstract(int id, double value, Timestamp timestamp) {
+    public EnergyAbstract(String id, double value, Timestamp timestamp) {
         this.id = id;
         this.value = value;
         this.timestamp = timestamp;
     }
 
-    public long getId() {
+    public String getId() {
         return this.id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 

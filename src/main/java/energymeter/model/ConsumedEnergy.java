@@ -11,7 +11,7 @@ public class ConsumedEnergy extends EnergyAbstract {
 
     public ConsumedEnergy() {}
 
-    public ConsumedEnergy(int id, double value, double delta, Timestamp timestamp) {
+    public ConsumedEnergy(String id, double value, double delta, Timestamp timestamp) {
         super(id, value, timestamp);
         this.delta = delta;
     }

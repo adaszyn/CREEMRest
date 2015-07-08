@@ -23,7 +23,7 @@ public class EnergyController {
 
     EnergyDAO energyDAO = (EnergyDAO) context.getBean("consumedenergyDAO");
 
-    @RequestMapping(value="/{type}", method=RequestMethod.GET)
+    @RequestMapping(value="energydata/{type}", method=RequestMethod.GET)
     public ArrayList<EnergyAbstract> getAll(@PathVariable(value="type") String type,
                          @RequestParam(value = "limit", required=false) Integer limit) throws Exception {
         EnergyTypesEnum typeEnum = EnergyTypesEnum.valueOf(type.toUpperCase());
@@ -41,7 +41,7 @@ public class EnergyController {
         return energies;
     }
 
-    @RequestMapping("{type}/{deviceID}/{date}")
+    @RequestMapping("energydata/{type}/{deviceID}/{date}")
     public @ResponseBody
     ArrayList<EnergyAbstract> getByDeviceDate(@PathVariable(value="type") String type,
                            @PathVariable(value="deviceID") int deviceID,
@@ -50,5 +50,24 @@ public class EnergyController {
         EnergyTypesEnum typeEnum = EnergyTypesEnum.valueOf(type.toUpperCase());
         ArrayList<EnergyAbstract> energies = energyDAO.getEnergyByIdDate(typeEnum, deviceID, date, limit);
         return energies;
+    }
+
+    @RequestMapping("energydata/{type}/{deviceID}/{datefrom}/{dateto}")
+    public @ResponseBody
+    ArrayList<EnergyAbstract> getByDeviceDates(@PathVariable(value="type") String type,
+                                              @PathVariable(value="deviceID") int deviceID,
+                                              @PathVariable(value="datefrom") @DateTimeFormat(iso= DateTimeFormat.ISO.DATE) Date datefrom,
+                                               @PathVariable(value="dateto") @DateTimeFormat(iso= DateTimeFormat.ISO.DATE) Date dateto,
+                                              @RequestParam(value = "limit", required=false) Integer limit) throws Exception {
+        EnergyTypesEnum typeEnum = EnergyTypesEnum.valueOf(type.toUpperCase());
+        ArrayList<EnergyAbstract> energies = energyDAO.getEnergyByIdDates(typeEnum, deviceID, datefrom, dateto, limit);
+        return energies;
+    }
+
+    @RequestMapping("meters")
+    public @ResponseBody
+    ArrayList<String> getByDeviceDates() {
+        ArrayList<String> meters = energyDAO.getMeters();
+        return meters;
     }
 }

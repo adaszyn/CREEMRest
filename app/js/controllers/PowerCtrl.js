@@ -6,7 +6,8 @@ app.controller("PowerCtrl", ['$scope', '$http', 'RESTUrlService', function($scop
     $scope.title = "Consumed energy statistics";
     $scope.dataLimit = 10;
     $scope.deviceID = "1091002370";
-    $scope.date = "";
+    $scope.dateFrom = "";
+    $scope.dateTo = "";
     $scope.chartData = {
         labels: [],
         datasets: [
@@ -31,7 +32,8 @@ app.controller("PowerCtrl", ['$scope', '$http', 'RESTUrlService', function($scop
         var url = RESTUrlService.REST_URL + RESTUrlService.createUrl({
                 deviceID: $scope.deviceID,
                 limit: $scope.dataLimit,
-                date: $scope.date,
+                dateFrom: $scope.dateFrom,
+                dateTo: $scope.dateTo,
                 type: "power"
             });
         console.log(url);
