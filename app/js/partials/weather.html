@@ -39,13 +39,13 @@
     <table class="u-full-width centered">
         <thead>
         <tr class="table-heading">
-            <th ng-click="sortByID()">Device ID</th>
-            <th ng-click="sortByValue()">Value</th>
-            <th ng-click="sortByDate()">Date</th>
+            <th ng-click="sortByID(); reverseSort = !reverseSort">Device ID</th>
+            <th ng-click="sortByValue(); reverseSort = !reverseSort">Value</th>
+            <th ng-click="sortByDate(); reverseSort = !reverseSort">Date</th>
         </tr>
         </thead>
         <tbody>
-        <tr class="table-row" ng-repeat="measure in lastData" ng-class="{even: $even, odd: $odd}">
+        <tr class="table-row" ng-repeat="measure in lastData | orderBy:orderByField:reverseSort" ng-class="{even: $even, odd: $odd}">
             <td>{{measure.id}}</td>
             <td>{{measure.value | number:3}}</td>
             <td>{{measure.timestamp | date:'yyyy-MM-dd HH:mm'}}</td>
