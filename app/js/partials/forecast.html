@@ -1,0 +1,10 @@
+<h4 class="title">{{title}} for:
+    <input ng-model="days"
+           class="days-input"
+           ng-change="getForecast()"
+           type="number"
+           min="2" max="16"> days.</h4>
+<h6>Temperature</h6>
+<canvas tc-chartjs chart-type="line" height="100px" chart-data="chartData" chart-options="chartOptions"></canvas>
+<h6>Pressure</h6>
+<canvas tc-chartjs chart-type="line" height="100px" chart-data="pressureChart" chart-options="chartOptions"></canvas>

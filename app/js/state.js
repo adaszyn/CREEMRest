@@ -1,6 +1,6 @@
 app.config(function($stateProvider, $urlRouterProvider) {
     $urlRouterProvider.otherwise("/home");
-
+    //$urlRouterProvider.when('/predictions/', '/predictions/weather');
     $stateProvider
         .state('root',{
             url: '/',
@@ -65,6 +65,14 @@ app.config(function($stateProvider, $urlRouterProvider) {
                     controller: "PredictionsCtrl"
                 }
             }
+        })
+        .state('root.forecast', {
+            url: "forecast",
+            views: {
+                'content@': {
+                    templateUrl: "js/partials/forecast.html",
+                    controller: "ForecastCtrl"
+                }
+            }
         });
-
 });
