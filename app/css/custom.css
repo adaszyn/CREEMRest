@@ -74,3 +74,29 @@
 .active{
     border-top: 2px solid darkred;
 }
+.centered{
+    text-align: center;
+}
+.icon{
+    height: 100%;
+}
+.table-row{
+    transition: 0.15s background-color ease-out;
+    font-size: 14px;
+
+}
+.table-row:hover{
+    background-color: #dcdcdc;
+}
+.even{
+    background-color: rgba(139, 0, 0, 0.12);
+}
+.table-heading{
+    border-bottom: 2px solid #676767;
+    cursor: hand;
+}
+.days-input{
+    border: none !important;
+    padding: 0 0 0 0 !important;
+    width: 50px !important;
+}

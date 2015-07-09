@@ -13,5 +13,9 @@ app.service("WeatherService", ['$http', function($http){
         var i = (degrees + 11.25)/22.5;
 
         return directions[Math.floor(i) % 16];
-    }
+    };
+
+    this.getLongForecast = function (days) {
+        return $http.get('http://api.openweathermap.org/data/2.5/forecast/daily?q=Genoa&mode=json&units=metric&cnt=' + days);
+    };
 }]);
