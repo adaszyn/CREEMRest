@@ -15,10 +15,12 @@
     vertical-align: middle;
     transition: all 0.4s ease-out;
     text-align: center;
+    border-bottom: 2px solid transparent;
 }
 .menu-element:hover{
     color: white;
     background-color: darkred;
+    /*border-bottom: none;*/
 }
 .no-margin{
     margin: 0 0 0 0;
@@ -68,4 +70,33 @@
 .logo:hover{
     font-weight: 900;
     color: darkred;
+}
+.active{
+    border-top: 2px solid darkred;
+}
+.centered{
+    text-align: center;
+}
+.icon{
+    height: 100%;
+}
+.table-row{
+    transition: 0.15s background-color ease-out;
+    font-size: 14px;
+
+}
+.table-row:hover{
+    background-color: #dcdcdc;
+}
+.even{
+    background-color: rgba(139, 0, 0, 0.12);
+}
+.table-heading{
+    border-bottom: 2px solid #676767;
+    cursor: hand;
+}
+.days-input{
+    border: none !important;
+    padding: 0 0 0 0 !important;
+    width: 50px !important;
 }

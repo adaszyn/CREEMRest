@@ -17,6 +17,7 @@
   "dependencies": {
     "angularjs": "~1.4.1",
     "angular-ui-router": "~0.2.15",
-    "tc-angular-chartjs": "~1.0.11"
+    "tc-angular-chartjs": "~1.0.11",
+    "ng-autocomplete": "*"
   }
 }

@@ -2,12 +2,13 @@
  * Created by wojtek on 7/6/15.
  */
 
-app.controller("ConsumedCtrl", ['$scope', '$http', 'RESTUrlService', function($scope, $http, RESTUrlService){
-    $scope.title = "Consumed energy statistics";
+app.controller("EnergyMeterCtrl", ['$scope', '$http', 'RESTUrlService', function($scope, $http, RESTUrlService){
+    $scope.title = "Produced energy statistics";
     $scope.dataLimit = 10;
-    $scope.deviceID = "1091002370";
+    $scope.deviceID = "152522786";
     $scope.dateFrom = "";
     $scope.dateTo = "";
+    $scope.devices = ['12212', 'aaaab','ccccc'];
     $scope.chartData = {
         labels: [],
         datasets: [
@@ -34,7 +35,7 @@ app.controller("ConsumedCtrl", ['$scope', '$http', 'RESTUrlService', function($s
                 limit: $scope.dataLimit,
                 dateFrom: $scope.dateFrom,
                 dateTo: $scope.dateTo,
-                type: "consumed"
+                type: $scope.selectedDataset
             });
         $http.get(url)
             .success(function(data){
@@ -51,4 +52,13 @@ app.controller("ConsumedCtrl", ['$scope', '$http', 'RESTUrlService', function($s
         $scope.chartData.datasets[0].data = chartData.values;
     };
 
+    $scope.getDatasets = function(){
+        $http.get(RESTUrlService.REST_URL + "/datasets")
+            .success(function (data) {
+                $scope.datasets = data;
+                $scope.selectedDataset = $scope.datasets[0];
+                console.log(data);
+            })
+    };
+    $scope.getDatasets();
 }]);

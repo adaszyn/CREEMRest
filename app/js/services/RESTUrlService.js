@@ -1,7 +1,7 @@
 /**
  * Created by wojtek on 7/7/15.
  */
-app.service("RESTUrlService", function(){
+app.service("RESTUrlService", ['$http', function($http){
     this.REST_URL = "http://localhost:8080";
     this.createUrl = function(args) {
         /**
@@ -66,5 +66,9 @@ app.service("RESTUrlService", function(){
 
     var timeStampToDate = function (timestamp) {
         return new Date(timestamp*1000);
+    };
+
+    this.getLatestData = function(){
+        return $http.get(this.REST_URL + "/meters")
     }
-});
+}]);

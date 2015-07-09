@@ -27,9 +27,7 @@ public enum EnergyTypesEnum {
     TOTAL_ACTIVE_POWER("t_data_total_active_power"),
     TOTAL_REACTIVE_CONSUMED("t_data_total_reactive_energy_consumed"),
     TOTAL_REACTIVE_PRODUCED("t_data_total_reactive_energy_produced"),
-    TOTAL_REACTIVE_POWER("t_data_total_reactive_power"),
-
-    LATEST("t_data_latest");
+    TOTAL_REACTIVE_POWER("t_data_total_reactive_power");
 
     private String table;
     EnergyTypesEnum(String table) {
