@@ -52,7 +52,7 @@ app.service("RESTUrlService", ['$http', function($http){
         var values = [];
         for (var i = 0; i < data.length; i++){
             if(data[i].hasOwnProperty('timestamp')) {
-                timestamps.push(timeStampToDate(data[i]['timestamp']));
+                timestamps.push(timeStampToDate(data[i]['timestamp']).toLocaleDateString());
             }
             if(data[i].hasOwnProperty('value')) {
                 values.push(data[i]['value']);
@@ -65,7 +65,7 @@ app.service("RESTUrlService", ['$http', function($http){
     };
 
     var timeStampToDate = function (timestamp) {
-        return new Date(timestamp*1000);
+        return new Date(timestamp);
     };
 
     this.getLatestData = function(){
