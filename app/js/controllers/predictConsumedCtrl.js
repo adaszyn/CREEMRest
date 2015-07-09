@@ -1,13 +1,9 @@
 /**
- * Created by wojtek on 7/6/15.
+ * Created by root on 7/9/15.
  */
-
-app.controller("ConsumedCtrl", ['$scope', '$http', 'RESTUrlService', function($scope, $http, RESTUrlService){
-    $scope.title = "Consumed energy statistics";
-    $scope.dataLimit = 10;
+app.controller("predictConsumedCtrl", ['$scope', '$http', 'RESTUrlService', function($scope, $http, RESTUrlService){
+    $scope.title = "Consumed energy prediction for x days";
     $scope.deviceID = "1091002370";
-    $scope.dateFrom = "";
-    $scope.dateTo = "";
     $scope.chartData = {
         labels: [],
         datasets: [
@@ -29,13 +25,8 @@ app.controller("ConsumedCtrl", ['$scope', '$http', 'RESTUrlService', function($s
     };
 
     $scope.submit = function(){
-        var url = RESTUrlService.REST_URL + RESTUrlService.createUrl({
-                deviceID: $scope.deviceID,
-                limit: $scope.dataLimit,
-                dateFrom: $scope.dateFrom,
-                dateTo: $scope.dateTo,
-                type: "consumed"
-            });
+        var url = RESTUrlService.REST_URL + "predict/" + $scope.deviceID;
+
         $http.get(url)
             .success(function(data){
                 $scope.updateCharts(data);
