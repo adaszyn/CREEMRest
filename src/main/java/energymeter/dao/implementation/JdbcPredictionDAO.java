@@ -21,7 +21,7 @@ public class JdbcPredictionDAO implements PredictionDAO {
     }
 
     public ArrayList<EnergyAbstract> predict(String deviceID, Integer days, Integer limit) throws Exception {
-        String sql = "select * from t_data_total_active_power where DEVICE_ID = ? order by MEASURE_TIMESTAMP limit ?";
+        String sql = "select * from t_data_total_active_energy_consumed where DEVICE_ID = ? order by MEASURE_TIMESTAMP limit ?";
         EnergyAbstract objectType;
         Connection connection = null;
         ArrayList<EnergyAbstract> pastResults = new ArrayList<>();
