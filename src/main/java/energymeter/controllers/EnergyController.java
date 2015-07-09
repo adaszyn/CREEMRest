@@ -70,4 +70,11 @@ public class EnergyController {
         ArrayList<EnergyAbstract> meters = energyDAO.getMeters();
         return meters;
     }
+
+    @RequestMapping("datasets")
+    public @ResponseBody
+    EnergyTypesEnum [] getDatasets(){
+        EnergyTypesEnum [] datasets = EnergyTypesEnum.values();
+        return datasets;
+    }
 }
