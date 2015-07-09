@@ -83,7 +83,6 @@
 .table-row{
     transition: 0.15s background-color ease-out;
     font-size: 14px;
-
 }
 .table-row:hover{
     background-color: #dcdcdc;
