@@ -11,6 +11,7 @@
     margin-bottom: 0;
 }
 .menu-element{
+    border-top: 2px solid transparent;
     cursor: pointer;
     vertical-align: middle;
     transition: all 0.4s ease-out;
@@ -98,4 +99,15 @@
     border: none !important;
     padding: 0 0 0 0 !important;
     width: 50px !important;
+}
+.city-input{
+    border: none !important;
+    border-radius: 0 !important;
+    transition: all 0.2s linear;
+    padding-left: 0 !important;
+    padding-bottom: 0;
+    margin-bottom: 0;
+}
+.city-input:focus{
+    border-bottom: 1px dotted black !important;
 }
