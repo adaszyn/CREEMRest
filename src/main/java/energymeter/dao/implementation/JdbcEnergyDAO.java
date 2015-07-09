@@ -31,7 +31,7 @@ public class JdbcEnergyDAO implements EnergyDAO {
     }
 
     @Override
-    public ArrayList<EnergyAbstract> getEnergyById(EnergyTypesEnum type, int id, Integer limit) throws Exception {
+    public ArrayList<EnergyAbstract> getEnergyById(EnergyTypesEnum type, String id, Integer limit) throws Exception {
         EnergyAbstract objectType;
         String sql = "select * from " + type.getTable() + " WHERE DEVICE_ID = ? LIMIT ?";
         Connection connection = null;
@@ -39,7 +39,7 @@ public class JdbcEnergyDAO implements EnergyDAO {
         try {
             connection = dataSource.getConnection();
             PreparedStatement ps = connection.prepareStatement(sql);
-            ps.setInt(1, id);
+            ps.setString(1, id);
             if(limit == null)
                 ps.setInt(2, 10);
             else
@@ -115,7 +115,7 @@ public class JdbcEnergyDAO implements EnergyDAO {
     }
 
     @Override
-    public ArrayList<EnergyAbstract> getEnergyByIdDate(EnergyTypesEnum type, int id, Date date, Integer limit) throws Exception {
+    public ArrayList<EnergyAbstract> getEnergyByIdDate(EnergyTypesEnum type, String id, Date date, Integer limit) throws Exception {
         EnergyAbstract objectType;
         String sql = "select * from " + type.getTable() + " where DEVICE_ID = ? and DATE(MEASURE_TIMESTAMP) = ? LIMIT ?";
         Connection connection = null;
@@ -124,7 +124,7 @@ public class JdbcEnergyDAO implements EnergyDAO {
             connection = dataSource.getConnection();
             PreparedStatement ps = connection.prepareStatement(sql);
             java.sql.Date sqlDate = new java.sql.Date(date.getTime());
-            ps.setInt(1, id);
+            ps.setString(1, id);
             ps.setDate(2, sqlDate);
             if(limit == null)
                 ps.setInt(3, 10);
@@ -160,7 +160,7 @@ public class JdbcEnergyDAO implements EnergyDAO {
     }
 
     @Override
-    public ArrayList<EnergyAbstract> getEnergyByIdDates(EnergyTypesEnum type, int id, Date dateFrom, Date dateTo, Integer limit) throws Exception {
+    public ArrayList<EnergyAbstract> getEnergyByIdDates(EnergyTypesEnum type, String id, Date dateFrom, Date dateTo, Integer limit) throws Exception {
         EnergyAbstract objectType;
         String sql = "select * from " + type.getTable() + " where DEVICE_ID = ? and DATE(MEASURE_TIMESTAMP) >= ? and DATE(MEASURE_TIMESTAMP) <= ? LIMIT ?";
         Connection connection = null;
@@ -170,7 +170,7 @@ public class JdbcEnergyDAO implements EnergyDAO {
             PreparedStatement ps = connection.prepareStatement(sql);
             java.sql.Date sqlDateFrom = new java.sql.Date(dateFrom.getTime());
             java.sql.Date sqlDateTo = new java.sql.Date(dateTo.getTime());
-            ps.setInt(1, id);
+            ps.setString(1, id);
             ps.setDate(2, sqlDateFrom);
             ps.setDate(3, sqlDateTo);
             if(limit == null)
