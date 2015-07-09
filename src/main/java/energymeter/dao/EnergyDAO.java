@@ -14,9 +14,9 @@ import java.util.HashMap;
  */
 public interface EnergyDAO {
     public void insert(ConsumedEnergy consumedEnergy);
-    public ArrayList<EnergyAbstract> getEnergyById(EnergyTypesEnum type, int id, Integer limit) throws Exception;
+    public ArrayList<EnergyAbstract> getEnergyById(EnergyTypesEnum type, String id, Integer limit) throws Exception;
     public ArrayList<EnergyAbstract> getAllEnergy(EnergyTypesEnum type, Integer limit) throws Exception;
-    public ArrayList<EnergyAbstract> getEnergyByIdDate(EnergyTypesEnum type, int id, Date date, Integer limit) throws Exception;
-    public ArrayList<EnergyAbstract> getEnergyByIdDates(EnergyTypesEnum type, int id, Date dateFrom, Date dateTo, Integer limit) throws Exception;
+    public ArrayList<EnergyAbstract> getEnergyByIdDate(EnergyTypesEnum type, String id, Date date, Integer limit) throws Exception;
+    public ArrayList<EnergyAbstract> getEnergyByIdDates(EnergyTypesEnum type, String id, Date dateFrom, Date dateTo, Integer limit) throws Exception;
     public ArrayList<EnergyAbstract> getMeters() throws Exception;
 }

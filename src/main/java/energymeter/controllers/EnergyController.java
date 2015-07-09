@@ -4,6 +4,7 @@ package energymeter.controllers;
  * Created by wojtek on 7/3/15.
  */
 import energymeter.dao.EnergyDAO;
+import energymeter.dao.PredictionDAO;
 import energymeter.model.EnergyAbstract;
 import energymeter.util.EnergyTypesEnum;
 import org.springframework.context.ApplicationContext;
@@ -22,6 +23,7 @@ public class EnergyController {
             new ClassPathXmlApplicationContext("Spring-Module.xml");
 
     EnergyDAO energyDAO = (EnergyDAO) context.getBean("consumedenergyDAO");
+    PredictionDAO predictionDAO = (PredictionDAO) context.getBean("predictionDAO");
 
     @RequestMapping(value="energydata/{type}", method=RequestMethod.GET)
     public ArrayList<EnergyAbstract> getAll(@PathVariable(value="type") String type,
@@ -34,7 +36,7 @@ public class EnergyController {
     @RequestMapping("energydata/{type}/{deviceID}")
     public @ResponseBody
     ArrayList<EnergyAbstract> getByDevice(@PathVariable(value="type") String type,
-                       @PathVariable(value="deviceID") int deviceID,
+                       @PathVariable(value="deviceID") String deviceID,
                        @RequestParam(value = "limit", required=false) Integer limit) throws Exception {
         EnergyTypesEnum typeEnum = EnergyTypesEnum.valueOf(type.toUpperCase());
         ArrayList<EnergyAbstract> energies = energyDAO.getEnergyById(typeEnum, deviceID, limit);
@@ -44,7 +46,7 @@ public class EnergyController {
     @RequestMapping("energydata/{type}/{deviceID}/{date}")
     public @ResponseBody
     ArrayList<EnergyAbstract> getByDeviceDate(@PathVariable(value="type") String type,
-                           @PathVariable(value="deviceID") int deviceID,
+                           @PathVariable(value="deviceID") String deviceID,
                            @PathVariable(value="date") @DateTimeFormat(iso= DateTimeFormat.ISO.DATE) Date date,
                            @RequestParam(value = "limit", required=false) Integer limit) throws Exception {
         EnergyTypesEnum typeEnum = EnergyTypesEnum.valueOf(type.toUpperCase());
@@ -55,7 +57,7 @@ public class EnergyController {
     @RequestMapping("energydata/{type}/{deviceID}/{datefrom}/{dateto}")
     public @ResponseBody
     ArrayList<EnergyAbstract> getByDeviceDates(@PathVariable(value="type") String type,
-                                              @PathVariable(value="deviceID") int deviceID,
+                                              @PathVariable(value="deviceID") String deviceID,
                                               @PathVariable(value="datefrom") @DateTimeFormat(iso= DateTimeFormat.ISO.DATE) Date datefrom,
                                                @PathVariable(value="dateto") @DateTimeFormat(iso= DateTimeFormat.ISO.DATE) Date dateto,
                                               @RequestParam(value = "limit", required=false) Integer limit) throws Exception {
@@ -76,5 +78,12 @@ public class EnergyController {
     EnergyTypesEnum [] getDatasets(){
         EnergyTypesEnum [] datasets = EnergyTypesEnum.values();
         return datasets;
+    }
+
+    @RequestMapping("predict/{deviceID}")
+    public @ResponseBody
+    ArrayList<EnergyAbstract> getPredictions(@PathVariable(value="deviceID") String deviceID) throws Exception {
+        ArrayList<EnergyAbstract> predictions = predictionDAO.predict(deviceID);
+        return predictions;
     }
 }
