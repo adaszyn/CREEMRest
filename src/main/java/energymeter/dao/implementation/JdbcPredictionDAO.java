@@ -20,16 +20,19 @@ public class JdbcPredictionDAO implements PredictionDAO {
         this.dataSource = dataSource;
     }
 
-    public ArrayList<EnergyAbstract> predict(String deviceID) throws Exception {
-        String sql = "select * from t_data_total_active_power where DEVICE_ID = ? limit 10";
+    public ArrayList<EnergyAbstract> predict(String deviceID, Integer days, Integer limit) throws Exception {
+        String sql = "select * from t_data_total_active_power where DEVICE_ID = ? order by MEASURE_TIMESTAMP limit ?";
         EnergyAbstract objectType;
         Connection connection = null;
-
+        ArrayList<EnergyAbstract> pastResults = new ArrayList<>();
         try {
             connection = dataSource.getConnection();
-            ArrayList<EnergyAbstract> pastResults = new ArrayList<>();
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setString(1, deviceID);
+            if(limit == null)
+                ps.setInt(2, 10);
+            else
+                ps.setInt(2, limit);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 objectType = EnergyFactory.getEnergyInstance(EnergyTypesEnum.TOTAL_ACTIVE_CONSUMED);
@@ -40,23 +43,6 @@ public class JdbcPredictionDAO implements PredictionDAO {
             }
             rs.close();
             ps.close();
-
-            long oneDay = 60*60*24*1000;
-            double valueDif = pastResults.get(pastResults.size() - 1).getValue() - pastResults.get(0).getValue();
-            long timeDif = pastResults.get(pastResults.size()-1).getTimestamp().getTime() - pastResults.get(0).getTimestamp().getTime();
-            double perDay = oneDay / (float)timeDif;
-            double valuePerDay = valueDif*perDay;
-            double maxValue = pastResults.get(pastResults.size() - 1).getValue();
-            Timestamp now = new Timestamp(new java.util.Date().getTime()+oneDay);
-            ArrayList<EnergyAbstract> futureResults = new ArrayList<>();
-            //predictions for week
-            for (int i=0;i<7;i++) {
-                maxValue += valuePerDay;
-                now = new Timestamp(now.getTime()+oneDay);
-                futureResults.add(new ConsumedEnergy(deviceID, maxValue, valuePerDay, now));
-            }
-
-            return futureResults;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         } finally {
@@ -65,6 +51,30 @@ public class JdbcPredictionDAO implements PredictionDAO {
                     connection.close();
                 } catch (SQLException e) {}
             }
+            ArrayList<EnergyAbstract> futureResults = new ArrayList<>();
+            if (pastResults.size()>1) {
+                long oneDay = 60 * 60 * 24 * 1000;
+                double valueDif = pastResults.get(pastResults.size() - 1).getValue() - pastResults.get(0).getValue();
+                long timeDif = pastResults.get(pastResults.size() - 1).getTimestamp().getTime() - pastResults.get(0).getTimestamp().getTime();
+                double perDay = oneDay / (double) timeDif;
+                double valuePerDay = valueDif * perDay;
+                double maxValue = pastResults.get(pastResults.size() - 1).getValue();
+                Timestamp now = new Timestamp(new java.util.Date().getTime() + oneDay);
+
+                long nowLastResultTimeDif = new java.util.Date().getTime() - pastResults.get(pastResults.size() - 1).getTimestamp().getTime();
+                maxValue += ((double) nowLastResultTimeDif / oneDay) * valuePerDay;
+
+                //predictions for days
+                if (days == null)
+                    days = 7;
+                for (int i = 0; i < days; i++) {
+                    maxValue += valuePerDay;
+                    now = new Timestamp(now.getTime() + oneDay);
+                    futureResults.add(new ConsumedEnergy(deviceID, maxValue, valuePerDay, now));
+                }
+            }
+
+            return futureResults;
         }
     }
 }

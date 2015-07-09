@@ -82,8 +82,10 @@ public class EnergyController {
 
     @RequestMapping("predict/{deviceID}")
     public @ResponseBody
-    ArrayList<EnergyAbstract> getPredictions(@PathVariable(value="deviceID") String deviceID) throws Exception {
-        ArrayList<EnergyAbstract> predictions = predictionDAO.predict(deviceID);
+    ArrayList<EnergyAbstract> getPredictions(@PathVariable(value="deviceID") String deviceID,
+                                             @RequestParam(value="days", required=false) Integer days,
+                                             @RequestParam(value="limit", required=false) Integer limit) throws Exception {
+        ArrayList<EnergyAbstract> predictions = predictionDAO.predict(deviceID, days, limit);
         return predictions;
     }
 }
