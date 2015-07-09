@@ -6,18 +6,18 @@ app.controller("WeatherCtrl", ['$scope', 'WeatherService', 'RESTUrlService', fun
     $scope.weather = {};
     $scope.lastData = [];
     $scope.sortByID = function () {
-        $scope.lastData.sort(function (a,b) {
-            return a.id - b.id;
-        })
+        $scope.lastData.sort(function(a, b) {
+            return a.id >= b.id;
+        });
     };
     $scope.sortByDate = function () {
         $scope.lastData.sort(function (a,b) {
-            return a.date - b.date;
+            return a.timestamp >= b.timestamp;
         })
     };
     $scope.sortByValue = function () {
         $scope.lastData.sort(function (a,b) {
-            return a.value - b.value;
+            return a.value >= b.value;
         })
     };
     WeatherService.getCurrentTemperature()
