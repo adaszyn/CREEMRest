@@ -1,10 +1,30 @@
-<h4 class="title">{{title}} for:
-    <input ng-model="days"
-           class="days-input"
-           ng-change="getForecast()"
-           type="number"
-           min="2" max="16"> days.</h4>
-<h6>Temperature</h6>
-<canvas tc-chartjs chart-type="line" height="100px" chart-data="chartData" chart-options="chartOptions"></canvas>
-<h6>Pressure</h6>
-<canvas tc-chartjs chart-type="line" height="100px" chart-data="pressureChart" chart-options="chartOptions"></canvas>
+<h4 class="title">{{title}}</h4>
+<div class="container">
+    <form ng-submit="submit()">
+        <div class="row">
+            <div class="nine columns">
+                <label for="idInput">ID of a device</label>
+                <input class="u-full-width" type="text" placeholder="for example 1091002370" id="idInput" ng-model="deviceID" required>
+            </div>
+            <div class="three columns">
+                <input class="button-primary" type="submit" style="transform: translateY(75%);" value="Submit">
+            </div>
+        </div>
+        <div class="row">
+            <div class="six columns">
+                <label for="inputLimit">Limit for results</label>
+                <input class="u-full-width" type="number" placeholder="for example 10" id="inputLimit" ng-model="dataLimit">
+            </div>
+            <div class="six columns">
+                <label for="daysInput">Days of prediction</label>
+                <input class="u-full-width" type="number" placeholder="for example 7" id="daysInput" ng-model="days">
+            </div>
+        </div>
+
+    </form>
+
+    <canvas tc-chartjs
+            chart-type="line"
+            chart-data="chartData"
+            chart-options="chartOptions"></canvas>
+</div>

@@ -1,41 +1,32 @@
-app.controller("PredictionsCtrl", ['$scope', '$http','WeatherService', 'ChartFactory', function ($scope, $http, WeatherService, ChartFactory) {
+app.controller("PredictionsCtrl", ['$scope', '$http','RESTUrlService', 'ChartFactory', function ($scope, $http, RESTUrlService, ChartFactory) {
     $scope.title = "Predictions";
-    $scope.days = 2;
+    $scope.days = 7;
+    $scope.dataLimit = 10;
     $scope.chartData = ChartFactory.getChartConfiguration({
-       domain: [],
-        label: 'Temperature',
-        data: []
-    });
-    $scope.pressureChart = ChartFactory.getChartConfiguration({
         domain: [],
-        label: 'Pressure',
+        label: "Consumed Energy",
         data: []
     });
-    $scope.updateForecast = function(data){
-        var domain = [];
-        var temperatures = [];
-        var pressure = [];
-        for (var i = 0; i < data.list.length; i++){
-            domain.push(new Date(data.list[i].dt * 1000).toLocaleDateString());
-            temperatures.push(data.list[i].temp.day);
-            pressure.push(data.list[i].pressure);
-        }
-
-        $scope.chartData.labels = domain;
-        $scope.pressureChart.labels = domain;
-        $scope.chartData.datasets[0].data = temperatures;
-        $scope.pressureChart.datasets[0].data = pressure;
-    };
-
     $scope.chartOptions = {
-        responsive : true
+        responsive: true
     };
-    $scope.getForecast = function(){
-        WeatherService.getLongForecast($scope.days)
-            .then(function (data) {
-                $scope.updateForecast(data.data);
+
+    $scope.submit = function () {
+        var url = RESTUrlService.REST_URL + "/predict/" + $scope.deviceID + "?limit="
+            + $scope.dataLimit + "&days="+$scope.days;
+        $http.get(url)
+            .success(function (data) {
+                $scope.updateCharts(data);
+            })
+            .error(function (data) {
+                console.log("NO");
             })
     };
-    $scope.getForecast();
 
-}]);
+    $scope.updateCharts = function updateCharts(data) {
+        var chartData = RESTUrlService.getChartData(data);
+        $scope.chartData.labels = chartData.labels;
+        $scope.chartData.datasets[0].data = chartData.values;
+        console.log(chartData.values);
+    };
+}])
