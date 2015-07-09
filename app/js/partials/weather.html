@@ -1,7 +1,7 @@
 <style>
     .city-input{
         border: none !important;
-        /*border-bottom: 1px dotted #cfcfcf !important ;*/
+        border-bottom: 1px dotted transparent !important ;
         border-radius: 0 !important;
         transition: all 0.2s linear;
         padding-left: 0 !important;
@@ -23,21 +23,15 @@
         </thead>
         <tbody>
         <tr>
-            <td>{{weather.name}}</td>
-            <td>{{weather.main.temp}}</td>
-            <td>{{weather.wind.speed}} {{weather.wind.dir}}</td>
-            <td><img class="icon" src="http://openweathermap.org/img/w/{{weather.weather[0].icon}}.png"></td>
-        </tr>
-        <tr>
             <td>
-                <form ng-submit="cityForecast()">
-                    <input placeholder="City" style="margin-bottom: 0" type="text" class="city-input" ng-model="addWeather.name">
+                <form ng-submit="cityForecast()" style="margin-bottom: 0">
+                    <input placeholder="City" style="margin-bottom: 0" type="text" class="city-input" ng-model="weather.name">
                 </form>
             </td>
-            <td>{{addWeather.main.temp}}</td>
-            <td>{{addWeather.wind.speed}} {{addWeather.wind.dir}}</td>
+            <td>{{weather.main.temp}}</td>
+            <td>{{weather.wind.speed}} {{weather.wind.dir}}</td>
             <td>
-                <img class="icon" src="http://openweathermap.org/img/w/{{addWeather.weather[0].icon}}.png"></td>
+                <img class="icon" src="http://openweathermap.org/img/w/{{weather.weather[0].icon}}.png"></td>
         </tr>
         </tbody>
     </table>

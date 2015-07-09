@@ -37,7 +37,7 @@ app.service("RESTUrlService", ['$http', function($http){
             deviceID = "/" + args.deviceID;
         }
         else {
-            return type;
+            return "/energydata" + type;
         }
 
         if (args.limit) {

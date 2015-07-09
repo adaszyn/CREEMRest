@@ -4,6 +4,7 @@
 
 app.controller("EnergyMeterCtrl", ['$scope', '$http', 'RESTUrlService', 'ChartFactory', function($scope, $http, RESTUrlService, ChartFactory){
     $scope.title = "Energy statistics";
+    $scope.datasets = [];
     $scope.dataLimit = 10;
     $scope.deviceID = "152522786";
     $scope.dateFrom = "";
@@ -45,7 +46,9 @@ app.controller("EnergyMeterCtrl", ['$scope', '$http', 'RESTUrlService', 'ChartFa
     $scope.getDatasets = function(){
         $http.get(RESTUrlService.REST_URL + "/datasets")
             .success(function (data) {
-                $scope.datasets = data;
+                for (var i = 0; i < data.length; i++) {
+                    $scope.datasets.push(data[i].toLowerCase());
+                }
                 $scope.selectedDataset = $scope.datasets[0];
             })
     };
