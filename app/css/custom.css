@@ -1,6 +1,18 @@
 @font-face {
-    src: url(/css/Raleway-ExtraLight.ttf);
+    src: url(/css/fonts/Raleway-Light.ttf);
     font-family: Raleway;
+}
+@font-face {
+    src: url(/css/fonts/WorkSans-Regular.otf);
+    font-family: WorkSansRegular;
+}
+@font-face {
+    src: url(/css/fonts/WorkSans-Thin.otf);
+    font-family: WorkSansThin;
+}
+@font-face {
+    src: url(/css/fonts/Lato-Thin.ttf);
+    font-family: Lato;
 }
 .header{
     font-size: 30px;
@@ -64,14 +76,6 @@
     box-sizing: border-box;
     width: 100%;
 }
-.logo{
-    font-weight: 900;
-    transition: 0.3s all ease-out;
-}
-.logo:hover{
-    font-weight: 900;
-    color: darkred;
-}
 .active{
     border-top: 2px solid darkred;
 }
@@ -110,4 +114,118 @@
 }
 .city-input:focus{
     border-bottom: 1px dotted black !important;
+}
+
+/*HEADER*/
+.heading{
+    margin: 0 0 0 0 !important;
+    text-align: center !important;
+    width: 100vw !important;
+    background-color: #242424;
+    max-width: none !important;
+    color: white;
+}
+.logo{
+    transition: 0.3s all ease-out;
+    padding: 10px;
+    font-family: Lato,serif;
+    font-size: 3.5rem;
+    font-weight: 900;
+    margin-bottom: 0;
+    max-height: 4rem;
+}
+.logo span{
+    color: #00d300;
+    margin-right: 10px;
+}
+.logo:hover{
+}
+.menu-button{
+    background-color: dimgrey;
+    width: 100%;
+    margin: 10px 10px 10px 10px !important;
+    height: 15vh;
+}
+.green{
+    background-repeat: no-repeat;
+    background-size: 40%;
+    background-position: center;
+    transition: 0.5s background-size;
+    -webkit-transition : 0.5s all;
+    display: table;
+    text-align: center;
+    background-color: #00cc00;
+    background-image: url(/img/leaf.png);
+    border: 1px solid transparent;
+}
+.green:hover{
+    background-color: rgba(0, 204, 0, 0.55);
+    background-size: 120%;
+    box-shadow: #d0e9c6;
+    color: black !important;
+}
+.violet{
+    background-color: #ad00c2;
+    background-repeat: no-repeat;
+    background-size: 40%;
+    background-position: center;
+    transition: 0.5s background-size;
+    -webkit-transition : 0.5s background-size;
+    display: table;
+    text-align: center;
+    background-image: url(/img/stats.png);
+
+}
+.violet:hover{
+    background-color: rgba(173, 0, 194, 0.5);
+    background-size: 120%;
+    box-shadow: #d0e9c6;
+    color: black !important;
+}
+.yellow{
+    background-color: #ffe900;
+    background-repeat: no-repeat;
+    background-size: 40%;
+    background-position: center;
+    transition: 0.5s background-size;
+    -webkit-transition : 0.5s background-size;
+    display: table;
+    text-align: center;
+    background-image: url(/img/meter.png);
+}
+.yellow:hover{
+    background-color: rgba(255, 233, 0, 0.55);
+    background-size: 120%;
+    box-shadow: #d0e9c6;
+    color: black !important;
+}
+.menu-text{
+    opacity: 0.6;
+    transition: 0.3s all;
+    font-family: Raleway;
+    font-weight: 700;
+    color: transparent;
+    letter-spacing: 2px;
+    font-size: 4rem;
+    display: table-cell;
+    vertical-align: middle;
+}
+.menu-text:hover span{
+    border-top: 2px solid rgba(44, 43, 44, 0.62);
+    border-bottom: 2px solid rgba(44, 43, 44, 0.62);
+    font-weight: 900;
+    text-shadow: 0px 0px 6px rgba(255,255,255,0.9);
+}
+.menu-text:hover{
+    opacity: 1.0;
+    letter-spacing: 3px;
+    color: #2a2a2a;
+}
+.power-cord{
+    display: inline;
+    width: 3rem;
+    display: inline-block;
+    background-size: contain;
+    background-image: url(/img/power.png);
+    height: 3rem;
 }
