@@ -18,7 +18,12 @@ app.controller("EnergyMeterCtrl", ['$scope', '$http', 'RESTUrlService', 'ChartFa
     $scope.chartOptions = {
         responsive : true
     };
-
+    $scope.$on('$viewContentLoaded', function(event){
+        setTimeout(function () {
+            var icon = document.getElementById("loading-img");
+            icon.className = "power-cord";
+        }, 500);
+    });
     $scope.submit = function(){
         var url = RESTUrlService.REST_URL + RESTUrlService.createUrl({
                 deviceID: $scope.deviceID,

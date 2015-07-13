@@ -14,6 +14,14 @@
     src: url(/css/fonts/Lato-Thin.ttf);
     font-family: Lato;
 }
+@font-face {
+    src: url(/css/fonts/Lato-Heavy.ttf);
+    font-family: LatoHeavy;
+}
+@font-face {
+    src: url(/css/fonts/Lato-Medium.ttf);
+    font-family: LatoMedium;
+}
 .header{
     font-size: 30px;
     color: #555555;
@@ -120,7 +128,7 @@
 .heading{
     margin: 0 0 0 0 !important;
     text-align: center !important;
-    width: 100vw !important;
+    width: 100% !important;
     background-color: #242424;
     max-width: none !important;
     color: white;
@@ -228,4 +236,15 @@
     background-size: contain;
     background-image: url(/img/power.png);
     height: 3rem;
+}
+.rot-anim{
+    animation: rotating 0.5s linear infinite;
+}
+@keyframes rotating {
+    from{
+        transform: rotate(0deg);
+    }
+    to{
+        transform: rotate(360deg);
+    }
 }

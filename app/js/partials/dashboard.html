@@ -1,0 +1,108 @@
+<style>
+    .box{
+        margin: 10px 10px 10px 10px !important;
+        box-shadow: 0px 0px 5px 0px rgba(50, 50, 50, 0.75);
+        border: 1px solid #c7c7c7;
+        border-left-image: url(img/icons/temp.png);
+    }
+    .title{
+
+    }
+    .content{
+
+    }
+    .page-name{
+        text-align: center;
+        border-top: 2px solid grey
+        border-bottom: 2px solid grey;
+        background-color: deepskyblue;
+        color: white;
+    }
+    .box-title{
+        background-color: black;
+        text-align: center;
+        color: white;
+        border-bottom: 1px solid darkgrey;
+        font-family: Raleway;
+        font-weight: 900;
+    }
+    .forecast-box{
+        text-align: center;
+        font-family: LatoMedium;
+    }
+    .forecast-image{
+        background-repeat: no-repeat;
+        -webkit-background-size: cover;
+        background-size: 45%;
+        background-position: 50% 50%;
+        height: 6rem;
+    }
+    .small-margin{
+        margin: 5px;
+    }
+</style>
+<h4 class="page-name">{{title}}</h4>
+
+<div class="row">
+    <div class="three columns box">
+        <div class="box-title">TEMPERATURE</div>
+        <div class="content forecast-box">
+            <div class="forecast-image"
+                 ng-style="{'background-image': 'url(img/icons/'+weather.weather[0].icon+ '.png)'}">
+
+            </div>
+            <p class="small-margin">{{weather.name}}</p>
+            <p class="small-margin">{{weather.main.temp}} °C</p>
+            <p class="small-margin">wind: {{weather.wind.speed}} {{weather.wind.dir}}</p>
+        </div>
+    </div>
+    <div class="five columns box">
+        <div class="box-title">UPDATES</div>
+        <div class="content">
+
+        </div>
+    </div>
+    <div class="four columns box">
+        <div class="box-title">DAILY USAGE</div>
+        <div class="content">
+            city: dasd asdjnkasl
+            temp: wind
+            press: pressure
+        </div>
+    </div>
+</div>
+<div class="container">
+<canvas tc-chartjs
+        chart-type="line"
+        chart-data="chartData"
+        chart-options="chartOptions"></canvas>
+</div>
+
+<!--<div class="row">-->
+    <!--<div class="five columns">-->
+        <!--<label for="dataInput">Type of data</label>-->
+        <!--<select id="dataInput" ng-model="selectedDataset" ng-options="o as o for o in datasets"></select>-->
+    <!--</div>-->
+    <!--<div class="five columns">-->
+        <!--<label for="idInput">ID of a device</label>-->
+        <!--<input class="u-full-width" type="text" placeholder="for example 1091002370" id="idInput" ng-model="deviceID">-->
+    <!--</div>-->
+    <!--<div class="two columns">-->
+        <!--<input class="button-primary" type="submit" style="transform: translateY(75%);" value="Submit">-->
+    <!--</div>-->
+<!--</div>-->
+<!--<div class="row">-->
+    <!--<div class="four columns">-->
+        <!--<label for="dateInputFrom">From Date</label>-->
+        <!--<input class="dateinput" type="date" placeholder="YYYY-MM-DD" id="dateInputFrom" ng-model="dateFrom">-->
+    <!--</div>-->
+    <!--<div class="four columns">-->
+        <!--<label for="dateInputTo">To Date</label>-->
+        <!--<input class="dateinput" type="date" placeholder="YYYY-MM-DD" id="dateInputTo" ng-model="dateTo">-->
+    <!--</div>-->
+    <!--<div class="four columns">-->
+        <!--<label for="inputLimit">Limit for results</label>-->
+        <!--<input class="u-full-width" type="number" placeholder="for example 10" id="inputLimit" ng-model="dataLimit">-->
+    <!--</div>-->
+
+<!--</div>-->
