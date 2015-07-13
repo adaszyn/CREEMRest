@@ -18,6 +18,7 @@
     "angularjs": "~1.4.1",
     "angular-ui-router": "~0.2.15",
     "tc-angular-chartjs": "~1.0.11",
-    "ng-autocomplete": "*"
+    "ng-autocomplete": "*",
+    "bootstrap": "~3.3.5"
   }
 }
