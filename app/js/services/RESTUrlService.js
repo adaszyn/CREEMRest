@@ -37,14 +37,14 @@ app.service("RESTUrlService", ['$http', function($http){
             deviceID = "/" + args.deviceID;
         }
         else {
-            return "/energydata" + type;
+            return "/energy/data" + type;
         }
 
         if (args.limit) {
             limit = "?limit=" + args.limit;
         }
 
-        return "/energydata" + type + deviceID + dateFromString + dateToString + limit;
+        return "/energy/data" + type + deviceID + dateFromString + dateToString + limit;
     };
 
     this.getChartData = function(data){

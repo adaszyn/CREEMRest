@@ -10,13 +10,15 @@ public abstract class EnergyAbstract {
     private String id;
     private double value;
     private Timestamp timestamp;
+    private boolean isPrediction;
 
     public EnergyAbstract() {}
 
-    public EnergyAbstract(String id, double value, Timestamp timestamp) {
+    public EnergyAbstract(String id, double value, Timestamp timestamp, boolean isPrediction) {
         this.id = id;
         this.value = value;
         this.timestamp = timestamp;
+        this.isPrediction = isPrediction;
     }
 
     public String getId() {
@@ -43,8 +45,16 @@ public abstract class EnergyAbstract {
         this.timestamp = timestamp;
     }
 
+    public boolean isPrediction() {
+        return isPrediction;
+    }
+
+    public void setIsPrediction(boolean isPrediction) {
+        this.isPrediction = isPrediction;
+    }
+
     public String toString(){
-        return String.format("[%d, %f, %s]", getId(), getValue(), getTimestamp().toString());
+        return String.format("[%d, %f, %s, %b]", getId(), getValue(), getTimestamp().toString(), isPrediction());
     }
 
 
