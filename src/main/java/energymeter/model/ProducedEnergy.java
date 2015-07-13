@@ -10,8 +10,8 @@ public class ProducedEnergy extends EnergyAbstract {
 
     public ProducedEnergy() {}
 
-    public ProducedEnergy(String id, double value, double delta, Timestamp timestamp) {
-        super(id, value, timestamp);
+    public ProducedEnergy(String id, double value, double delta, Timestamp timestamp, boolean isPrediction, String type) {
+        super(id, value, timestamp, isPrediction, type);
         this.delta = delta;
     }
 
