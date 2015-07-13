@@ -8,8 +8,8 @@ import java.sql.Timestamp;
 
 public class Power extends EnergyAbstract {
 
-    public Power(String id, double value, Timestamp timestamp, boolean isPrediction) {
-        super(id, value, timestamp, isPrediction);
+    public Power(String id, double value, Timestamp timestamp, boolean isPrediction, String type) {
+        super(id, value, timestamp, isPrediction, type);
     }
 
     public Power() {}

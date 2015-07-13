@@ -53,4 +53,11 @@ public class EnergyMeterController {
             return new ArrayList<EnergyAbstract>();
         }
     }
+
+    @RequestMapping("energy/stat/latest/{deviceID}")
+    public @ResponseBody
+    ArrayList<EnergyAbstract> getByDeviceDates(@PathVariable(value = "deviceID") String deviceID) throws Exception {
+        ArrayList<EnergyAbstract> energies = energyMeterDAO.getLatest(deviceID);
+        return energies;
+    }
 }

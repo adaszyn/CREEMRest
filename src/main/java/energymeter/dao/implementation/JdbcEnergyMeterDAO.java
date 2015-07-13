@@ -142,4 +142,30 @@ public class JdbcEnergyMeterDAO implements EnergyMeterDAO {
         return energyPeriod;
     }
 
+    @Override
+    public ArrayList<EnergyAbstract> getLatest(String id) throws Exception {
+        String sql = "select * from t_data_latest where DEVICE_ID = ?";
+        ArrayList<EnergyAbstract> energyResults = new ArrayList<>();
+        Connection connection = null;
+        try {
+            connection = dataSource.getConnection();
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setString(1, id);
+
+            energyResults = EnergyDAOHelper.getLatestData(ps);
+        }
+        catch (SQLException e) {
+            throw new SQLException(e);
+        }
+        finally {
+            if (connection != null) {
+                try {
+                    connection.close();
+                }
+                catch (SQLException e) {}
+            }
+        }
+
+        return energyResults;
+    }
 }

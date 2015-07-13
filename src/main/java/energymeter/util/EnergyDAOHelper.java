@@ -36,7 +36,28 @@ public class EnergyDAOHelper {
             objectType.setValue(rs.getDouble("MEASURE_VALUE"));
             objectType.setTimestamp(rs.getTimestamp("MEASURE_TIMESTAMP"));
             objectType.setIsPrediction(false);
+            objectType.setType(type.getTable());
             energyResults.add(objectType);
+        }
+        rs.close();
+        ps.close();
+        return energyResults;
+    }
+
+    public static ArrayList<EnergyAbstract> getLatestData(PreparedStatement ps) throws Exception {
+        ResultSet rs = ps.executeQuery();
+        EnergyAbstract objectType;
+        ArrayList<EnergyAbstract> energyResults = new ArrayList<>();
+        while (rs.next()) {
+            if (rs.getString("MEASURE_TYPE").contains("total")) {
+                objectType = EnergyFactory.getEnergyInstance("t_data_" + rs.getString("MEASURE_TYPE"));
+                objectType.setId(rs.getString("DEVICE_ID"));
+                objectType.setValue(rs.getDouble("MEASURE_VALUE"));
+                objectType.setTimestamp(rs.getTimestamp("MEASURE_TIMESTAMP"));
+                objectType.setIsPrediction(false);
+                objectType.setType(rs.getString("MEASURE_TYPE"));
+                energyResults.add(objectType);
+            }
         }
         rs.close();
         ps.close();
