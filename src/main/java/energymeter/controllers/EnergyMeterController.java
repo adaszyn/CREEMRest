@@ -27,15 +27,10 @@ public class EnergyMeterController {
     public @ResponseBody
     ArrayList<EnergyAbstract> getByDeviceDate(@PathVariable(value = "type") String type,
                                               @PathVariable(value = "deviceID") String deviceID,
-                                              @PathVariable(value = "date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date date) {
+                                              @PathVariable(value = "date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date date) throws Exception {
         EnergyTypesEnum typeEnum = EnergyTypesEnum.valueOf(type.toUpperCase());
-        try {
-            ArrayList<EnergyAbstract> energies = energyMeterDAO.getEnergyDay(typeEnum, deviceID, date);
-            return energies;
-        }
-        catch(Exception e) {
-            return new ArrayList<EnergyAbstract>();
-        }
+        ArrayList<EnergyAbstract> energies = energyMeterDAO.getEnergyDay(typeEnum, deviceID, date);
+        return energies;
     }
 
     @RequestMapping("energy/stat/{type}/{deviceID}/{dateFrom}/{dateTo}")
@@ -43,15 +38,10 @@ public class EnergyMeterController {
     ArrayList<EnergyAbstract> getByDeviceDates(@PathVariable(value = "type") String type,
                                                @PathVariable(value = "deviceID") String deviceID,
                                                @PathVariable(value = "dateFrom") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date dateFrom,
-                                               @PathVariable(value = "dateTo") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date dateTo) {
+                                               @PathVariable(value = "dateTo") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date dateTo) throws Exception {
         EnergyTypesEnum typeEnum = EnergyTypesEnum.valueOf(type.toUpperCase());
-        try {
-            ArrayList<EnergyAbstract> energies = energyMeterDAO.getEnergyPeriod(typeEnum, deviceID, dateFrom, dateTo);
-            return energies;
-        }
-        catch(Exception e) {
-            return new ArrayList<EnergyAbstract>();
-        }
+        ArrayList<EnergyAbstract> energies = energyMeterDAO.getEnergyPeriod(typeEnum, deviceID, dateFrom, dateTo);
+        return energies;
     }
 
     @RequestMapping("energy/stat/latest/{deviceID}")

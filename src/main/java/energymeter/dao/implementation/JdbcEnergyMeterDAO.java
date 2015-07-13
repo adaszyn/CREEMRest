@@ -62,7 +62,7 @@ public class JdbcEnergyMeterDAO implements EnergyMeterDAO {
                 //time -2hours because without it it starts from 2 A.M.
                 //Delta is always valuePerHour even if there are already deltas from database
                 Timestamp timeThen = new Timestamp(sqlDate.getTime() - (2 * oneHour));
-                energyDay = EnergyDAOHelper.getFinalResults(timeThen, type, hours, id, energyDay, valuePerHour, oneHour);
+                energyDay = EnergyDAOHelper.getFinalResults(timeThen, type, hours, id, energyDay, valuePerHour, oneHour, 24);
             }
         }
         catch (SQLException e) {
@@ -125,7 +125,7 @@ public class JdbcEnergyMeterDAO implements EnergyMeterDAO {
                 //whichever time of the day, here - 12 A.M.
                 //Delta is always valuePerDay even if there are already deltas from database
                 Timestamp timeThen = new Timestamp(sqlDateFrom.getTime() + (10 * oneHour));
-                EnergyDAOHelper.getFinalResults(timeThen, type, days, id, energyPeriod, valuePerDay, oneDay);
+                EnergyDAOHelper.getFinalResults(timeThen, type, days, id, energyPeriod, valuePerDay, oneDay, dayDiff);
             }
         }
         catch (SQLException e) {

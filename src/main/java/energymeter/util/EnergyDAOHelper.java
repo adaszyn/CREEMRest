@@ -75,9 +75,9 @@ public class EnergyDAOHelper {
     public static ArrayList<EnergyAbstract> getFinalResults(Timestamp timeThen, EnergyTypesEnum type,
                                                             ArrayList<ArrayList<Double>> timePeriods, String id,
                                                             ArrayList<EnergyAbstract> energyTime, double ValuePerTime,
-                                                            long time) throws Exception {
+                                                            long time, long timeDiff) throws Exception {
         EnergyAbstract objectType;
-        for (int i=0; i<24; i++) {
+        for (int i=0; i<timeDiff; i++) {
             objectType = EnergyFactory.getEnergyInstance(type);
             objectType.setId(id);
             objectType.setTimestamp(timeThen);
@@ -87,7 +87,17 @@ public class EnergyDAOHelper {
             }
             else {
                 objectType.setIsPrediction(true);
-                objectType.setValue(energyTime.get(i - 1).getValue() + ValuePerTime);
+                try {
+                    if (energyTime.get(i-1).getValue()!=0.0) {
+                        objectType.setValue(energyTime.get(i - 1).getValue() + ValuePerTime);
+                    }
+                    else {
+                        objectType.setValue(0.0);
+                    }
+                }
+                catch(ArrayIndexOutOfBoundsException e) {
+                    objectType.setValue(0.0);
+                }
             }
             if (type.toString().contains("CONSUMED")) {
                 ((ConsumedEnergy) objectType).setDelta(ValuePerTime);
@@ -97,6 +107,11 @@ public class EnergyDAOHelper {
             }
             energyTime.add(objectType);
             timeThen = new Timestamp(timeThen.getTime() + time);
+        }
+        for (int i=(int)timeDiff-1; i>=0; i--) {
+            if (energyTime.get(i).getValue()==0.0) {
+
+            }
         }
         return energyTime;
     }
