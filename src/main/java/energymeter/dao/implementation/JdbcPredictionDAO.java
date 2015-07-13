@@ -70,7 +70,7 @@ public class JdbcPredictionDAO implements PredictionDAO {
                 for (int i = 0; i < days; i++) {
                     maxValue += valuePerDay;
                     now = new Timestamp(now.getTime() + oneDay);
-                    futureResults.add(new ConsumedEnergy(deviceID, maxValue, valuePerDay, now));
+                    futureResults.add(new ConsumedEnergy(deviceID, maxValue, valuePerDay, now, true, "t_data_total_energy_consumed"));
                 }
             }
 

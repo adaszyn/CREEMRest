@@ -6,7 +6,7 @@ app.controller("EnergyMeterCtrl", ['$scope', '$http', 'RESTUrlService', 'ChartFa
     $scope.title = "Energy statistics";
     $scope.datasets = [];
     $scope.dataLimit = 10;
-    $scope.deviceID = "152522786";
+    $scope.deviceID = "202854434";
     $scope.dateFrom = "";
     $scope.dateTo = "";
     $scope.chartData = ChartFactory.getChartConfiguration({

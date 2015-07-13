@@ -11,8 +11,8 @@ public class ConsumedEnergy extends EnergyAbstract {
 
     public ConsumedEnergy() {}
 
-    public ConsumedEnergy(String id, double value, double delta, Timestamp timestamp) {
-        super(id, value, timestamp);
+    public ConsumedEnergy(String id, double value, double delta, Timestamp timestamp, boolean isPrediction, String type) {
+        super(id, value, timestamp, isPrediction, type);
         this.delta = delta;
     }
 
@@ -26,6 +26,6 @@ public class ConsumedEnergy extends EnergyAbstract {
 
     @Override
     public String toString(){
-        return String.format("[%d, %f, %f, %s]", super.getId(), super.getValue(), getDelta(), super.getTimestamp().toString());
+        return String.format("[%d, %f, %f, %s, %b]", super.getId(), super.getValue(), getDelta(), super.getTimestamp().toString(), super.isPrediction());
     }
 }

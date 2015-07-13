@@ -25,7 +25,7 @@ public class EnergyController {
     EnergyDAO energyDAO = (EnergyDAO) context.getBean("consumedenergyDAO");
     PredictionDAO predictionDAO = (PredictionDAO) context.getBean("predictionDAO");
 
-    @RequestMapping(value="energydata/{type}", method=RequestMethod.GET)
+    @RequestMapping(value="energy/data/{type}", method=RequestMethod.GET)
     public ArrayList<EnergyAbstract> getAll(@PathVariable(value="type") String type,
                          @RequestParam(value = "limit", required=false) Integer limit) throws Exception {
         EnergyTypesEnum typeEnum = EnergyTypesEnum.valueOf(type.toUpperCase());
@@ -33,7 +33,7 @@ public class EnergyController {
         return energyAbstractPortions;
     }
 
-    @RequestMapping("energydata/{type}/{deviceID}")
+    @RequestMapping("energy/data/{type}/{deviceID}")
     public @ResponseBody
     ArrayList<EnergyAbstract> getByDevice(@PathVariable(value="type") String type,
                        @PathVariable(value="deviceID") String deviceID,
@@ -43,7 +43,7 @@ public class EnergyController {
         return energies;
     }
 
-    @RequestMapping("energydata/{type}/{deviceID}/{date}")
+    @RequestMapping("energy/data/{type}/{deviceID}/{date}")
     public @ResponseBody
     ArrayList<EnergyAbstract> getByDeviceDate(@PathVariable(value="type") String type,
                            @PathVariable(value="deviceID") String deviceID,
@@ -54,7 +54,7 @@ public class EnergyController {
         return energies;
     }
 
-    @RequestMapping("energydata/{type}/{deviceID}/{datefrom}/{dateto}")
+    @RequestMapping("energy/data/{type}/{deviceID}/{datefrom}/{dateto}")
     public @ResponseBody
     ArrayList<EnergyAbstract> getByDeviceDates(@PathVariable(value="type") String type,
                                               @PathVariable(value="deviceID") String deviceID,
