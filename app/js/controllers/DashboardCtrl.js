@@ -1,4 +1,4 @@
-app.controller("DashboardCtrl", ['$scope', '$http', 'RESTUrlService', 'WeatherService', function($scope, $http, RESTUrlService, WeatherService) {
+app.controller("DashboardCtrl", ['$scope', '$http', 'RESTEnergyService', 'WeatherService', function($scope, $http, RESTEnergyService, WeatherService) {
     $scope.title = "Your Dashboard";
     $scope.weather = {
         name: "ELO"
@@ -25,4 +25,11 @@ app.controller("DashboardCtrl", ['$scope', '$http', 'RESTUrlService', 'WeatherSe
                 console.log($scope.weather);
             });
     };
+    $scope.getLatestData = function (id) {
+        RESTEnergyService.getLatestMeasures(id)
+            .then(function(data){
+                console.log(data);
+            });
+    };
+    $scope.getLatestData('202854434');
 }]);
