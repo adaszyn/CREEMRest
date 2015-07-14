@@ -1,12 +1,39 @@
-<h4 class="title">{{title}} for:
-    <input ng-model="days"
-           class="days-input"
-           ng-change="getForecast()"
-           type="number"
-           min="2" max="16"> days.</h4>
+<style>
+    .up-arrow{
+        display: inline-block;
+        background-image: url(img/icons/up_arrow.png);
+        width: 30px;
+        height: 30px;
+    }
+</style>
 <div class="container">
-    <h6>Temperature</h6>
-    <canvas tc-chartjs chart-type="line" height="100px" chart-data="chartData" chart-options="chartOptions"></canvas>
-    <h6>Pressure</h6>
-    <canvas tc-chartjs chart-type="line" height="100px" chart-data="pressureChart" chart-options="chartOptions"></canvas>
+    <div class="row">
+        <div class="twelve columns box">
+            <div class="box-title">SETTINGS</div>
+            <div class="content">
+                <span>Number of days:</span>
+                    <input ng-model="days"
+                           class="days-input"
+                           ng-change="getForecast()"
+                           type="number"
+                           min="2" max="16">
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="twelve columns box">
+            <div class="box-title">TEMPERATURE</div>
+            <div class="content">
+                <canvas tc-chartjs chart-type="line" height="100px" chart-data="chartData" chart-options="chartOptions"></canvas>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="twelve columns box">
+            <div class="box-title">PRESSURE</div>
+            <div class="content">
+                <canvas tc-chartjs chart-type="line" height="100px" chart-data="pressureChart" chart-options="chartOptions"></canvas>
+            </div>
+        </div>
+    </div>
 </div>

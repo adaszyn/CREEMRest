@@ -1,7 +1,10 @@
 app.controller("DashboardCtrl", ['$scope', '$http', 'RESTEnergyService', 'WeatherService', function($scope, $http, RESTEnergyService, WeatherService) {
     $scope.title = "Your Dashboard";
     $scope.weather = {
-        name: "ELO"
+    };
+    $scope.deviceId = "202854434";
+    $scope.latestData = {
+        isLoaded : false
     };
     $scope.$on('$viewContentLoaded', function(event){
         setTimeout(function () {
@@ -14,7 +17,6 @@ app.controller("DashboardCtrl", ['$scope', '$http', 'RESTEnergyService', 'Weathe
             $scope.weather = data.data;
             $scope.weather.main.temp = Math.floor($scope.weather.main.temp - 273.1);
             $scope.weather.wind.dir = WeatherService.convertDegToDirection($scope.weather.wind.deg);
-            console.log($scope.weather);
         });
     $scope.cityForecast = function () {
         WeatherService.getCurrentTemperature($scope.weather.name)
@@ -22,14 +24,29 @@ app.controller("DashboardCtrl", ['$scope', '$http', 'RESTEnergyService', 'Weathe
                 $scope.weather = data.data;
                 $scope.weather.wind.dir = WeatherService.convertDegToDirection($scope.weather.wind.deg);
                 $scope.weather.main.temp = Math.floor($scope.weather.main.temp - 273.1);
-                console.log($scope.weather);
             });
     };
     $scope.getLatestData = function (id) {
         RESTEnergyService.getLatestMeasures(id)
             .then(function(data){
-                console.log(data);
+                if (data.data.length !== 0) {
+                    console.log(data.data);
+                    $scope.latestData.isLoaded = true;
+                    $scope.latestData.data = data.data;
+                }
+                else {
+                    $scope.latestData.isLoaded = false;
+                }
+            })
+            .catch(function () {
+               $scope.latestData.isLoaded = false;
             });
     };
-    $scope.getLatestData('202854434');
+    $scope.refreshDevice = function () {
+        $scope.getLatestData($scope.deviceId);
+    };
+    $scope.getDailyUsage = function(){
+        RESTEnergyService.getDailyUsage($scope)
+    };
+    $scope.refreshDevice();
 }]);

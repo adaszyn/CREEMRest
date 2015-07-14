@@ -1,0 +1,18 @@
+input.device-input{
+    margin: 10px;
+    border: none ;
+    border-bottom: 1px solid #a1a1a1;
+    -webkit-border-bottom-left-radius: 0;
+    -webkit-border-bottom-right-radius: 0;
+    transition: border 0.3s ease-out;
+}
+input.device-input:hover {
+    border-bottom: 1px solid #4c4c4c;
+}
+input.device-input:focus{
+    border: none ;
+    border-bottom: 1px solid #314a4c;
+}
+button.device-submit{
+
+}

@@ -76,5 +76,14 @@ app.config(function($stateProvider, $urlRouterProvider) {
                     controller: "ForecastCtrl"
                 }
             }
+        })
+        .state('root.energynow', {
+            url: "energynow",
+            views: {
+                'content@': {
+                    templateUrl: "js/partials/energynow.html",
+                    controller: "EnergyNowCtrl"
+                }
+            }
         });
 });

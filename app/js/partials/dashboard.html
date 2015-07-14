@@ -3,7 +3,9 @@
         margin: 10px 10px 10px 10px !important;
         box-shadow: 0px 0px 5px 0px rgba(50, 50, 50, 0.75);
         border: 1px solid #c7c7c7;
-        border-left-image: url(img/icons/temp.png);
+    }
+    .wraper{
+        margin: auto !important;
     }
     .title{
 
@@ -18,14 +20,7 @@
         background-color: deepskyblue;
         color: white;
     }
-    .box-title{
-        background-color: black;
-        text-align: center;
-        color: white;
-        border-bottom: 1px solid darkgrey;
-        font-family: Raleway;
-        font-weight: 900;
-    }
+
     .forecast-box{
         text-align: center;
         font-family: LatoMedium;
@@ -33,12 +28,29 @@
     .forecast-image{
         background-repeat: no-repeat;
         -webkit-background-size: cover;
-        background-size: 45%;
+        background-size: contain;
+        margin: 10px;
         background-position: 50% 50%;
         height: 6rem;
     }
     .small-margin{
         margin: 5px;
+    }
+    .updates-row{
+        border-top: 1px solid darkgrey;
+        background-color: transparent;
+        transition: background-color 0.2s ease-out;
+        box-shadow: 0px 0px 2px 0px rgba(50, 50, 50, 0.75);
+        text-align: center;
+        font-family: LatoMedium;
+        font-size: 1.4rem;
+    }
+    .updates-row:hover{
+        background-color: #dfdfdf;
+        border-top: 1px solid darkgrey;
+    }
+    .cell{
+        /*background-color: rgba(0, 0, 0, 0.1);*/
     }
 </style>
 <h4 class="page-name">{{title}}</h4>
@@ -59,17 +71,39 @@
     <div class="five columns box">
         <div class="box-title">UPDATES</div>
         <div class="content">
-            TEST<input type="text" ng-model="id" placeholder="id of the device">
+            <form ng-submit="refreshDevice()">
+                <input class="device-input" type="text" ng-model="deviceId" placeholder="id of the device">
+                <button class="device-submit">OK</button>
+            </form>
+            <div ng-show="latestData.isLoaded">
+                <div class="row small-margin updates-row" ng-repeat="entry in latestData.data">
+                    <div class="five columns">{{entry.type | EnergyTypeFilter}}</div>
+                    <div class="four columns cell">{{entry.value}}</div>
+                    <div class="three columns">{{entry.timestamp | date:'yyyy-MM-dd HH:mm:ss'}}</div>
+                </div>
+            </div>
+            <div ng-hide="latestData.isLoaded">
+                Something went wrong
+            </div>
         </div>
     </div>
-    <div class="four columns box">
-        <div class="box-title">DAILY USAGE</div>
-        <div class="content">
-            city: dasd asdjnkasl
-            temp: wind
-            press: pressure
+    <div class="four columns wraper">
+        <div class="box">
+            <div class="box-title">DEVICE USAGE</div>
+            <div class="content">
+                <input class="device-input" type="text" ng-model="deviceId" placeholder="id of the device">
+                <button class="device-submit">OK</button>
+            </div>
+        </div>
+        <div class="box">
+            <div class="box-title">DEVICE USAGE</div>
+            <div class="content">
+                <input class="device-input" type="text" ng-model="deviceId" placeholder="id of the device">
+                <button class="device-submit">OK</button>
+            </div>
         </div>
     </div>
+
 </div>
 <div class="container">
 <canvas tc-chartjs

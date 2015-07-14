@@ -9,9 +9,9 @@ app.factory("ChartFactory", function () {
                 datasets: [
                     {
                         label: args.label,
-                        fillColor: "rgba(151,187,205,0.2)",
-                        strokeColor: "rgba(151,187,205,1)",
-                        pointColor: "rgba(151,187,205,1)",
+                        fillColor: "rgba(0, 191, 255, 0.31)",
+                        strokeColor: "rgb(0, 191, 255)",
+                        pointColor: "rgb(0, 76, 102)",
                         pointStrokeColor: "#fff",
                         pointHighlightFill: "#fff",
                         pointHighlightStroke: "rgba(151,187,205,1)",

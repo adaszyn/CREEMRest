@@ -11,6 +11,12 @@ app.controller("ForecastCtrl", ['$scope', '$http','WeatherService', 'ChartFactor
         label: 'Pressure',
         data: []
     });
+    $scope.$on('$viewContentLoaded', function(event){
+        setTimeout(function () {
+            var icon = document.getElementById("loading-img");
+            icon.className = "power-cord";
+        }, 500);
+    });
     $scope.updateForecast = function(data){
         var domain = [];
         var temperatures = [];
