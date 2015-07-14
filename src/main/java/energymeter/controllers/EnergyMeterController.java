@@ -9,8 +9,11 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Locale;
 
 /**
  * Created by root on 7/10/15.
@@ -27,27 +30,47 @@ public class EnergyMeterController {
     public @ResponseBody
     ArrayList<EnergyAbstract> getByDeviceDate(@PathVariable(value = "type") String type,
                                               @PathVariable(value = "deviceID") String deviceID,
-                                              @PathVariable(value = "date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date date) throws Exception {
-        EnergyTypesEnum typeEnum = EnergyTypesEnum.valueOf(type.toUpperCase());
-        ArrayList<EnergyAbstract> energies = energyMeterDAO.getEnergyDay(typeEnum, deviceID, date);
-        return energies;
+                                              @PathVariable(value = "date") String dateStr) throws Exception {
+        try {
+            EnergyTypesEnum typeEnum = EnergyTypesEnum.valueOf(type.toUpperCase());
+            DateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+            Date date = format.parse(dateStr);
+            ArrayList<EnergyAbstract> energies = energyMeterDAO.getEnergyDay(typeEnum, deviceID, date);
+            return energies;
+        }
+        catch(Exception e) {
+            return new ArrayList<>();
+        }
     }
 
     @RequestMapping("energy/stat/{type}/{deviceID}/{dateFrom}/{dateTo}")
     public @ResponseBody
     ArrayList<EnergyAbstract> getByDeviceDates(@PathVariable(value = "type") String type,
                                                @PathVariable(value = "deviceID") String deviceID,
-                                               @PathVariable(value = "dateFrom") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date dateFrom,
-                                               @PathVariable(value = "dateTo") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date dateTo) throws Exception {
-        EnergyTypesEnum typeEnum = EnergyTypesEnum.valueOf(type.toUpperCase());
-        ArrayList<EnergyAbstract> energies = energyMeterDAO.getEnergyPeriod(typeEnum, deviceID, dateFrom, dateTo);
-        return energies;
+                                               @PathVariable(value = "dateFrom") String dateFromStr,
+                                               @PathVariable(value = "dateTo") String dateToStr) throws Exception {
+        try {
+            EnergyTypesEnum typeEnum = EnergyTypesEnum.valueOf(type.toUpperCase());
+            DateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+            Date dateFrom = format.parse(dateFromStr);
+            Date dateTo = format.parse(dateToStr);
+            ArrayList<EnergyAbstract> energies = energyMeterDAO.getEnergyPeriod(typeEnum, deviceID, dateFrom, dateTo);
+            return energies;
+        }
+        catch(Exception e) {
+            return new ArrayList<>();
+        }
     }
 
     @RequestMapping("energy/stat/latest/{deviceID}")
     public @ResponseBody
     ArrayList<EnergyAbstract> getByDeviceDates(@PathVariable(value = "deviceID") String deviceID) throws Exception {
-        ArrayList<EnergyAbstract> energies = energyMeterDAO.getLatest(deviceID);
-        return energies;
+        try {
+            ArrayList<EnergyAbstract> energies = energyMeterDAO.getLatest(deviceID);
+            return energies;
+        }
+        catch(Exception e) {
+            return new ArrayList<>();
+        }
     }
 }

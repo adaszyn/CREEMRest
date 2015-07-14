@@ -88,7 +88,7 @@ public class EnergyDAOHelper {
             else {
                 objectType.setIsPrediction(true);
                 try {
-                    if (energyTime.get(i-1).getValue()!=0.0) {
+                    if (energyTime.get(i-1).getValue() != 0.0) {
                         objectType.setValue(energyTime.get(i - 1).getValue() + ValuePerTime);
                     }
                     else {
@@ -109,8 +109,8 @@ public class EnergyDAOHelper {
             timeThen = new Timestamp(timeThen.getTime() + time);
         }
         for (int i=(int)timeDiff-1; i>=0; i--) {
-            if (energyTime.get(i).getValue()==0.0) {
-
+            if (energyTime.get(i).getValue() == 0.0) {
+                energyTime.get(i).setValue(energyTime.get(i+1).getValue()-ValuePerTime);
             }
         }
         return energyTime;
