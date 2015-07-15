@@ -1,6 +1,12 @@
 app.controller("ForecastCtrl", ['$scope', '$http','WeatherService', 'ChartFactory', function ($scope, $http, WeatherService, ChartFactory) {
-    $scope.title = "Predictions";
+    $scope.title = "Forecast";
     $scope.days = 2;
+    $scope.forecastOptions = [
+        {name: "temperature", value:"1"},
+        {name: "humidity", value:"1"},
+        {name: "pressure", value:"1"}
+    ];
+    $scope.forecastOption = $scope.forecastOptions[0];
     $scope.chartData = ChartFactory.getChartConfiguration({
        domain: [],
         label: 'Temperature',
@@ -17,30 +23,44 @@ app.controller("ForecastCtrl", ['$scope', '$http','WeatherService', 'ChartFactor
             icon.className = "power-cord";
         }, 500);
     });
+    $scope.dataSets = {
+      domain: [],
+      temperature: [],
+      humidity: [],
+      pressure: []
+    };
     $scope.updateForecast = function(data){
         var domain = [];
-        var temperatures = [];
-        var pressure = [];
+        $scope.dataSets.temperature = [];
+        $scope.dataSets.domain = [];
+        $scope.dataSets.temperature = [];
+        $scope.dataSets.humidity = [];
         for (var i = 0; i < data.list.length; i++){
             domain.push(new Date(data.list[i].dt * 1000).toLocaleDateString());
-            temperatures.push(data.list[i].temp.day);
-            pressure.push(data.list[i].pressure);
+            $scope.dataSets.domain.push(new Date(data.list[i].dt * 1000).toLocaleDateString());
+            $scope.dataSets.temperature.push(data.list[i].temp.day);
+            $scope.dataSets.pressure.push(data.list[i].pressure);
         }
 
-        $scope.chartData.labels = domain;
-        $scope.pressureChart.labels = domain;
-        $scope.chartData.datasets[0].data = temperatures;
-        $scope.pressureChart.datasets[0].data = pressure;
+        //$scope.chartData.labels = domain;
+        //$scope.pressureChart.labels = domain;
+        //$scope.chartData.datasets[0].data = ;
+        //$scope.pressureChart.datasets[0].data = pressure;
     };
 
     $scope.chartOptions = {
         responsive : true
     };
+    $scope.chartUpdate = function () {
+        $scope.chartData.labels = $scope.dataSets.domain;
+        $scope.chartData.datasets[0].data = $scope.dataSets[$scope.forecastOption.name];
+    }
     $scope.getForecast = function(){
         WeatherService.getLongForecast($scope.days)
             .then(function (data) {
                 $scope.updateForecast(data.data);
-            })
+            });
+        $scope.chartUpdate();
     };
     $scope.getForecast();
 

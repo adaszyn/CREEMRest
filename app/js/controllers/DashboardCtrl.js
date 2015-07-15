@@ -2,9 +2,13 @@ app.controller("DashboardCtrl", ['$scope', '$http', 'RESTEnergyService', 'Weathe
     $scope.title = "Your Dashboard";
     $scope.weather = {
     };
-    $scope.deviceId = "202854434";
+    $scope.deviceId = "1913061376";
+    $scope.deviceUsageRatio = 0;
     $scope.latestData = {
-        isLoaded : false
+        isLoaded: false
+    };
+    $scope.deviceUsage = function() {
+      isLoaded: false
     };
     $scope.$on('$viewContentLoaded', function(event){
         setTimeout(function () {
@@ -27,6 +31,7 @@ app.controller("DashboardCtrl", ['$scope', '$http', 'RESTEnergyService', 'Weathe
             });
     };
     $scope.getLatestData = function (id) {
+        $scope.getDeviceUsage();
         RESTEnergyService.getLatestMeasures(id)
             .then(function(data){
                 if (data.data.length !== 0) {
@@ -45,8 +50,32 @@ app.controller("DashboardCtrl", ['$scope', '$http', 'RESTEnergyService', 'Weathe
     $scope.refreshDevice = function () {
         $scope.getLatestData($scope.deviceId);
     };
-    $scope.getDailyUsage = function(){
-        RESTEnergyService.getDailyUsage($scope)
+    $scope.getDeviceUsage = function(){
+        RESTEnergyService.getDailyForId($scope.deviceId)
+            .then(function(data){
+                if(data.data.length !== 0) {
+                    $scope.deviceUsage.isLoaded = true;
+                    var lastMeasured = data.data.filter(function (element, index, array) {
+                        return !element.prediction;
+                    });
+                    var lastPredicted = data.data.filter(function (element, index, array) {
+                        return element.prediction;
+                    });
+                    var lastMeasuredObj = lastMeasured.pop();
+                    $scope.deviceUsage.lastUpdate = lastMeasuredObj.timestamp;
+                    $scope.deviceUsage.measured = lastMeasuredObj.value - data.data[0].value;
+                    $scope.deviceUsage.predicted = lastPredicted.pop().value - data.data[0].value;
+                    $scope.deviceUsageRatio = Math.floor(100 * $scope.deviceUsage.measured / $scope.deviceUsage.predicted);
+                    //$scope.deviceUsageRatio = 44;
+                }
+                else{
+                    $scope.deviceUsage.isLoaded = false;
+                }
+            })
+            .catch(function () {
+                $scope.deviceUsage.isLoaded = false;
+            });
+
     };
     $scope.refreshDevice();
 }]);

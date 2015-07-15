@@ -12,7 +12,11 @@
 }
 @font-face {
     src: url(/css/fonts/Lato-Thin.ttf);
-    font-family: Lato;
+    font-family: LatoThin;
+}
+@font-face {
+    src: url(/css/fonts/Lato-Light.ttf);
+    font-family: LatoLight;
 }
 @font-face {
     src: url(/css/fonts/Lato-Heavy.ttf);
@@ -124,11 +128,12 @@
 .city-input:focus{
     border-bottom: 1px dotted black !important;
 }
-.box{
-    margin: 10px 10px 10px 10px !important;
+div.box{
+    margin: 10px 0px 10px !important;
     box-shadow: 0px 0px 5px 0px rgba(50, 50, 50, 0.75);
     border: 1px solid #c7c7c7;
     border-left-image: url(img/icons/temp.png);
+    overflow: hidden;
 }
 .title{
 
@@ -137,6 +142,7 @@
 
 }
 .page-name{
+    margin: 10px 0px 10px;
     text-align: center;
     border-top: 2px solid grey
 border-bottom: 2px solid grey;
@@ -163,7 +169,7 @@ border-bottom: 2px solid grey;
 .logo{
     transition: 0.3s all ease-out;
     padding: 10px;
-    font-family: Lato,serif;
+    font-family: LatoLight,serif;
     font-size: 3.5rem;
     font-weight: 900;
     margin-bottom: 0;
@@ -173,15 +179,18 @@ border-bottom: 2px solid grey;
     color: #00d300;
     margin-right: 10px;
 }
-.logo:hover{
+.menu-button.middle {
+    margin-left: 2% !important;
+    margin-right: 2% !important;
 }
 .menu-button{
     background-color: dimgrey;
-    width: 100%;
-    margin: 10px 10px 10px 10px !important;
+    margin: 10px auto 10px !important;
     height: 15vh;
+    width: 32% !important;
+    font-size: 4rem;
 }
-.green{
+.first-button{
     background-repeat: no-repeat;
     background-size: 40%;
     background-position: center;
@@ -191,15 +200,14 @@ border-bottom: 2px solid grey;
     text-align: center;
     background-color: #00cc00;
     background-image: url(/img/leaf.png);
-    border: 1px solid transparent;
 }
-.green:hover{
+.first-button:hover{
     background-color: rgba(0, 204, 0, 0.55);
     background-size: 120%;
     box-shadow: #d0e9c6;
     color: black !important;
 }
-.violet{
+.second-button{
     background-color: #ad00c2;
     background-repeat: no-repeat;
     background-size: 40%;
@@ -211,13 +219,13 @@ border-bottom: 2px solid grey;
     background-image: url(/img/stats.png);
 
 }
-.violet:hover{
+.second-button:hover{
     background-color: rgba(173, 0, 194, 0.5);
     background-size: 120%;
     box-shadow: #d0e9c6;
     color: black !important;
 }
-.yellow{
+.third-button{
     background-color: #ffe900;
     background-repeat: no-repeat;
     background-size: 40%;
@@ -228,7 +236,7 @@ border-bottom: 2px solid grey;
     text-align: center;
     background-image: url(/img/meter.png);
 }
-.yellow:hover{
+.third-button:hover{
     background-color: rgba(255, 233, 0, 0.55);
     background-size: 120%;
     box-shadow: #d0e9c6;
@@ -241,7 +249,7 @@ border-bottom: 2px solid grey;
     font-weight: 700;
     color: transparent;
     letter-spacing: 2px;
-    font-size: 4rem;
+    font-size: 3rem;
     display: table-cell;
     vertical-align: middle;
 }

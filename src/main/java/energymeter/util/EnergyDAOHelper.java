@@ -49,7 +49,7 @@ public class EnergyDAOHelper {
         EnergyAbstract objectType;
         ArrayList<EnergyAbstract> energyResults = new ArrayList<>();
         while (rs.next()) {
-            if (rs.getString("MEASURE_TYPE").contains("total")) {
+            if (rs.getString("MEASURE_TYPE").contains("")) {
                 objectType = EnergyFactory.getEnergyInstance("t_data_" + rs.getString("MEASURE_TYPE"));
                 objectType.setId(rs.getString("DEVICE_ID"));
                 objectType.setValue(rs.getDouble("MEASURE_VALUE"));
