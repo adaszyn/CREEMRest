@@ -54,13 +54,14 @@ app.controller("ForecastCtrl", ['$scope', '$http','WeatherService', 'ChartFactor
     $scope.chartUpdate = function () {
         $scope.chartData.labels = $scope.dataSets.domain;
         $scope.chartData.datasets[0].data = $scope.dataSets[$scope.forecastOption.name];
+        console.log($scope.chartData.datasets[0].data);
     }
     $scope.getForecast = function(){
         WeatherService.getLongForecast($scope.days)
             .then(function (data) {
                 $scope.updateForecast(data.data);
+                $scope.chartUpdate();
             });
-        $scope.chartUpdate();
     };
     $scope.getForecast();
 
