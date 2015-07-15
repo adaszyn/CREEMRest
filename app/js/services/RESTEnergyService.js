@@ -31,11 +31,11 @@ app.service("RESTEnergyService", ['$http', function($http) {
         }
 
         if (args.dateFrom) {
-            dateFromString = "/" + args.dateFrom;
+            dateFromString = "/" + this.reformatDate(args.dateFrom);
         }
 
         if (args.dateTo) {
-            dateToString = "/" + args.dateTo;
+            dateToString = "/" + this.reformatDate(args.dateTo);
         }
 
         if (args.deviceID) {

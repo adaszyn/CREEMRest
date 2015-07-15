@@ -6,8 +6,6 @@ app.controller("EnergyNowCtrl", ['$scope', '$http', 'RESTEnergyService', 'ChartF
     $scope.datasets = [];
     $scope.dataLimit = 10;
     $scope.deviceId = "1913061376";
-    $scope.dateFrom = "";
-    $scope.dateTo = "";
     $scope.dateOptions = [
         {name:'Yesterday', dateFrom:-1, dateTo:""},
         {name:'Today', dateFrom:0, dateTo:""},
@@ -46,7 +44,7 @@ app.controller("EnergyNowCtrl", ['$scope', '$http', 'RESTEnergyService', 'ChartF
     $scope.getDate = function(days) {
         var date = new Date();
         date.setDate(date.getDate() + days);
-        return RESTEnergyService.reformatDate(date);
+        return date;
     }
 
     $scope.submit = function(){
