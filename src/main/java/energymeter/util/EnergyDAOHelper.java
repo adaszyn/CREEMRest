@@ -49,15 +49,13 @@ public class EnergyDAOHelper {
         EnergyAbstract objectType;
         ArrayList<EnergyAbstract> energyResults = new ArrayList<>();
         while (rs.next()) {
-            if (rs.getString("MEASURE_TYPE").contains("")) {
-                objectType = EnergyFactory.getEnergyInstance("t_data_" + rs.getString("MEASURE_TYPE"));
-                objectType.setId(rs.getString("DEVICE_ID"));
-                objectType.setValue(rs.getDouble("MEASURE_VALUE"));
-                objectType.setTimestamp(rs.getTimestamp("MEASURE_TIMESTAMP"));
-                objectType.setIsPrediction(false);
-                objectType.setType(rs.getString("MEASURE_TYPE"));
-                energyResults.add(objectType);
-            }
+            objectType = EnergyFactory.getEnergyInstance("t_data_" + rs.getString("MEASURE_TYPE"));
+            objectType.setId(rs.getString("DEVICE_ID"));
+            objectType.setValue(rs.getDouble("MEASURE_VALUE"));
+            objectType.setTimestamp(rs.getTimestamp("MEASURE_TIMESTAMP"));
+            objectType.setIsPrediction(false);
+            objectType.setType(rs.getString("MEASURE_TYPE"));
+            energyResults.add(objectType);
         }
         rs.close();
         ps.close();

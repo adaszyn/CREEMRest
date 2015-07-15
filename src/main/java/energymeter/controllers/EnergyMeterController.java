@@ -73,4 +73,18 @@ public class EnergyMeterController {
             return new ArrayList<>();
         }
     }
+
+    @RequestMapping("energy/latest/{date}")
+    public @ResponseBody
+    ArrayList<EnergyAbstract> getLatestDate(@PathVariable(value = "date") String dateStr) {
+        try {
+            DateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+            Date date = format.parse(dateStr);
+            ArrayList<EnergyAbstract> energies = energyMeterDAO.getLatestDate(date);
+            return energies;
+        }
+        catch(Exception e) {
+            return new ArrayList<>();
+        }
+    }
 }
