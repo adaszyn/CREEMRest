@@ -1,0 +1,37 @@
+<h4 class="page-name">{{title}}</h4>
+
+<form ng-submit="submit()">
+    <div class="row">
+        <div class="three columns">
+            <span>Device ID:</span>
+            <input class="device-input" type="text" ng-model="deviceId" placeholder="id of the device">
+        </div>
+        <div class="three columns">
+            <span>Time:</span>
+            <select ng-model="dateOption" ng-options="x.name for x in dateOptions" ng-change="dateUpdate()"></select>
+        </div>
+        <div class="three columns">
+            <span>Energy Type:</span>
+            <select ng-model="selectedDataset" ng-options="x for x in datasets"></select>
+        </div>
+    </div>
+    <div class="row">
+        <div class="three columns">
+            <span>From data:</span>
+            <input class="device-input" type="text" ng-model="dateFrom" placeholder="yyyy-MM-dd">
+        </div>
+        <div class="three columns">
+            <span>To data:</span>
+            <input ng-show="selectedOption.name === 'Custom data'" class="device-input" type="text" ng-model="dateTo" placeholder="yyyy-MM-dd">
+        </div>
+        <div class="three columns">
+            <button class="device-submit">OK</button>
+        </div>
+    </div>
+</form>
+<div class="container">
+    <canvas tc-chartjs
+            chart-type="line"
+            chart-data="chartData"
+            chart-options="chartOptions"></canvas>
+</div>

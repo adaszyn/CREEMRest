@@ -77,8 +77,8 @@ app.config(function($stateProvider, $urlRouterProvider) {
                 }
             }
         })
-        .state('root.energynow', {
-            url: "energynow",
+        .state('root.energyNow', {
+            url: "energyNow",
             views: {
                 'content@': {
                     templateUrl: "js/partials/energynow.html",
