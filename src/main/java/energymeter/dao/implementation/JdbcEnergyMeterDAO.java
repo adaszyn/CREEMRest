@@ -164,8 +164,35 @@ public class JdbcEnergyMeterDAO implements EnergyMeterDAO {
                 }
                 catch (SQLException e) {}
             }
+            return energyResults;
         }
+    }
 
-        return energyResults;
+    @Override
+    public ArrayList<EnergyAbstract> getLatestDate(Date date) throws Exception {
+        String sql = "select * from t_data_latest where DATE(MEASURE_TIMESTAMP)=?";
+        ArrayList<EnergyAbstract> energyResults = new ArrayList<>();
+        Connection connection = null;
+        java.sql.Date sqlDate;
+        try {
+            connection = dataSource.getConnection();
+            PreparedStatement ps = connection.prepareStatement(sql);
+            sqlDate = new java.sql.Date(date.getTime());
+            ps.setDate(1, sqlDate);
+
+            energyResults = EnergyDAOHelper.getLatestData(ps);
+        }
+        catch (SQLException e) {
+            throw new SQLException(e);
+        }
+        finally {
+            if (connection != null) {
+                try {
+                    connection.close();
+                }
+                catch (SQLException e) {}
+            }
+            return energyResults;
+        }
     }
 }
