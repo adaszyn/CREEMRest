@@ -31,7 +31,49 @@ app.service("RESTUrlService", ['$http', function($http){
                 + args.dateTo.getFullYear() + "-"
                 + (Number(args.dateTo.getMonth())+1) + "-"
                 + args.dateTo.getDate().toString();
+        }this.createUrl = function(args) {
+        /**
+         *
+         * @param args
+         * args contains: deviceID, dateFrom, dateTo, limit, type
+         */
+        var dateFromString = "",
+            dateToString = "",
+            deviceID = "",
+            limit = "",
+            type = "";
+
+        if (args.type) {
+            type = "/" + args.type;
         }
+
+        if (args.dateFrom) {
+            dateFromString = "/"
+                + args.dateFrom.getFullYear() + "-"
+                + (Number(args.dateFrom.getMonth())+1) + "-"
+                + args.dateFrom.getDate().toString();
+        }
+
+        if (args.dateTo) {
+            dateToString = "/"
+                + args.dateTo.getFullYear() + "-"
+                + (Number(args.dateTo.getMonth())+1) + "-"
+                + args.dateTo.getDate().toString();
+        }
+
+        if (args.deviceID) {
+            deviceID = "/" + args.deviceID;
+        }
+        else {
+            return "/energy/data" + type;
+        }
+
+        if (args.limit) {
+            limit = "?limit=" + args.limit;
+        }
+
+        return "/energy/data" + type + deviceID + dateFromString + dateToString + limit;
+    };
 
         if (args.deviceID) {
             deviceID = "/" + args.deviceID;
