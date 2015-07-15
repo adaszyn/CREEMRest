@@ -81,7 +81,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
             url: "energynow",
             views: {
                 'content@': {
-                    templateUrl: "js/partials/energynow.html",
+                    templateUrl: "js/partials/0.html",
                     controller: "EnergyNowCtrl"
                 }
             }
