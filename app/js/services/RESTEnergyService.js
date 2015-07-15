@@ -14,5 +14,8 @@ app.service("RESTEnergyService", ['$http', function($http) {
         return date.getFullYear() + "-"
             + (Number(date.getMonth())+1) + "-"
             + date.getDate().toString();
+    };
+    this.getDaily = function () {
+        return $http.get(this.REST_URL + "/energy/latest/" + reformatDate(new Date));
     }
 }]);
