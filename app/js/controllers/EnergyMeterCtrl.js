@@ -45,7 +45,6 @@ app.controller("EnergyMeterCtrl", ['$scope', '$http', 'RESTUrlService', 'ChartFa
         var chartData = RESTUrlService.getChartData(data);
         $scope.chartData.labels = chartData.labels;
         $scope.chartData.datasets[0].data = chartData.values;
-        console.log(chartData.values);
     };
 
     $scope.getDatasets = function(){

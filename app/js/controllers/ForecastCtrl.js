@@ -31,7 +31,6 @@ app.controller("ForecastCtrl", ['$scope', '$http','WeatherService', 'ChartFactor
     };
     $scope.updateForecast = function(data){
         var domain = [];
-        console.log(data.list);
         $scope.dataSets.temperature = [];
         $scope.dataSets.domain = [];
         $scope.dataSets.temperature = [];
@@ -52,7 +51,6 @@ app.controller("ForecastCtrl", ['$scope', '$http','WeatherService', 'ChartFactor
     $scope.chartUpdate = function () {
         $scope.chartData.labels = $scope.dataSets.domain;
         $scope.chartData.datasets[0].data = $scope.dataSets[$scope.forecastOption.name];
-        console.log($scope.chartData.datasets[0].data);
     };
 
     $scope.getForecast = function(){
