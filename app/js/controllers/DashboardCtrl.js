@@ -36,7 +36,6 @@ app.controller("DashboardCtrl", ['$scope', '$http', 'RESTEnergyService', 'Weathe
         RESTEnergyService.getLatestMeasures(id)
             .then(function(data){
                 if (data.data.length !== 0) {
-                    console.log(data.data);
                     $scope.latestData.isLoaded = true;
                     $scope.latestData.data = data.data;
                 }
@@ -106,7 +105,6 @@ app.controller("DashboardCtrl", ['$scope', '$http', 'RESTEnergyService', 'Weathe
                   produced: sumOfArr(produced, 'value'),
                   power: sumOfArr(power, 'value')
               };
-              console.log('daily usage',$scope.dailyUsage);
           });
     };
     $scope.getDaily();

@@ -48,7 +48,6 @@ app.controller("EnergyNowCtrl", ['$scope', '$http', 'RESTEnergyService', 'ChartF
     };
 
     $scope.submit = function(){
-        console.log($scope.dateOption);
         var url = RESTEnergyService.REST_URL + RESTEnergyService.createUrl({
                 deviceID: $scope.deviceId,
                 dateFrom: $scope.dateFrom,
@@ -69,7 +68,6 @@ app.controller("EnergyNowCtrl", ['$scope', '$http', 'RESTEnergyService', 'ChartF
         var chartData = RESTEnergyService.getChartData(data);
         $scope.chartData.labels = chartData.labels;
         $scope.chartData.datasets[0].data = chartData.values;
-        console.log(chartData.values);
     };
 
     /*$scope.updateCharts = function updateCharts(data){

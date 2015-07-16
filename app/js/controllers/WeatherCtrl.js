@@ -28,12 +28,10 @@ app.controller("WeatherCtrl", ['$scope', 'WeatherService', 'RESTUrlService', fun
             $scope.weather = data.data;
             $scope.weather.main.temp = Math.floor($scope.weather.main.temp - 273.1);
             $scope.weather.wind.dir = WeatherService.convertDegToDirection($scope.weather.wind.deg);
-            console.log($scope.weather);
         });
     RESTUrlService.getLatestData()
         .then(function(data){
            $scope.lastData = data.data;
-            console.log("lastData", $scope.lastData);
         });
     $scope.cityForecast = function () {
         WeatherService.getCurrentTemperature($scope.weather.name)
@@ -41,7 +39,6 @@ app.controller("WeatherCtrl", ['$scope', 'WeatherService', 'RESTUrlService', fun
                 $scope.weather = data.data;
                 $scope.weather.wind.dir = WeatherService.convertDegToDirection($scope.weather.wind.deg);
                 $scope.weather.main.temp = Math.floor($scope.weather.main.temp - 273.1);
-                console.log($scope.weather);
             });
     };
     $scope.cityForecast();
