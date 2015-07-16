@@ -1,6 +1,6 @@
 app.config(function($stateProvider, $urlRouterProvider) {
     $urlRouterProvider.otherwise("/home");
-    //$urlRouterProvider.when('/predictions/', '/predictions/weather');
+    $urlRouterProvider.when('/home', '/dashboardtem');
     $stateProvider
         .state('root',{
             url: '/',

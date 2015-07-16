@@ -139,7 +139,7 @@ div.box{
 
 }
 .content{
-
+    padding: 5px;
 }
 .page-name{
     margin: 10px 0px 10px;
@@ -160,11 +160,39 @@ border-bottom: 2px solid grey;
 /*HEADER*/
 .heading{
     margin: 0 0 0 0 !important;
-    text-align: center !important;
+    text-align: center;
     width: 100% !important;
     background-color: #242424;
     max-width: none !important;
     color: white;
+}
+.invisible{
+    display: none !important;
+}
+.no-background{
+    background-image: none !important;
+}
+.header-text{
+    font-size: 2.4rem !important;
+    background-image: none !important;
+    margin: 5px !important;
+}
+.header-moved{
+    font-family: LatoLight,serif;
+    margin: 0 0 0 0 !important;
+    width: 100% !important;
+    background-color: #242424;
+    max-width: none !important;
+    color: white;
+    text-align: left !important;
+    position: fixed !important;
+    top: 0 !important;
+    font-size: 2rem !important;
+    z-index: 1;
+    height: auto;
+}
+.header-moved span{
+    color: #00d300;
 }
 .logo{
     transition: 0.3s all ease-out;
@@ -179,91 +207,9 @@ border-bottom: 2px solid grey;
     color: #00d300;
     margin-right: 10px;
 }
-.menu-button.middle {
-    margin-left: 2% !important;
-    margin-right: 2% !important;
-}
-.menu-button{
-    background-color: dimgrey;
-    margin: 10px auto 10px !important;
-    height: 15vh;
-    width: 32% !important;
-    font-size: 4rem;
-}
-.first-button{
-    background-repeat: no-repeat;
-    background-size: 40%;
-    background-position: center;
-    transition: 0.5s background-size;
-    -webkit-transition : 0.5s all;
-    display: table;
-    text-align: center;
-    background-color: #00cc00;
-    background-image: url(/img/leaf.png);
-}
-.first-button:hover{
-    background-color: rgba(0, 204, 0, 0.55);
-    background-size: 120%;
-    box-shadow: #d0e9c6;
-    color: black !important;
-}
-.second-button{
-    background-color: #ad00c2;
-    background-repeat: no-repeat;
-    background-size: 40%;
-    background-position: center;
-    transition: 0.5s background-size;
-    -webkit-transition : 0.5s background-size;
-    display: table;
-    text-align: center;
-    background-image: url(/img/stats.png);
 
-}
-.second-button:hover{
-    background-color: rgba(173, 0, 194, 0.5);
-    background-size: 120%;
-    box-shadow: #d0e9c6;
-    color: black !important;
-}
-.third-button{
-    background-color: #ffe900;
-    background-repeat: no-repeat;
-    background-size: 40%;
-    background-position: center;
-    transition: 0.5s background-size;
-    -webkit-transition : 0.5s background-size;
-    display: table;
-    text-align: center;
-    background-image: url(/img/meter.png);
-}
-.third-button:hover{
-    background-color: rgba(255, 233, 0, 0.55);
-    background-size: 120%;
-    box-shadow: #d0e9c6;
-    color: black !important;
-}
-.menu-text{
-    opacity: 0.6;
-    transition: 0.3s all;
-    font-family: Raleway;
-    font-weight: 700;
-    color: transparent;
-    letter-spacing: 2px;
-    font-size: 3rem;
-    display: table-cell;
-    vertical-align: middle;
-}
-.menu-text:hover span{
-    border-top: 2px solid rgba(44, 43, 44, 0.62);
-    border-bottom: 2px solid rgba(44, 43, 44, 0.62);
-    font-weight: 900;
-    text-shadow: 0px 0px 6px rgba(255,255,255,0.9);
-}
-.menu-text:hover{
-    opacity: 1.0;
-    letter-spacing: 3px;
-    color: #2a2a2a;
-}
+
+
 .power-cord{
     display: inline;
     width: 3rem;
@@ -283,3 +229,138 @@ border-bottom: 2px solid grey;
         transform: rotate(360deg);
     }
 }
+
+/*DIFFERENT RESOLUTION*/
+@media (min-width: 400px) {
+    .menu-button{
+        background-color: red;
+        width: 100% !important;
+        text-align: center;
+        color: white;
+        margin-top: 5px;
+        background-repeat: no-repeat;
+        background-size: auto 90%;
+        background-position: 2% center;
+        display: table;
+    }
+    .first-button {
+        background-color: #00cc00;
+        background-image: url(/img/leaf.png);
+    }
+    .second-button{
+        background-color: #ad00c2;
+        background-image: url(/img/stats.png);
+
+    }
+    .third-button{
+        background-color: #ffe900;
+        background-image: url(/img/meter.png);
+    }
+    .menu-text{
+        display: table-cell;
+        height: 100%;
+        vertical-align: middle;
+        text-shadow: 0px 0px 2px rgba(0, 0, 0, 1);
+    }
+
+
+}
+
+/* Larger than phablet (also point when grid becomes active) */
+@media (min-width: 550px) {}
+
+/* Larger than tablet */
+@media (min-width: 750px) {}
+
+/* Larger than desktop */
+@media (min-width: 1000px) {
+    .menu-button.middle {
+        margin-left: 2% !important;
+        margin-right: 2% !important;
+    }
+    .menu-button{
+        background-color: dimgrey;
+        margin: 10px auto 10px !important;
+        height: 15vh;
+        width: 32% !important;
+        font-size: 4rem;
+    }
+    .first-button{
+        background-repeat: no-repeat;
+        background-size: 40%;
+        background-position: center;
+        transition: 0.5s background-size;
+        -webkit-transition : 0.5s all;
+        display: table;
+        text-align: center;
+        background-color: #00cc00;
+        background-image: url(/img/leaf.png);
+    }
+    .first-button:hover{
+        background-color: rgba(0, 204, 0, 0.55);
+        background-size: 120%;
+        box-shadow: #d0e9c6;
+        color: black !important;
+    }
+    .second-button{
+        background-color: #ad00c2;
+        background-repeat: no-repeat;
+        background-size: 40%;
+        background-position: center;
+        transition: 0.5s background-size;
+        -webkit-transition : 0.5s background-size;
+        display: table;
+        text-align: center;
+        background-image: url(/img/stats.png);
+
+    }
+    .second-button:hover{
+        background-color: rgba(173, 0, 194, 0.5);
+        background-size: 120%;
+        box-shadow: #d0e9c6;
+        color: black !important;
+    }
+    .third-button{
+        background-color: #ffe900;
+        background-repeat: no-repeat;
+        background-size: 40%;
+        background-position: center;
+        transition: 0.5s background-size;
+        -webkit-transition : 0.5s background-size;
+        display: table;
+        text-align: center;
+        background-image: url(/img/meter.png);
+    }
+    .third-button:hover{
+        background-color: rgba(255, 233, 0, 0.55);
+        background-size: 120%;
+        box-shadow: #d0e9c6;
+        color: black !important;
+    }
+    .menu-text{
+        opacity: 0.6;
+        transition: 0.3s all;
+        font-family: Raleway;
+        font-weight: 700;
+        color: transparent;
+        letter-spacing: 2px;
+        font-size: 3rem;
+        display: table-cell;
+        vertical-align: middle;
+        text-shadow: 0px 0px 2px rgba(0, 0, 0, 0);
+    }
+    .menu-text:hover span{
+        border-top: 2px solid rgba(44, 43, 44, 0.62);
+        border-bottom: 2px solid rgba(44, 43, 44, 0.62);
+        font-weight: 900;
+        text-shadow: 0px 0px 6px rgba(255,255,255,0.9);
+    }
+    .menu-text:hover{
+        opacity: 1.0;
+        letter-spacing: 3px;
+        color: #2a2a2a;
+    }
+}
+
+/* Larger than Desktop HD */
+@media (min-width: 1200px) {}
