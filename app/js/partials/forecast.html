@@ -5,14 +5,18 @@
         width: 30px;
         height: 30px;
     }
+    .extra-padding{
+        padding: 10px;
+    }
 </style>
 <h4 class="page-name">{{title}}</h4>
 
     <div class="row">
         <div class="twelve columns box">
             <div class="box-title">SETTINGS</div>
-            <div class="content">
-                <select ng-model="forecastOption"
+            <div class="content" style="text-align: center;">
+                <select class="forecast-select"
+                        ng-model="forecastOption"
                         ng-options="option.name for option in forecastOptions"
                         ng-change="chartUpdate()">
                 </select>

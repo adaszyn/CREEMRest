@@ -212,13 +212,13 @@
                     </div>
                     <div class="usage-ratio-text">
                         <p style="margin-bottom: 2px">
-                            <span class="usage-ratio-value">{{deviceUsage.measured | number: 2}}</span>
-                            <span class="usage-ratio-key">usage</span>
+                            <span class="usage-ratio-value">{{weather.main.temp}}</span>
+                            <span class="usage-ratio-key">temperature</span>
                         </p>
 
                         <p>
-                            <span class="usage-ratio-value">{{deviceUsage.predicted | number: 2}}</span>
-                            <span class="usage-ratio-key">prediction</span>
+                            <span class="usage-ratio-value">{{weather.wind.speed}}{{weather.wind.dir}}</span>
+                            <span class="usage-ratio-key">wind</span>
                         </p>
                     </div>
                 </div>

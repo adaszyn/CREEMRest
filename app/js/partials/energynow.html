@@ -10,15 +10,15 @@
     <div class="content">
         <form ng-submit="submit()" style="margin-bottom: 0px;">
             <div class="row form-padding">
-                <div class="four columns ">
+                <div class="three columns ">
                     <label for="input_id">id</label>
                     <input id="input_id" type="text" ng-model="deviceId" placeholder="id of the device">
                 </div>
-                <div class="four columns">
+                <div class="three columns">
                     <label for="input_time">Time:</label>
                     <select id="input_time" ng-model="dateOption" ng-options="x.name for x in dateOptions" ng-change="dateUpdate()"></select>
                 </div>
-                <div class="four columns">
+                <div class="three columns">
                     <label for="input_energy">Energy Type:</label>
                     <select id="input_energy" ng-model="selectedDataset" ng-options="x for x in datasets"></select>
                 </div>

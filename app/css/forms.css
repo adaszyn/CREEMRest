@@ -16,3 +16,12 @@ input.device-input:focus{
 button.device-submit{
 
 }
+select.forecast-select{
+    border: none;
+    transition: border 0.3s ease-out;
+    border-radius: 0;
+    border-bottom: 1px solid #a1a1a1;
+}
+select.forecast-select:hover{
+    border-bottom: 1px solid #4c4c4c;
+}
