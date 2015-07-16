@@ -53,7 +53,7 @@ app.service("RESTEnergyService", ['$http', function($http) {
         var values = [];
         for (var i = 0; i < data.length; i++){
             if(data[i].hasOwnProperty('timestamp')) {
-                timestamps.push(timeStampToDate(data[i]['timestamp']).toLocaleDateString());
+                timestamps.push(angular.injector(["ng"]).get("dateFilter")(data[i]['timestamp'], "yyyy-MM-dd HH-mm"));
             }
             if(data[i].hasOwnProperty('value')) {
                 values.push(data[i]['value']);

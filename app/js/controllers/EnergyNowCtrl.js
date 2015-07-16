@@ -66,6 +66,13 @@ app.controller("EnergyNowCtrl", ['$scope', '$http', 'RESTEnergyService', 'ChartF
     };
 
     $scope.updateCharts = function updateCharts(data){
+        var chartData = RESTEnergyService.getChartData(data);
+        $scope.chartData.labels = chartData.labels;
+        $scope.chartData.datasets[0].data = chartData.values;
+        console.log(chartData.values);
+    };
+
+    /*$scope.updateCharts = function updateCharts(data){
         console.log(data);
         var chartData = RESTEnergyService.getChartData(data);
         console.log(data);
@@ -85,10 +92,10 @@ app.controller("EnergyNowCtrl", ['$scope', '$http', 'RESTEnergyService', 'ChartF
         for(var j = 0; j < len; j++){
             if(!data[j].prediction){
                 measuredData.push(data[j].value);
-                predictedData.push(NaN);
+                predictedData.push(null);
             }
             else{
-                measuredData.push(NaN);
+                measuredData.push(null);
                 predictedData.push(data[j].value);
             }
         }
@@ -117,6 +124,7 @@ app.controller("EnergyNowCtrl", ['$scope', '$http', 'RESTEnergyService', 'ChartF
         console.log('meas',measuredData);
 
     };
+    */
 
     $scope.getDatasets = function(){
         $http.get(RESTEnergyService.REST_URL + "datasets")
