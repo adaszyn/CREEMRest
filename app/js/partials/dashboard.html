@@ -1,0 +1,230 @@
+<style>
+
+    .wraper {
+        /*margin: auto !important;*/
+        margin-right: 0 !important;
+    }
+
+    .content {
+
+    }
+
+    .page-name {
+        text-align: center;
+        border-top: 2px solid grey border-bottom : 2 px solid grey;
+        background-color: deepskyblue;
+        color: white;
+    }
+
+    .forecast-box {
+        text-align: center;
+        font-family: LatoMedium;
+    }
+
+    .forecast-image {
+        background-repeat: no-repeat;
+        -webkit-background-size: cover;
+        background-size: contain;
+        background-position: 0;
+        width: 80px;
+        height: 80px;
+        margin: 5px;
+    }
+
+    .small-margin {
+        margin: 5px;
+    }
+
+    .updates-row {
+        border-top: 1px solid darkgrey;
+        background-color: transparent;
+        transition: background-color 0.2s ease-out;
+        box-shadow: 0px 0px 2px 0px rgba(50, 50, 50, 0.75);
+        text-align: center;
+        font-family: LatoLight;
+        font-size: 1.4rem;
+    }
+
+    .updates-row:hover {
+        background-color: #dfdfdf;
+        border-top: 1px solid darkgrey;
+    }
+
+    .cell {
+        /*background-color: rgba(0, 0, 0, 0.1);*/
+    }
+
+    .device-usage-entry {
+        font-family: LatoLight;
+        font-size: 1.6rem;
+        margin: 5px;
+    }
+
+    .device-usage-title {
+        font-size: 3rem;
+        margin: 5px;
+
+    }
+
+    .device-usage-row {
+        text-align: center;
+    }
+
+    .measure-icon {
+        color: green;
+        background-image: url(img/icons/measure.png);
+        background-repeat: no-repeat;
+        background-position: left;
+        background-size: contain;
+        height: 5rem;
+        width: 5rem;
+    }
+
+    .prediction-icon {
+        color: green;
+        background-image: url(img/icons/prediction.png);
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: contain;
+        height: 5rem;
+    }
+
+    .predicted {
+        color: blue;
+    }
+
+    .progress-circle {
+        margin: 5px calc(50% - 60px) 5px;
+    }
+
+    .usage-ratio-container {
+        display: flex;
+    }
+
+    .usage-ratio-chart {
+        width: 120px;
+        margin-left: 10px;
+    }
+
+    .usage-ratio-key {
+        color: grey;
+    }
+
+    .usage-ratio-value {
+        font-size: 2.5rem;
+    }
+
+    .usage-ratio-text {
+        flex-grow: 1;
+        text-align: left;
+    }
+
+</style>
+<h4 class="page-name">{{title}}</h4>
+
+<div class="row">
+
+    <div class="seven columns box">
+        <div class="box-title">UPDATES</div>
+        <div class="content">
+            <form ng-submit="refreshDevice()">
+                <input class="device-input" type="text" style="width: 60%" ng-model="deviceId" placeholder="id of the device">
+                <button style="width: 30%" class="device-submit">OK</button>
+            </form>
+            <div ng-show="latestData.isLoaded">
+                <div class="row small-margin updates-row" ng-repeat="entry in latestData.data">
+                    <div class="four columns">{{entry.type | EnergyTypeFilter}}</div>
+                    <div class="four columns cell">{{entry.value}}</div>
+                    <div class="four columns">{{entry.timestamp | date:'yyyy-MM-dd HH:mm:ss'}}</div>
+                </div>
+            </div>
+            <div ng-hide="latestData.isLoaded">
+                Something went wrong
+            </div>
+        </div>
+    </div>
+    <div class="five columns wraper">
+        <div class="box">
+            <div class="box-title">DEVICE USAGE</div>
+            <div class="content" ng-show="deviceUsage.isLoaded">
+                <div class="device-usage-title">{{deviceId}}</div>
+                <div class="device-usage-entry">{{deviceUsage.lastUpdate | date:'yyyy-MM-dd HH:mm'}}</div>
+                <div class="usage-ratio-container">
+                    <div class="usage-ratio-chart">
+                        <div class="c100 p{{deviceUsageRatio}} small progress-circle">
+                            <span>{{deviceUsageRatio}}%</span>
+
+                            <div class="slice">
+                                <div class="bar"></div>
+                                <div class="fill"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="usage-ratio-text">
+                        <p style="margin-bottom: 2px">
+                            <span class="usage-ratio-value">{{deviceUsage.measured | number: 2}}</span>
+                            <span class="usage-ratio-key">usage</span>
+                        </p>
+
+                        <p>
+                            <span class="usage-ratio-value">{{deviceUsage.predicted | number: 2}}</span>
+                            <span class="usage-ratio-key">prediction</span>
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+            <div class="content" ng-hide="deviceUsage.isLoaded">
+                Something went wrong :(
+            </div>
+        </div>
+        <div class="box">
+            <div class="box-title">DAILY USAGE</div>
+            <div class="content">
+                <div class="device-usage-title">{{dailyUsage.day | date:'yyyy-MM-dd'}}</div>
+                <div class="usage-ratio-container">
+                    <div class="usage-ratio-text">
+                    <p style="margin-bottom: 2px">
+                        <span class="usage-ratio-value">{{dailyUsage.consumed | number: 2}}</span>
+                        <span class="usage-ratio-key">consumed</span>
+                    </p>
+                    <p style="margin-bottom: 2px">
+                        <span class="usage-ratio-value">{{dailyUsage.produced | number: 2}}</span>
+                        <span class="usage-ratio-key">produced</span>
+                    </p>
+                    <p style="margin-bottom: 2px">
+                        <span class="usage-ratio-value">{{dailyUsage.power | number: 2}}</span>
+                        <span class="usage-ratio-key">power</span>
+                    </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="box">
+            <div class="box-title">TEMPERATURE</div>
+            <div class="content">
+                <div class="device-usage-title">{{weather.name}}</div>
+                <div class="usage-ratio-container">
+                    <div class="usage-ratio-chart">
+                        <div class="forecast-image"
+                             ng-style="{'background-image': 'url(img/icons/'+weather.weather[0].icon+ '.png)'}">
+                        </div>
+                    </div>
+                    <div class="usage-ratio-text">
+                        <p style="margin-bottom: 2px">
+                            <span class="usage-ratio-value">{{weather.main.temp}}</span>
+                            <span class="usage-ratio-key">temperature</span>
+                        </p>
+
+                        <p>
+                            <span class="usage-ratio-value">{{weather.wind.speed}}{{weather.wind.dir}}</span>
+                            <span class="usage-ratio-key">wind</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+

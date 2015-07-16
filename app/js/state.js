@@ -1,12 +1,13 @@
 app.config(function($stateProvider, $urlRouterProvider) {
     $urlRouterProvider.otherwise("/home");
-    //$urlRouterProvider.when('/predictions/', '/predictions/weather');
+    $urlRouterProvider.when('/home', '/dashboard');
     $stateProvider
         .state('root',{
             url: '/',
             views: {
                 'header': {
-                    templateUrl: 'js/partials/header.html'
+                    templateUrl: 'js/partials/header.html',
+                    controller: 'HeaderCtrl'
                 },
                 'content': {
                 }
@@ -16,16 +17,17 @@ app.config(function($stateProvider, $urlRouterProvider) {
             url: "home",
             views: {
                 'content@': {
-                    templateUrl: 'js/partials/home.html'
+                    templateUrl: 'js/partials/home.html',
+                    controller: 'HomepageCtrl'
                 }
             }
         })
-        .state('root.energymeter', {
-            url: "energymeter",
+        .state('root.dashboard', {
+            url: "dashboard",
             views: {
                 'content@': {
-                    templateUrl: "js/partials/energymeter.html",
-                    controller: "EnergyMeterCtrl"
+                    templateUrl: "js/partials/dashboard.html",
+                    controller: "DashboardCtrl"
                 }
             }
 
@@ -72,6 +74,15 @@ app.config(function($stateProvider, $urlRouterProvider) {
                 'content@': {
                     templateUrl: "js/partials/forecast.html",
                     controller: "ForecastCtrl"
+                }
+            }
+        })
+        .state('root.energynow', {
+            url: "energynow",
+            views: {
+                'content@': {
+                    templateUrl: "js/partials/energynow.html",
+                    controller: "EnergyNowCtrl"
                 }
             }
         });
