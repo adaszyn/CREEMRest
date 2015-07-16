@@ -77,11 +77,11 @@ app.config(function($stateProvider, $urlRouterProvider) {
                 }
             }
         })
-        .state('root.energyNow', {
-            url: "energyNow",
+        .state('root.energynow', {
+            url: "energynow",
             views: {
                 'content@': {
-                    templateUrl: "js/partials/0.html",
+                    templateUrl: "js/partials/energynow.html",
                     controller: "EnergyNowCtrl"
                 }
             }
