@@ -39,13 +39,13 @@ app.controller("EnergyNowCtrl", ['$scope', '$http', 'RESTEnergyService', 'ChartF
         else {
             $scope.dateTo = $scope.getDate($scope.dateOption.dateTo);
         }
-    }
+    };
 
     $scope.getDate = function(days) {
         var date = new Date();
         date.setDate(date.getDate() + days);
         return date;
-    }
+    };
 
     $scope.submit = function(){
         console.log($scope.dateOption);
@@ -66,10 +66,56 @@ app.controller("EnergyNowCtrl", ['$scope', '$http', 'RESTEnergyService', 'ChartF
     };
 
     $scope.updateCharts = function updateCharts(data){
+        console.log(data);
         var chartData = RESTEnergyService.getChartData(data);
+        console.log(data);
         $scope.chartData.labels = chartData.labels;
         $scope.chartData.datasets[0].data = chartData.values;
-        console.log(chartData.values);
+        var len = data.length;
+        var nulls = [];
+        var measured = data.filter(function (obj) {
+            return !obj.prediction;
+        });
+        var predicted = data.filter(function (obj) {
+            return obj.prediction;
+        });
+        var measuredLength = measured.length;
+        var predictedData = [];
+        var measuredData = [];
+        for(var j = 0; j < len; j++){
+            if(!data[j].prediction){
+                measuredData.push(data[j].value);
+                predictedData.push(NaN);
+            }
+            else{
+                measuredData.push(NaN);
+                predictedData.push(data[j].value);
+            }
+        }
+        $scope.chartData.datasets = [];
+        $scope.chartData.datasets.push({
+            label: 'measured',
+            fillColor: "rgba(0, 191, 255, 0.31)",
+            strokeColor: "rgb(0, 191, 255)",
+            pointColor: "rgb(0, 76, 102)",
+            pointStrokeColor: "#fff",
+            pointHighlightFill: "#fff",
+            pointHighlightStroke: "rgba(151,187,205,1)",
+            data: measuredData
+        });
+        $scope.chartData.datasets.push({
+            label: 'measured',
+            fillColor: "rgba(0, 191, 255, 0.9)",
+            strokeColor: "rgb(0, 191, 255)",
+            pointColor: "rgb(0, 76, 102)",
+            pointStrokeColor: "#fff",
+            pointHighlightFill: "#fff",
+            pointHighlightStroke: "rgba(151,187,205,1)",
+            data: predictedData
+        })
+        console.log('pred',predictedData);
+        console.log('meas',measuredData);
+
     };
 
     $scope.getDatasets = function(){

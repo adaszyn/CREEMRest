@@ -17,7 +17,7 @@ app.service("RESTEnergyService", ['$http', function($http) {
     };
     this.getDaily = function () {
         return $http.get(this.REST_URL + "/energy/latest/" + reformatDate(new Date));
-    }
+    };
     this.createUrl = function(args) {
         /**
          *
@@ -34,11 +34,11 @@ app.service("RESTEnergyService", ['$http', function($http) {
         }
 
         if (args.dateFrom) {
-            dateFromString = "/" + this.reformatDate(args.dateFrom);
+            dateFromString = "/" + reformatDate(args.dateFrom);
         }
 
         if (args.dateTo) {
-            dateToString = "/" + this.reformatDate(args.dateTo);
+            dateToString = "/" + reformatDate(args.dateTo);
         }
 
         if (args.deviceID) {
