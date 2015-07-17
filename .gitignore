@@ -3,3 +3,4 @@ gs-rest-service.iml
 .idea/
 app/bower_components/
 app/node_modules/
+app/dist/
