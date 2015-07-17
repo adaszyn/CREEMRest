@@ -6,6 +6,7 @@ var jshint = require('gulp-jshint');
 var concat = require('gulp-concat');
 var uglify = require('gulp-uglify');
 var rename = require('gulp-rename');
+var webserver = require('gulp-webserver');
 
 // Lint Task
 gulp.task('lint', function() {
@@ -62,6 +63,14 @@ gulp.task('watch', function () {
     gulp.watch('css/**/*.css', ['stylesheets']);
     gulp.watch('js/**/*.js', ['scripts']);
 });
+gulp.task('webserver', function() {
+    gulp.src('.')
+        .pipe(webserver({
+            livereload: true,
+            directoryListing: true,
+            open: true
+        }));
+});
 
 // Default Task
-gulp.task('default', ['lint', 'scripts', 'vendor', 'stylesheets', 'watch']);
+gulp.task('default', ['lint', 'scripts', 'vendor', 'stylesheets', 'watch', 'webserver']);
