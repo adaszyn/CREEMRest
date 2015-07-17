@@ -195,4 +195,67 @@ public class JdbcEnergyMeterDAO implements EnergyMeterDAO {
             return energyResults;
         }
     }
+
+    @Override
+    public ArrayList<EnergyAbstract> getEnergyPower(Integer step, String id, String dateFrom, String dateTo) {
+        String sql = "select * from t_data_total_active_energy_power where DEVICE_ID = ? and (DATE(MEASURE_TIMESTAMP) >= ? and DATE(MEASURE_TIMESTAMP) <= ?) order by MEASURE_TIMESTAMP";
+        Connection connection = null;
+        ArrayList<EnergyAbstract> energyResults;
+        ArrayList<ArrayList<Double>> days = new ArrayList<>();
+
+        ArrayList<EnergyAbstract> energyPeriod = new ArrayList<>();
+        java.sql.Date sqlDateFrom;
+        java.sql.Date sqlDateTo;
+
+        try {
+            //roznica danego okresu w dniach
+            long dayDiff = dateTo.getTime() - dateFrom.getTime();
+            dayDiff = TimeUnit.DAYS.convert(dayDiff, TimeUnit.MILLISECONDS) + 1;
+            for (int i=0; i<dayDiff; i++) {
+                days.add(new ArrayList<>());
+            }
+
+            connection = dataSource.getConnection();
+            PreparedStatement ps = connection.prepareStatement(sql);
+            sqlDateFrom = new java.sql.Date(dateFrom.getTime());
+            sqlDateTo = new java.sql.Date(dateTo.getTime());
+            ps.setString(1, id);
+            ps.setDate(2, sqlDateFrom);
+            ps.setDate(3, sqlDateTo);
+
+            energyResults = EnergyDAOHelper.getData(ps, type);
+
+            if (energyResults.size()>1) {
+                //calculate time and value differences per hour
+                long oneHour = 60 * 60 * 1000;
+                long oneDay = oneHour * 24;
+                double valuePerDay = EnergyDAOHelper.getValuePerTime(energyResults, oneDay);
+
+                //sort values throught the period by days (adding value to correct ArrayList
+                //in ArrayList of ArrayLists - every ArrayList has value from one period of time - one day)
+                for (EnergyAbstract en:energyResults) {
+                    long tmpDate = en.getTimestamp().getTime() - dateFrom.getTime();
+                    tmpDate = TimeUnit.DAYS.convert(tmpDate, TimeUnit.MILLISECONDS);
+                    days.get((int)tmpDate).add(en.getValue());
+                }
+
+                //whichever time of the day, here - 12 A.M.
+                //Delta is always valuePerDay even if there are already deltas from database
+                Timestamp timeThen = new Timestamp(sqlDateFrom.getTime() + (12 * oneHour));
+                EnergyDAOHelper.getFinalResults(timeThen, type, days, id, energyPeriod, valuePerDay, oneDay, dayDiff);
+            }
+        }
+        catch (SQLException e) {
+            throw new SQLException(e);
+        }
+        finally {
+            if (connection != null) {
+                try {
+                    connection.close();
+                }
+                catch (SQLException e) {}
+            }
+        }
+        return energyPeriod;
+    }
 }
