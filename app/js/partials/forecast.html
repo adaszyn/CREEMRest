@@ -9,6 +9,7 @@
         padding: 10px;
     }
 </style>
+
 <h4 class="page-name">{{title}}</h4>
 
     <div class="row">
@@ -33,7 +34,8 @@
         <div class="twelve columns box">
             <div class="box-title">TEMPERATURE</div>
             <div class="content">
-                <canvas tc-chartjs chart-type="line" height="100px" chart-data="chartData" chart-options="chartOptions"></canvas>
+                <input ng-model="chartTitle.text">
+                <canvasjs-plot conf="config"></canvasjs-plot>
             </div>
         </div>
     </div>
