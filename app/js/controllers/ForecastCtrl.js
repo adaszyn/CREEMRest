@@ -50,6 +50,9 @@ app.controller("ForecastCtrl", ['$scope', '$http','WeatherService', 'ChartFactor
         axisY2:{
             suffix: "hPa",
             includeZero: false
+        },
+        axisX:{
+            valueFormatString: "MMM DD"
         }
     };
 
@@ -67,7 +70,6 @@ app.controller("ForecastCtrl", ['$scope', '$http','WeatherService', 'ChartFactor
                 y: data.list[i].pressure
             });
         }
-        console.log($scope.config.data);
     };
 
     $scope.getForecast = function(){
