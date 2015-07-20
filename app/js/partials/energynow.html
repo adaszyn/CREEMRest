@@ -10,30 +10,25 @@
     <div class="content">
         <form ng-submit="submit()" style="margin-bottom: 0px;">
             <div class="row form-padding">
-                <div class="three columns ">
-                    <label for="input_id">id</label>
-                    <input id="input_id" type="text" ng-model="deviceId" placeholder="id of the device">
-                </div>
-                <div class="three columns">
-                    <label for="input_time">Time:</label>
-                    <select id="input_time" ng-model="dateOption" ng-options="x.name for x in dateOptions" ng-change="dateUpdate()"></select>
-                </div>
-                <div class="three columns">
-                    <label for="input_energy">Energy Type:</label>
-                    <select id="input_energy" ng-model="selectedDataset" ng-options="x for x in datasets"></select>
-                </div>
-            </div>
-            <div class="row form-padding">
                 <div class="two columns">
-                    <button class="device-submit">OK</button>
+                    <label for="input_time">Time:</label>
+                    <select id="input_time" ng-model="dateOption" ng-options="x.name for x in dateOptions"></select>
                 </div>
-                <div class="five columns"ng-show="dateOption.name === 'Custom data'" class="five columns">
-                    <span>From data:</span>
+                <div class="three columns" ng-show="dateOption.name === 'Custom data'" class="five columns">
+                    <label>From:</label>
                     <input class="device-input" type="date" ng-model="dateFrom" placeholder="yyyy-MM-dd">
                 </div>
-                <div class="five columns" ng-show="dateOption.name === 'Custom data'" class="five columns">
-                    <span>To data:</span>
+                <div class="three columns" ng-show="dateOption.name === 'Custom data'" class="five columns">
+                    <label for="input_time">To:</label>
                     <input class="device-input" type="date" ng-model="dateTo" placeholder="yyyy-MM-dd">
+                </div>
+                <div class="two columns">
+                    <label>step</label>
+                    <select ng-model="stepOption" ng-options="x.name for x in stepOptions"></select>
+                </div>
+                <div class="two columns">
+                    <label>sss</label>
+                    <button style="width: 100%" class="device-submit">OK</button>
                 </div>
             </div>
         </form>
@@ -42,46 +37,6 @@
 <div class="box">
     <div class="box-title">CHART</div>
     <div class="content">
-        <canvas tc-chartjs
-                chart-type="line"
-                chart-data="chartData"
-                chart-options="chartOptions"></canvas>
+        <canvasjs-plot conf="config"></canvasjs-plot>
     </div>
 </div>
-
-
-<!--<form ng-submit="submit()">-->
-    <!--<div class="row">-->
-        <!--<div class="four columns">-->
-            <!--<span>ID:</span>-->
-            <!--<input class="device-input" type="text" ng-model="deviceId" placeholder="id of the device">-->
-        <!--</div>-->
-        <!--<div class="three columns">-->
-            <!--<span>Time:</span>-->
-            <!--<select ng-model="dateOption" ng-options="x.name for x in dateOptions" ng-change="dateUpdate()"></select>-->
-        <!--</div>-->
-        <!--<div class="five columns">-->
-            <!--<span>Energy Type:</span>-->
-            <!--<select ng-model="selectedDataset" ng-options="x for x in datasets"></select>-->
-        <!--</div>-->
-    <!--</div>-->
-    <!--<div class="row">-->
-        <!--<div ng-show="dateOption.name === 'Custom data'" class="five columns">-->
-            <!--<span>From data:</span>-->
-            <!--<input class="device-input" type="date" ng-model="dateFrom" placeholder="yyyy-MM-dd">-->
-        <!--</div>-->
-        <!--<div ng-show="dateOption.name === 'Custom data'" class="five columns">-->
-            <!--<span>To data:</span>-->
-            <!--<input class="device-input" type="date" ng-model="dateTo" placeholder="yyyy-MM-dd">-->
-        <!--</div>-->
-        <!--<div class="two columns">-->
-            <!--<button class="device-submit">OK</button>-->
-        <!--</div>-->
-    <!--</div>-->
-<!--</form>-->
-<!--<div class="container">-->
-    <!--<canvas tc-chartjs-->
-            <!--chart-type="line"-->
-            <!--chart-data="chartData"-->
-            <!--chart-options="chartOptions"></canvas>-->
-<!--</div>-->

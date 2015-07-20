@@ -10,7 +10,7 @@ app.service("RESTEnergyService", ['$http', function($http) {
         var currDate = new Date();
         return $http.get(this.REST_URL + "energy/stat/total_active_consumed/" + id + "/" + reformatDate(currDate));
     };
-    var reformatDate = function(date){
+    var reformatDate = function reformatDate(date) {
         return date.getFullYear() + "-"
             + (Number(date.getMonth())+1) + "-"
             + date.getDate().toString();
@@ -63,6 +63,14 @@ app.service("RESTEnergyService", ['$http', function($http) {
             labels: timestamps,
             values: values
         }
+    };
+
+    this.getEnergyPowerData = function (args) {
+        var step = (args.step ? "/" + args.step : "")
+            ,deviceId = (args.deviceId ? "/" + args.device : "")
+            ,dateTo = (args.dateTo ? "/" + reformatDate(args.dateTo) : "")
+            ,dateFrom = (args.dateFrom ? reformatDate(args.dateFrom) : "");
+        return deviceId + step + dateFrom + dateTo;
     };
 
     var timeStampToDate = function (timestamp) {
