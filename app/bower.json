@@ -19,9 +19,6 @@
     "angular-ui-router": "~0.2.15",
     "tc-angular-chartjs": "~1.0.11",
     "ng-autocomplete": "*",
-    "bootstrap": "~3.3.5",
-    "amcharts-angular": "*",
-    "n3-line-chart": "~1.1.10",
-    "canvasjsDirective": "wojciechAdaszynski/canvasjsDirective"
+    "bootstrap": "~3.3.5"
   }
 }

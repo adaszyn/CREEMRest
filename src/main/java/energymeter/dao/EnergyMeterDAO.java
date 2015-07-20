@@ -15,4 +15,5 @@ public interface EnergyMeterDAO {
     public ArrayList<EnergyAbstract> getEnergyPeriod(EnergyTypesEnum typeEnum, String deviceID, Date dateFrom, Date dateTo) throws Exception;
     public ArrayList<EnergyAbstract> getLatest(String deviceID) throws Exception;
     public ArrayList<EnergyAbstract> getLatestDate(Date date) throws Exception;
+    public ArrayList<EnergyAbstract> getEnergyPower(Long step, String id, Date dateFrom, Date dateTo) throws Exception;
 }
