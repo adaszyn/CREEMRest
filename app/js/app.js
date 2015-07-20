@@ -1,1 +1,1 @@
-var app = angular.module("app", ['ui.router', 'amChartsDirective']);
+var app = angular.module("app", ['ui.router', 'canvasjsDirective']);
