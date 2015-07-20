@@ -9,8 +9,20 @@
                     ng-options="option.name for option in timeOptions"
                     ng-change="getForecast()">
             </select>
-
         </div>
+        <form ng-submit="submit()" style="margin-bottom: 0px;">
+            <div class="four columns" ng-model="dateFrom" ng-show="timeOption.name === 'custom data'">
+                <span>From:</span>
+                <input class="device-input" type="date" ng-model="dateFrom" placeholder="yyyy-MM-dd">
+            </div>
+            <div class="four columns" ng-model="dateTo" ng-show="timeOption.name === 'custom data'">
+                <span>To:</span>
+                <input class="device-input" type="date" ng-model="dateTo" placeholder="yyyy-MM-dd">
+            </div>
+            <div class="two columns" ng-show="timeOption.name === 'custom data'">
+                <button class="device-submit">OK</button>
+            </div>
+        </form>
     </div>
 </div>
 <div class="row">

@@ -18,4 +18,8 @@ app.service("WeatherService", ['$http', function($http){
     this.getLongForecast = function (days) {
         return $http.get('http://api.openweathermap.org/data/2.5/forecast/daily?q=Genoa&mode=json&units=metric&cnt=' + days);
     };
+
+    this.getHistoryData = function(dateFrom, dateTo) {
+        return $http.get('http://api.openweathermap.org/data/2.5/history/city?start=' + new Date(dateFrom).getTime()/1000 + '&end=' + new Date(dateTo).getTime()/1000 + '&q=Genoa,IT');
+    };
 }]);
