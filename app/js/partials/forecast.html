@@ -5,16 +5,11 @@
         <div class="box-title">SETTINGS</div>
         <div class="content" style="text-align: center;">
             <select class="forecast-select"
-                    ng-model="forecastOption"
-                    ng-options="option.name for option in forecastOptions"
-                    ng-change="chartUpdate()">
+                    ng-model="timeOption"
+                    ng-options="option.name for option in timeOptions"
+                    ng-change="getForecast()">
             </select>
-            <span>Number of days:</span>
-            <input ng-model="days"
-                   class="days-input"
-                   ng-change="getForecast()"
-                   type="number"
-                   min="2" max="16">
+
         </div>
     </div>
 </div>
