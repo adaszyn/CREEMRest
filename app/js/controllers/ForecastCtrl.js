@@ -1,12 +1,12 @@
 app.controller("ForecastCtrl", ['$scope', '$http','WeatherService', 'ChartFactory', function ($scope, $http, WeatherService, ChartFactory) {
     $scope.title = "Forecast";
-    $scope.days = 2;
-    $scope.forecastOptions = [
-        {name: "temperature", value:"1"},
-        {name: "humidity", value:"1"},
-        {name: "pressure", value:"1"}
+    $scope.timeOptions = [
+        {name: "today", value:1},
+        {name: "tomorrow", value:2},
+        {name: "next week", value:7},
+        {name: "next two weeks", value:14}
     ];
-    $scope.forecastOption = $scope.forecastOptions[0];
+    $scope.timeOption = $scope.timeOptions[0];
     $scope.pressureChart = ChartFactory.getChartConfiguration({
         domain: [],
         label: 'Pressure',
@@ -26,19 +26,31 @@ app.controller("ForecastCtrl", ['$scope', '$http','WeatherService', 'ChartFactor
     };
     $scope.config = {
         title: {
-            text: "Fruits sold in First Quarter"
+            text: "Forecast"
         },
         data: [
             {
+                name: "temperature",
+                showInLegend: true,
                 type: "line",
-                dataPoints: []
+                dataPoints: [],
             },
             {
+                name: "pressure",
+                showInLegend: true,
                 type: "line",
                 axisYType: "secondary",
-                dataPoints: []
+                dataPoints: [],
             }
-        ]
+        ],
+        axisY:{
+            suffix: "C",
+            includeZero: false
+        },
+        axisY2:{
+            suffix: "hPa",
+            includeZero: false
+        }
     };
 
     $scope.updateForecast = function(data){
@@ -59,7 +71,7 @@ app.controller("ForecastCtrl", ['$scope', '$http','WeatherService', 'ChartFactor
     };
 
     $scope.getForecast = function(){
-        WeatherService.getLongForecast($scope.days)
+        WeatherService.getLongForecast($scope.timeOption.value)
             .then(function (data) {
                 $scope.updateForecast(data.data);
             });
