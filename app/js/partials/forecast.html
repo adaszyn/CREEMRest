@@ -1,40 +1,29 @@
-<style>
-    .up-arrow{
-        display: inline-block;
-        background-image: url(img/icons/up_arrow.png);
-        width: 30px;
-        height: 30px;
-    }
-    .extra-padding{
-        padding: 10px;
-    }
-</style>
 <h4 class="page-name">{{title}}</h4>
 
-    <div class="row">
-        <div class="twelve columns box">
-            <div class="box-title">SETTINGS</div>
-            <div class="content" style="text-align: center;">
-                <select class="forecast-select"
-                        ng-model="forecastOption"
-                        ng-options="option.name for option in forecastOptions"
-                        ng-change="chartUpdate()">
-                </select>
-                <span>Number of days:</span>
-                    <input ng-model="days"
-                           class="days-input"
-                           ng-change="getForecast()"
-                           type="number"
-                           min="2" max="16">
-            </div>
+<div class="row">
+    <div class="twelve columns box">
+        <div class="box-title">SETTINGS</div>
+        <div class="content" style="text-align: center;">
+            <select class="forecast-select"
+                    ng-model="forecastOption"
+                    ng-options="option.name for option in forecastOptions"
+                    ng-change="chartUpdate()">
+            </select>
+            <span>Number of days:</span>
+            <input ng-model="days"
+                   class="days-input"
+                   ng-change="getForecast()"
+                   type="number"
+                   min="2" max="16">
         </div>
     </div>
-    <div class="row">
-        <div class="twelve columns box">
-            <div class="box-title">TEMPERATURE</div>
-            <div class="content">
-                <canvas tc-chartjs chart-type="line" height="100px" chart-data="chartData" chart-options="chartOptions"></canvas>
-            </div>
+</div>
+<div class="row">
+    <div class="twelve columns box">
+        <div class="box-title">TEMPERATURE</div>
+        <div class="content">
+            <canvasjs-plot conf="config"></canvasjs-plot>
         </div>
     </div>
+</div>
 

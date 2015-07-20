@@ -21,7 +21,11 @@ gulp.task('vendor', function(){
         "bower_components/angularjs/angular.js",
         "bower_components/angular-ui-router/release/angular-ui-router.js",
         "bower_components/Chart.js/Chart.js",
-        "bower_components/tc-angular-chartjs/dist/tc-angular-chartjs.min.js"
+        "bower_components/amcharts/dist/amcharts/amcharts.js",
+        "bower_components/amcharts/dist/amcharts/serial.js",
+        "bower_components/amcharts/dist/amcharts/plugins/responsive/responsive.js",
+        "bower_components/amcharts-angular/dist/amChartsDirective.js",
+        "js/canvasjs.min.js"
         ])
         .pipe(concat('vendor.js'))
         .pipe(gulp.dest('dist'))
@@ -46,6 +50,7 @@ gulp.task('scripts', function() {
         "js/services/ChartFactory.js",
         "js/services/RESTEnergyService.js",
         "js/filters/EnergyTypeFilter.js",
+        "js/directives/CanvasjsDirective.js",
         "js/ScrollMenu.js"])
         .pipe(concat('application.js'))
         .pipe(gulp.dest('dist'))
@@ -73,4 +78,4 @@ gulp.task('webserver', function() {
 });
 
 // Default Task
-gulp.task('default', ['lint', 'scripts', 'vendor', 'stylesheets', 'watch', 'webserver']);
+gulp.task('default', ['lint', 'scripts', 'vendor', 'stylesheets', 'watch']);
