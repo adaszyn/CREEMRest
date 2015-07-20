@@ -1,10 +1,11 @@
-app.controller("DashboardCtrl", ['$scope', '$http', 'RESTEnergyService', 'WeatherService', function($scope, $http, RESTEnergyService, WeatherService) {
+app.controller("DashboardCtrl", ['$scope', '$http', 'RESTEnergyService', 'WeatherService', '$rootScope', function($scope, $http, RESTEnergyService, WeatherService, $rootScope) {
     $scope.title = "Your Dashboard";
     $scope.weather = {
     };
     $scope.dailyUsage = {};
     $scope.deviceId = "1913061376";
     $scope.deviceUsageRatio = 0;
+    $rootScope.isLoggedIn = true;
     $scope.latestData = {
         isLoaded: false
     };

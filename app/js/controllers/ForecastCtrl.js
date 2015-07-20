@@ -1,6 +1,7 @@
-app.controller("ForecastCtrl", ['$scope', '$http','WeatherService', 'ChartFactory', function ($scope, $http, WeatherService, ChartFactory) {
+app.controller("ForecastCtrl", ['$scope', '$http','WeatherService', 'ChartFactory', '$rootScope', function ($scope, $http, WeatherService, ChartFactory, $rootScope) {
     $scope.title = "Forecast";
     $scope.days = 2;
+    $rootScope.isLoggedIn = true;
     $scope.forecastOptions = [
         {name: "temperature", value:"1"},
         {name: "humidity", value:"1"},

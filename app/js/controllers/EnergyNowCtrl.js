@@ -1,11 +1,12 @@
 /**
  * Created by wojtek on 7/14/15.
  */
-app.controller("EnergyNowCtrl", ['$scope', '$http', 'RESTEnergyService', 'ChartFactory', function($scope, $http, RESTEnergyService, ChartFactory){
+app.controller("EnergyNowCtrl", ['$scope', '$http', 'RESTEnergyService', 'ChartFactory', '$rootScope', function($scope, $http, RESTEnergyService, ChartFactory, $rootScope){
     $scope.title = "Energy statistics";
     $scope.datasets = [];
     $scope.dataLimit = 10;
     $scope.deviceId = "1913061376";
+    $rootScope.isLoggedIn = true;
     $scope.dateOptions = [
         {name:'Yesterday', dateFrom:-1, dateTo:""},
         {name:'Today', dateFrom:0, dateTo:""},
