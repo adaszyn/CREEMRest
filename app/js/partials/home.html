@@ -1,1 +1,81 @@
-<b>Home page</b>
+<style>
+    .login-container {
+        position: fixed;
+        z-index: -1;
+        background-repeat: no-repeat;
+        background-size: 100% 100%;
+        top: 0px;
+        left: 0px;
+        width: 100%;
+        height: 100%;
+        background-image: url(img/background.png);
+    }
+
+    .home-footer {
+        position: fixed;
+        left: 0;
+        bottom: 0px;
+        height: 60px;
+        width: 100%;
+        background-color: black;
+    }
+
+    .login-box {
+        text-align: center;
+        padding: 10px;
+        font-family: LatoLight;
+        font-size: 30px;
+        color: white;
+        height: 40vh;
+        width: 40vw;
+        position: fixed;
+        top: 30vh;
+        left: 30vw;
+        background: rgba(0, 0, 0, 0.62);
+    }
+
+    input.home-input {
+        width: 70%;
+        border: none;
+        border-radius: 0;
+        background-color: transparent;
+        border-bottom: 1px solid #c8c8c8;
+        -webkit-transition: border-bottom 0.4s linear;
+        -moz-transition: border-bottom 0.4s linear;
+        -ms-transition: border-bottom 0.4s linear;
+        -o-transition: border-bottom 0.4s linear;
+        transition: border-bottom 0.4s linear;
+    }
+    .home-input:active{
+        border-bottom: 1px solid white;
+    }
+    input.submit:active{
+        color: white;
+    }
+    input.submit:hover{
+        border: 1px solid white;
+        color: white;
+        background-color: rgba(0, 0, 0, 0.53);
+    }
+    input.submit{
+        font-family: LatoLight;
+        background-color: transparent;
+        -webkit-transition: background-color 0.3s;
+        -moz-transition: background-color 0.3s;
+        -ms-transition: background-color 0.3s;
+        -o-transition: background-color 0.3s;
+        transition: background-color 0.3s;
+        color: white;
+        border: 1px solid white;
+    }
+</style>
+<div class="login-container"></div>
+<div class="login-box">
+    <h3>Welcome to the Power<span style="color: #00d300">Statistics</span></h3>
+    <form ng-submit="logIn()">
+        <input type="text" class="home-input login" ng-model="login">
+        <input type="password" class="home-input password" ng-model="password">
+        <input type="submit" class="home-input submit">
+    </form>
+</div>
+<div class="home-footer"></div>
