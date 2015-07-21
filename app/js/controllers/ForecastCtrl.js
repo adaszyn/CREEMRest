@@ -3,11 +3,11 @@ app.controller("ForecastCtrl", ['$scope', '$http','WeatherService', 'ChartFactor
     $scope.dataFrom = "";
     $scope.dateTo = "";
     $scope.timeOptions = [
-        {name: "today", value:1, historical:false},
-        {name: "tomorrow", value:2, historical:false},
-        {name: "next week", value:7, historical:false},
-        {name: "next two weeks", value:14, historical:false},
-        {name: "past data", value:0, historical:true}
+        {name: "today", value:1},
+        {name: "tomorrow", value:2},
+        {name: "next week", value:7},
+        {name: "next two weeks", value:14},
+        {name: "past data", value:0}
     ];
     $scope.timeOption = $scope.timeOptions[0];
     $scope.pressureChart = ChartFactory.getChartConfiguration({
