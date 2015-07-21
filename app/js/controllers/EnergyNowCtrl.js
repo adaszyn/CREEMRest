@@ -9,12 +9,14 @@ app.controller("EnergyNowCtrl", ['$scope', '$http', 'RESTEnergyService', 'ChartF
     $scope.dataLimit = 10;
     $scope.deviceId = "1913061376";
     $rootScope.isLoggedIn = true;
+    $scope.customDateFrom = new Date();
+    $scope.customDateTo = new Date();
     $scope.dateOptions = [
-        {name:'Yesterday', dateFrom: -1, dateTo: ""},
-        {name:'Today', dateFrom:0, dateTo: ""},
-        {name:'This week', dateFrom: -7, dateTo: 0},
-        {name:'This month', dateFrom: -30, dateTo: 0},
-        {name:'Custom data', dateFrom: 0, dateTo: 0}
+        {name:'Yesterday', daysFrom: -1},
+        {name:'Today', daysFrom: 0},
+        {name:'This week', daysFrom: -7},
+        {name:'This month', daysFrom: -30},
+        {name:'Custom data', daysFrom: undefined}
     ];
     $scope.dateOption = $scope.dateOptions[1];
     $scope.stepOptions = [
@@ -64,6 +66,23 @@ app.controller("EnergyNowCtrl", ['$scope', '$http', 'RESTEnergyService', 'ChartF
         }, 500);
     });
 
+    var getDateFromDays = function getDateFromDelta(daysFrom) {
+        if (daysFrom === undefined) {
+            return {
+                from: $scope.customDateFrom,
+                to: $scope.customDateTo
+            }
+        }
+        else {
+            var date = new Date();
+            date.setDate(date.getDate() + daysFrom);
+            return {
+                from: date,
+                to: undefined
+            }
+        }
+    };
+
     $scope.dateUpdate = function() {
         $scope.dateFrom = $scope.getDate($scope.dateOption.dateFrom);
         if ($scope.dateOption.dateTo === "") {
@@ -74,34 +93,23 @@ app.controller("EnergyNowCtrl", ['$scope', '$http', 'RESTEnergyService', 'ChartF
         }
     };
 
-    var getDateFromDelta = function getDateFromDelta(days) {
-        var date = new Date();
-        date.setDate(date.getDate() + days);
-        return date;
-    };
-
     $scope.submit = function(){
-        //var url = RESTEnergyService.REST_URL + RESTEnergyService.createUrl({
-        //        deviceID: $scope.deviceId,
-        //        dateFrom: $scope.dateFrom,
-        //        dateTo: $scope.dateTo,
-        //        type: $scope.selectedDataset,
-        //        dateOption: $scope.dateOption
-        //    });
-        //var url = RESTEnergyService.REST_URL + 'energy/energypower/' + $scope.testedDevice + "/" + $scope.stepOption.value + $scope.
-        //$http.get(url)
-        //    .success(function(data){
-        //        $scope.updateCharts(data);
-        //    })
-        //    .error(function(data){
-        //        console.log("NO");
-        //    })
-        console.log(RESTEnergyService.getEnergyPowerData({
+        var dateRange = getDateFromDays($scope.dateOption.daysFrom);
+        if (dateRange.to && (dateRange.from.getDate() > dateRange.to.getDate())) {
+            window.alert("Impossible daterange!");
+        }
+        else if (dateRange.to && dateRange.from.getDate() === dateRange.to.getDate()) {
+            dateRange.to = undefined; //irrelevant when dates are the same
+        }
+        RESTEnergyService.getEnergyPowerData({
             deviceId: $scope.testedDevice,
             step: $scope.stepOption.value,
-            dateTo: ($scope.dateOption.dateTo ? getDateFromDelta($scope.dateOption.dateTo) : undefined),
-            dateFrom: ($scope.dateOption.dateTo ? getDateFromDelta($scope.dateOption.dateFrom) : undefined),
-        }));
+            dateTo: dateRange.to,
+            dateFrom: dateRange.from
+        })
+            .then(function (data) {
+               console.log(data.data);
+            });
     };
 
     $scope.updateCharts = function updateCharts(data){

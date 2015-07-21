@@ -67,13 +67,9 @@ app.service("RESTEnergyService", ['$http', function($http) {
 
     this.getEnergyPowerData = function (args) {
         var step = (args.step ? "/" + args.step : "")
-            ,deviceId = (args.deviceId ? "/" + args.device : "")
+            ,deviceId = (args.deviceId ? "/" + args.deviceId : "")
             ,dateTo = (args.dateTo ? "/" + reformatDate(args.dateTo) : "")
-            ,dateFrom = (args.dateFrom ? reformatDate(args.dateFrom) : "");
-        return deviceId + step + dateFrom + dateTo;
-    };
-
-    var timeStampToDate = function (timestamp) {
-        return new Date(timestamp);
+            ,dateFrom = (args.dateFrom ? "/" + reformatDate(args.dateFrom) : "");
+        return $http.get(deviceId + step + dateFrom + dateTo);
     };
 }]);
