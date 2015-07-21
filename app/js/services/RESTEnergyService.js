@@ -70,6 +70,9 @@ app.service("RESTEnergyService", ['$http', function($http) {
             ,deviceId = (args.deviceId ? args.deviceId + "/" : "")
             ,dateTo = (args.dateTo ? reformatDate(args.dateTo) + "/" : "")
             ,dateFrom = (args.dateFrom ? reformatDate(args.dateFrom) + "/" : "");
-        return $http.get(this.REST_URL + "energy/energypower/" + deviceId + step + dateFrom + dateTo);
+        return {
+            power: $http.get(this.REST_URL + "energy/energypower/" + deviceId + step + dateFrom + dateTo),
+            energy: $http.get(this.REST_URL + "energy/energyconsumed/" + deviceId + step + dateFrom + dateTo)
+        }
     };
 }]);

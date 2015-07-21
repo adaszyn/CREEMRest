@@ -36,26 +36,30 @@ app.controller("EnergyNowCtrl", ['$scope', '$http', 'RESTEnergyService', 'ChartF
         },
         data: [
             {
-                name: "temperature",
+                name: "power",
                 showInLegend: true,
-                type: "line",
-                dataPoints: []
+                type: "column",
+                dataPoints: [],
+                axisYType: "secondary",
             },
             {
-                name: "predicted",
+                name: "energy consumed",
                 showInLegend: true,
                 type: "line",
-                color: "red",
-                markersize: 0,
                 dataPoints: []
             }
         ],
         axisY:{
-            suffix: "C",
+            suffix: "KWh",
+            includeZero: false
+        },
+        axisY2:{
+            suffix: "KW",
             includeZero: false
         },
         axisX:{
-            valueFormatString: "MMM DD"
+            valueFormatString: "DD-MMM-Y" ,
+            labelAngle: -50
         }
     };
 
@@ -92,15 +96,40 @@ app.controller("EnergyNowCtrl", ['$scope', '$http', 'RESTEnergyService', 'ChartF
             window.alert("Impossible daterange!");
             return;
         }
-        RESTEnergyService.getEnergyPowerData({
+        var promise = RESTEnergyService.getEnergyPowerData({
             deviceId: $scope.testedDevice,
             step: $scope.stepOption.value,
             dateTo: dateRange.to,
             dateFrom: dateRange.from
-        })
-            .then(function (data) {
-               //parsing data to chart
-            });
+        });
+        promise.energy.then(function (data) {
+            var date1 = new Date(data.data[0].timestamp);
+            var date2 = new Date(data.data[data.data.length - 1].timestamp);
+            var daysDiff = Math.ceil(Math.abs(date2.getTime() - date1.getTime()) / (1000 * 3600 * 24));
+            console.log(daysDiff);
+            if (daysDiff <= 1) {
+                console.log("test");
+                $scope.config.axisX.valueFormatString = 'HH:mm';
+            }
+            $scope.config.data[1].dataPoints = [];
+            for (i = 0; i < data.data.length; i++){
+               if(!data.data[i].prediction){
+                   $scope.config.data[1].dataPoints.push({
+                       x: new Date(data.data[i].timestamp),
+                       y: data.data[i].value
+                   });
+               }
+            }
+        });
+        promise.power.then(function (data) {
+            $scope.config.data[0].dataPoints = [];
+            for (i = 0; i < data.data.length; i++){
+                $scope.config.data[0].dataPoints.push({
+                    x: new Date(data.data[i].timestamp),
+                    y: data.data[i].value
+                })
+            }
+        });
     };
 
     $scope.updateCharts = function updateCharts(data){
