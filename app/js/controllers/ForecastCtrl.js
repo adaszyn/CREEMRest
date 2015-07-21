@@ -12,6 +12,10 @@ app.controller("ForecastCtrl", ['$scope', '$http','WeatherService', 'ChartFactor
         label: 'Pressure',
         data: []
     });
+    $scope.dateRange = {
+        from: 0,
+        to: 4
+    };
     $scope.$on('$viewContentLoaded', function(event){
         setTimeout(function () {
             var icon = document.getElementById("loading-img");

@@ -4,11 +4,13 @@
     <div class="twelve columns box">
         <div class="box-title">SETTINGS</div>
         <div class="content" style="text-align: center;">
-            <select class="forecast-select"
-                    ng-model="timeOption"
-                    ng-options="option.name for option in timeOptions"
-                    ng-change="getForecast()">
-            </select>
+            <!--<select class="forecast-select"-->
+                    <!--ng-model="timeOption"-->
+                    <!--ng-options="option.name for option in timeOptions"-->
+                    <!--ng-change="getForecast()">-->
+            <!--</select>-->
+            <section data-range-slider class="range-slider" min="-7" max="7" step="1" ng-model="dateRange"></section>
+            {{dateRange.from}} -> {{dateRange.to}}
 
         </div>
     </div>
