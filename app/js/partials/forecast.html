@@ -13,11 +13,11 @@
         <form ng-submit="submit()" style="margin-bottom: 0px;" ng-show="timeOption.name === 'past data'">
             <div class="four columns">
                 <span>From:</span>
-                <input class="device-input" type="date" ng-model="dateFrom" placeholder="yyyy-MM-dd">
+                <input type="date" pick-a-date="date" pick-a-date-options="{ format: 'yyyy-mm-dd' }" />
             </div>
             <div class="four columns">
                 <span>To:</span>
-                <input class="device-input" type="date" ng-model="dateTo" placeholder="yyyy-MM-dd">
+                <input type="date" pick-a-date="date" pick-a-date-options="{ format: 'yyyy-mm-dd' }" />
             </div>
             <div class="two columns">
                 <button class="device-submit">OK</button>

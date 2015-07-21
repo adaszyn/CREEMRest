@@ -99,6 +99,7 @@ app.controller("ForecastCtrl", ['$scope', '$http','WeatherService', 'ChartFactor
     };
 
     $scope.submit = function(){
+        console.log($scope.dateFrom);
         WeatherService.getHistoryData($scope.dateFrom, $scope.dateTo)
             .then(function (data) {
                 $scope.updateHistory(data.data);

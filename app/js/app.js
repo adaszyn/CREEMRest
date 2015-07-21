@@ -1,1 +1,1 @@
-var app = angular.module("app", ['ui.router', 'canvasjsDirective']);
+var app = angular.module("app", ['ui.router', 'canvasjsDirective', 'angular-datepicker']);
