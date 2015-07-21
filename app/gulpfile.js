@@ -25,7 +25,8 @@ gulp.task('vendor', function(){
         "bower_components/amcharts/dist/amcharts/serial.js",
         "bower_components/amcharts/dist/amcharts/plugins/responsive/responsive.js",
         "bower_components/amcharts-angular/dist/amChartsDirective.js",
-        "js/canvasjs.min.js"
+        "js/canvasjs.min.js",
+        "bower_components/angular-notify/dist/angular-notify.min.js"
         ])
         .pipe(concat('vendor.js'))
         .pipe(gulp.dest('dist'))
