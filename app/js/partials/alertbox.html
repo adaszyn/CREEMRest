@@ -1,0 +1,28 @@
+<div class="alertbox cg-notify-message" ng-click="$close()" ng-class="[$classes,
+    $position === 'center' ? 'cg-notify-message-center' : '',
+    $position === 'left' ? 'cg-notify-message-left' : '',
+    $position === 'right' ? 'cg-notify-message-right' : '']"
+     ng-style="{'margin-left': $centerMargin}">
+
+
+    <style>
+        .alertbox {
+            text-align: center;
+            background-color: rgb(0, 0, 0);
+            font-size: 23px;
+            padding:5px 8px 5px 8px;
+            margin-top: 0px !important;
+            color: white;
+            font-family: LatoLight;
+        }
+    </style>
+
+    <div ng-show="!$messageTemplate">
+        {{$message}}
+    </div>
+
+    <div ng-show="$messageTemplate" class="cg-notify-message-template">
+
+    </div>
+
+</div>
