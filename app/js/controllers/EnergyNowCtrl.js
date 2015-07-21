@@ -83,23 +83,14 @@ app.controller("EnergyNowCtrl", ['$scope', '$http', 'RESTEnergyService', 'ChartF
         }
     };
 
-    $scope.dateUpdate = function() {
-        $scope.dateFrom = $scope.getDate($scope.dateOption.dateFrom);
-        if ($scope.dateOption.dateTo === "") {
-            $scope.dateTo = "";
-        }
-        else {
-            $scope.dateTo = $scope.getDate($scope.dateOption.dateTo);
-        }
-    };
-
     $scope.submit = function(){
         var dateRange = getDateFromDays($scope.dateOption.daysFrom);
-        if (dateRange.to && (dateRange.from.getDate() > dateRange.to.getDate())) {
-            window.alert("Impossible daterange!");
+        if (dateRange.to === undefined) {
+            dateRange.to = new Date();
         }
-        else if (dateRange.to && dateRange.from.getDate() === dateRange.to.getDate()) {
-            dateRange.to = undefined; //irrelevant when dates are the same
+        if (dateRange.from.getDate() > dateRange.to.getDate()) {
+            window.alert("Impossible daterange!");
+            return;
         }
         RESTEnergyService.getEnergyPowerData({
             deviceId: $scope.testedDevice,
@@ -108,7 +99,7 @@ app.controller("EnergyNowCtrl", ['$scope', '$http', 'RESTEnergyService', 'ChartF
             dateFrom: dateRange.from
         })
             .then(function (data) {
-               console.log(data.data);
+               //parsing data to chart
             });
     };
 
