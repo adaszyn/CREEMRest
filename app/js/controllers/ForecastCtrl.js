@@ -1,4 +1,4 @@
-app.controller("ForecastCtrl", ['$scope', '$http','WeatherService', 'ChartFactory', function ($scope, $http, WeatherService, ChartFactory) {
+app.controller("ForecastCtrl", ['$scope', '$http','WeatherService', 'ChartFactory', 'RESTEnergyService', function ($scope, $http, WeatherService, ChartFactory, RESTEnergyService) {
     $scope.title = "Forecast";
     $scope.dataFrom = "";
     $scope.dateTo = "";
@@ -7,7 +7,7 @@ app.controller("ForecastCtrl", ['$scope', '$http','WeatherService', 'ChartFactor
         {name: "tomorrow", value:2, historical:false},
         {name: "next week", value:7, historical:false},
         {name: "next two weeks", value:14, historical:false},
-        {name: "custom data", value:0, historical:true}
+        {name: "past data", value:0, historical:true}
     ];
     $scope.timeOption = $scope.timeOptions[0];
     $scope.pressureChart = ChartFactory.getChartConfiguration({
