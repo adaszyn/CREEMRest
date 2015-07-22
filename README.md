@@ -22,8 +22,25 @@ There must be at least 2 results from database for this to work or else it will 
 
 3. energy/stat/latest/{deviceID}
 The result is an ArrayList of EnergyAbstract objects.
-It return 6 objects.
+It returns latest data of the device objects.
 They are values from the t_data_latest table, where are stored latest results of a different data types.
+
+4. energy/latest/{date}
+The result is an ArrayList of EnergyAbstract objects.
+It returns latest data from one day (__date__).
+They are values from the t_data_latest table, where are stored latest results of a different data types.
+
+5. energy/energypower/{deviceID}/{step}/{dateFrom}/{dateTo}
+The result is an ArrayList of EnergyAbstract objects.
+It returns power results for __device__ in period of time between __dateFrom__ and __dateTo__.
+It returns one result for one hour/day - it is defined by parameter __step__.
+Missing results are being predicted based on the previous data from week/month before.
+
+6. energy/energyconsumed/{deviceID}/{step}/{dateFrom}/{dateTo}
+The result is an ArrayList of EnergyAbstract objects.
+It returns consumed energy results for __device__ in period of time between __dateFrom__ and __dateTo__.
+It returns one result for one hour/day - it is defined by parameter __step__.
+Missing results are being predicted the same way as in 1. or 2. of New version functionalities.
 
 We are taking results only for:
     * total\_active\_consumed
