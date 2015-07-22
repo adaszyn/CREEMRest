@@ -25,7 +25,6 @@ gulp.task('vendor', function(){
         "bower_components/amcharts/dist/amcharts/serial.js",
         "bower_components/amcharts/dist/amcharts/plugins/responsive/responsive.js",
         "bower_components/amcharts-angular/dist/amChartsDirective.js",
-        "bower_components/angular-native-picker/build/angular-datepicker.js",
         "js/canvasjs.min.js"
         ])
         .pipe(concat('vendor.js'))
@@ -60,8 +59,7 @@ gulp.task('scripts', function() {
         .pipe(gulp.dest('dist'));
 });
 gulp.task('stylesheets', function() {
-    return gulp.src(['css/**/*.css',
-        'bower_components/angular-native-picker/build/themes/*.css'])
+    return gulp.src('css/**/*.css')
     .pipe(concat('stylesheets.css'))
     .pipe(gulp.dest('dist'));
 });
