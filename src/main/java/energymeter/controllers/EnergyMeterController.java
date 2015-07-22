@@ -106,4 +106,23 @@ public class EnergyMeterController {
             return new ArrayList<>();
         }
     }
+
+    @RequestMapping("energy/energyconsumed/{deviceID}/{step}/{dateFrom}/{dateTo}")
+    public @ResponseBody
+    ArrayList<EnergyAbstract> getEnergyConsumed(@PathVariable(value = "step") String stepStr,
+                                             @PathVariable(value = "deviceID") String deviceID,
+                                             @PathVariable(value = "dateFrom") String dateFromStr,
+                                             @PathVariable(value = "dateTo") String dateToStr) throws Exception {
+        try {
+            Long step = Long.parseLong(stepStr);
+            DateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+            Date dateFrom = format.parse(dateFromStr);
+            Date dateTo = format.parse(dateToStr);
+            ArrayList<EnergyAbstract> energies = energyMeterDAO.getEnergyConsumed(step, deviceID, dateFrom, dateTo);
+            return energies;
+        }
+        catch(Exception e) {
+            return new ArrayList<>();
+        }
+    }
 }

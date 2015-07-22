@@ -265,4 +265,72 @@ public class JdbcEnergyMeterDAO implements EnergyMeterDAO {
         }
         return energyPeriod;
     }
+
+    @Override
+    public ArrayList<EnergyAbstract> getEnergyConsumed(Long step, String id, Date dateFrom, Date dateTo) throws Exception {
+        String sql = "select * from t_data_total_active_energy_consumed where DEVICE_ID = ? and (DATE(MEASURE_TIMESTAMP) >= ? and DATE(MEASURE_TIMESTAMP) <= ?) order by MEASURE_TIMESTAMP";
+        Connection connection = null;
+        ArrayList<EnergyAbstract> energyResults;
+        ArrayList<ArrayList<Double>> days = new ArrayList<>();
+
+        ArrayList<EnergyAbstract> energyPeriod = new ArrayList<>();
+        java.sql.Date sqlDateFrom;
+        java.sql.Date sqlDateTo;
+
+        long hour = 1000 * 60 * 60;
+        long day = hour * 24;
+        long week = day * 7;
+        TimeUnit unit = null;
+        if (step == hour) {
+            unit = TimeUnit.HOURS;
+        }
+        else if (step == day) {
+            unit = TimeUnit.DAYS;
+        }
+
+        try {
+            //difference in days of this period
+            long timeDiff = dateTo.getTime() - dateFrom.getTime();
+            timeDiff = unit.convert(timeDiff, TimeUnit.MILLISECONDS) + (day / step);
+            for (int i=0; i<timeDiff; i++) {
+                days.add(new ArrayList<>());
+            }
+
+            connection = dataSource.getConnection();
+            PreparedStatement ps = connection.prepareStatement(sql);
+            sqlDateFrom = new java.sql.Date(dateFrom.getTime());
+            sqlDateTo = new java.sql.Date(dateTo.getTime());
+            ps.setString(1, id);
+            ps.setDate(2, sqlDateFrom);
+            ps.setDate(3, sqlDateTo);
+
+            energyResults = EnergyDAOHelper.getData(ps, EnergyTypesEnum.TOTAL_ACTIVE_CONSUMED);
+
+            if (energyResults.size()>1) {
+                //calculate time and value differences per hour
+                double valuePerDay = EnergyDAOHelper.getValuePerTime(energyResults, day);
+
+                //sort values throught the period by days (adding value to correct ArrayList
+                //in ArrayList of ArrayLists - every ArrayList has value from one period of time - one day)
+                EnergyDAOHelper.arrangeData(energyResults, dateFrom, unit, days);
+
+                //whichever time of the day, here - 12 A.M.
+                //Delta is always valuePerDay even if there are already deltas from database
+                Timestamp timeThen = new Timestamp(sqlDateFrom.getTime() + (12 * hour));
+                energyPeriod = EnergyDAOHelper.getFinalResults(timeThen, EnergyTypesEnum.TOTAL_ACTIVE_CONSUMED, days, id, valuePerDay, step, timeDiff);
+            }
+        }
+        catch (SQLException e) {
+            throw new SQLException(e);
+        }
+        finally {
+            if (connection != null) {
+                try {
+                    connection.close();
+                }
+                catch (SQLException ignored) {}
+            }
+        }
+        return energyPeriod;
+    }
 }
