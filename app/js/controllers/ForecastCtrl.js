@@ -12,10 +12,15 @@ app.controller("ForecastCtrl", ['$scope', '$http','WeatherService', 'ChartFactor
         label: 'Pressure',
         data: []
     });
-    $scope.dateRange = {
+    $scope.daysRange = {
         from: 0,
-        to: 4
+        to: 1
     };
+    $scope.dateRange = {
+        from: new Date(),
+        to: new Date()
+    };
+
     $scope.$on('$viewContentLoaded', function(event){
         setTimeout(function () {
             var icon = document.getElementById("loading-img");
@@ -82,5 +87,19 @@ app.controller("ForecastCtrl", ['$scope', '$http','WeatherService', 'ChartFactor
                 $scope.updateForecast(data.data);
             });
     };
+
+    //$scope.rangeChanged = function () {
+    //    console.log($scope.dateRange);
+    //    $scope.dateRange.fromDate = $scope.dateRange.setDate(Date.now().getDate() + $scope.dateRange.from);
+    //    $scope.dateRange.toDate = $scope.dateRange.setDate(Date.now().getDate() + $scope.dateRange.to);
+    //};
+    $scope.$watch('daysRange.from', function (value) {
+        $scope.dateRange.from.setDate((new Date()).getDate() + $scope.daysRange.from);
+    });
+
+    $scope.$watch('daysRange.to', function (value) {
+        $scope.dateRange.to.setDate((new Date()).getDate() + $scope.daysRange.to);
+    });
+
     $scope.getForecast();
 }]);
