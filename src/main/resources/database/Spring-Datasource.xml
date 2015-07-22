@@ -12,4 +12,13 @@
         <property name="password" value="3r42mu2" />
     </bean>
 
+    <bean id="buildingDataSource"
+          class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+
+        <property name="driverClassName" value="com.mysql.jdbc.Driver" />
+        <property name="url" value="jdbc:mysql://127.0.0.1/dss_creem" />
+        <property name="username" value="root" />
+        <property name="password" value="stage4" />
+    </bean>
+
 </beans>

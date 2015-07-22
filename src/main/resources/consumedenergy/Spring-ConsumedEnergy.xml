@@ -15,8 +15,8 @@
         <property name="dataSource" ref="dataSource" />
     </bean>
 
-    <bean id="energyBuildingDAO" class="energymeter.dao.implementation.JdbcEnergyMeterDAO">
-        <property name="dataSource" ref="dataSource" />
+    <bean id="energyBuildingDAO" class="energymeter.dao.implementation.JdbcEnergyBuildingDAO">
+        <property name="dataSource" ref="buildingDataSource" />
     </bean>
 
 </beans>
