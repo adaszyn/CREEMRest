@@ -66,14 +66,13 @@ app.service("RESTEnergyService", ['$http', function($http) {
     };
 
     this.getEnergyPowerData = function (args) {
-        var step = (args.step ? "/" + args.step : "")
-            ,deviceId = (args.deviceId ? "/" + args.device : "")
-            ,dateTo = (args.dateTo ? "/" + reformatDate(args.dateTo) : "")
-            ,dateFrom = (args.dateFrom ? reformatDate(args.dateFrom) : "");
-        return deviceId + step + dateFrom + dateTo;
-    };
-
-    var timeStampToDate = function (timestamp) {
-        return new Date(timestamp);
+        var step = (args.step ? args.step + "/" : "")
+            ,deviceId = (args.deviceId ? args.deviceId + "/" : "")
+            ,dateTo = (args.dateTo ? reformatDate(args.dateTo) + "/" : "")
+            ,dateFrom = (args.dateFrom ? reformatDate(args.dateFrom) + "/" : "");
+        return {
+            power: $http.get(this.REST_URL + "energy/energypower/" + deviceId + step + dateFrom + dateTo),
+            energy: $http.get(this.REST_URL + "energy/energyconsumed/" + deviceId + step + dateFrom + dateTo)
+        }
     };
 }]);

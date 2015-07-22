@@ -21,6 +21,7 @@
     "ng-autocomplete": "*",
     "bootstrap": "~3.3.5",
     "canvasjsDirective": "wojciechAdaszynski/canvasjsDirective",
-    "angular-notify": "~2.5.0"
+    "angular-notify": "~2.5.0",
+    "ng-range-slider": "~0.1.13"
   }
 }

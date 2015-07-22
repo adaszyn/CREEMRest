@@ -9,12 +9,14 @@ app.controller("EnergyNowCtrl", ['$scope', '$http', 'RESTEnergyService', 'ChartF
     $scope.dataLimit = 10;
     $scope.deviceId = "1913061376";
     $rootScope.isLoggedIn = true;
+    $scope.customDateFrom = new Date();
+    $scope.customDateTo = new Date();
     $scope.dateOptions = [
-        {name:'Yesterday', dateFrom: -1, dateTo: ""},
-        {name:'Today', dateFrom:0, dateTo: ""},
-        {name:'This week', dateFrom: -7, dateTo: 0},
-        {name:'This month', dateFrom: -30, dateTo: 0},
-        {name:'Custom data', dateFrom: 0, dateTo: 0}
+        {name:'Yesterday', daysFrom: -1},
+        {name:'Today', daysFrom: 0},
+        {name:'This week', daysFrom: -7},
+        {name:'This month', daysFrom: -30},
+        {name:'Custom data', daysFrom: undefined}
     ];
     $scope.dateOption = $scope.dateOptions[1];
     $scope.stepOptions = [
@@ -34,26 +36,30 @@ app.controller("EnergyNowCtrl", ['$scope', '$http', 'RESTEnergyService', 'ChartF
         },
         data: [
             {
-                name: "temperature",
+                name: "power",
                 showInLegend: true,
-                type: "line",
-                dataPoints: []
+                type: "column",
+                dataPoints: [],
+                axisYType: "secondary",
             },
             {
-                name: "predicted",
+                name: "energy consumed",
                 showInLegend: true,
                 type: "line",
-                color: "red",
-                markersize: 0,
                 dataPoints: []
             }
         ],
         axisY:{
-            suffix: "C",
+            suffix: "KWh",
+            includeZero: false
+        },
+        axisY2:{
+            suffix: "KW",
             includeZero: false
         },
         axisX:{
-            valueFormatString: "MMM DD"
+            valueFormatString: "DD-MMM-Y" ,
+            labelAngle: -50
         }
     };
 
@@ -64,44 +70,66 @@ app.controller("EnergyNowCtrl", ['$scope', '$http', 'RESTEnergyService', 'ChartF
         }, 500);
     });
 
-    $scope.dateUpdate = function() {
-        $scope.dateFrom = $scope.getDate($scope.dateOption.dateFrom);
-        if ($scope.dateOption.dateTo === "") {
-            $scope.dateTo = "";
+    var getDateFromDays = function getDateFromDelta(daysFrom) {
+        if (daysFrom === undefined) {
+            return {
+                from: $scope.customDateFrom,
+                to: $scope.customDateTo
+            }
         }
         else {
-            $scope.dateTo = $scope.getDate($scope.dateOption.dateTo);
+            var date = new Date();
+            date.setDate(date.getDate() + daysFrom);
+            return {
+                from: date,
+                to: undefined
+            }
         }
-    };
-
-    var getDateFromDelta = function getDateFromDelta(days) {
-        var date = new Date();
-        date.setDate(date.getDate() + days);
-        return date;
     };
 
     $scope.submit = function(){
-        //var url = RESTEnergyService.REST_URL + RESTEnergyService.createUrl({
-        //        deviceID: $scope.deviceId,
-        //        dateFrom: $scope.dateFrom,
-        //        dateTo: $scope.dateTo,
-        //        type: $scope.selectedDataset,
-        //        dateOption: $scope.dateOption
-        //    });
-        //var url = RESTEnergyService.REST_URL + 'energy/energypower/' + $scope.testedDevice + "/" + $scope.stepOption.value + $scope.
-        //$http.get(url)
-        //    .success(function(data){
-        //        $scope.updateCharts(data);
-        //    })
-        //    .error(function(data){
-        //        console.log("NO");
-        //    })
-        console.log(RESTEnergyService.getEnergyPowerData({
+        var dateRange = getDateFromDays($scope.dateOption.daysFrom);
+        if (dateRange.to === undefined) {
+            dateRange.to = new Date();
+        }
+        if (dateRange.from.getDate() > dateRange.to.getDate()) {
+            window.alert("Impossible daterange!");
+            return;
+        }
+        var promise = RESTEnergyService.getEnergyPowerData({
             deviceId: $scope.testedDevice,
             step: $scope.stepOption.value,
-            dateTo: ($scope.dateOption.dateTo ? getDateFromDelta($scope.dateOption.dateTo) : undefined),
-            dateFrom: ($scope.dateOption.dateTo ? getDateFromDelta($scope.dateOption.dateFrom) : undefined),
-        }));
+            dateTo: dateRange.to,
+            dateFrom: dateRange.from
+        });
+        promise.energy.then(function (data) {
+            var date1 = new Date(data.data[0].timestamp);
+            var date2 = new Date(data.data[data.data.length - 1].timestamp);
+            var daysDiff = Math.ceil(Math.abs(date2.getTime() - date1.getTime()) / (1000 * 3600 * 24));
+            console.log(daysDiff);
+            if (daysDiff <= 1) {
+                console.log("test");
+                $scope.config.axisX.valueFormatString = 'HH:mm';
+            }
+            $scope.config.data[1].dataPoints = [];
+            for (i = 0; i < data.data.length; i++){
+               if(!data.data[i].prediction){
+                   $scope.config.data[1].dataPoints.push({
+                       x: new Date(data.data[i].timestamp),
+                       y: data.data[i].value
+                   });
+               }
+            }
+        });
+        promise.power.then(function (data) {
+            $scope.config.data[0].dataPoints = [];
+            for (i = 0; i < data.data.length; i++){
+                $scope.config.data[0].dataPoints.push({
+                    x: new Date(data.data[i].timestamp),
+                    y: data.data[i].value
+                })
+            }
+        });
     };
 
     $scope.updateCharts = function updateCharts(data){

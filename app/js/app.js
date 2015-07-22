@@ -1,1 +1,1 @@
-var app = angular.module("app", ['ui.router', 'canvasjsDirective', 'cgNotify']);
+var app = angular.module("app", ['ui.router', 'canvasjsDirective', 'cgNotify', 'ngRangeSlider']);
