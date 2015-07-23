@@ -75,4 +75,8 @@ app.service("RESTEnergyService", ['$http', function($http) {
             energy: $http.get(this.REST_URL + "energy/energyconsumed/" + deviceId + step + dateFrom + dateTo)
         }
     };
+
+    this.getBuildingData = function () {
+        return $http.get(this.REST_URL + "energy/building/");
+    }
 }]);
