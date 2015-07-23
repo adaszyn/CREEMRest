@@ -44,14 +44,14 @@ app.controller("ForecastCtrl", ['$scope', '$http','WeatherService', 'ChartFactor
                 showInLegend: true,
                 type: "line",
                 color: "blue",
-                dataPoints: [],
+                dataPoints: []
             },
             {
                 name: "temperature Forecast",
                 showInLegend: true,
                 type: "line",
                 color: "red",
-                dataPoints: [],
+                dataPoints: []
             },
             {
                 name: "pressure",
@@ -60,7 +60,7 @@ app.controller("ForecastCtrl", ['$scope', '$http','WeatherService', 'ChartFactor
                 color: "blue",
                 fillOpacity: 0.3,
                 axisYType: "secondary",
-                dataPoints: [],
+                dataPoints: []
             },
             {
                 name: "pressureForecast",
@@ -69,7 +69,7 @@ app.controller("ForecastCtrl", ['$scope', '$http','WeatherService', 'ChartFactor
                 color: "red",
                 axisYType: "secondary",
                 fillOpacity: 0.3,
-                dataPoints: [],
+                dataPoints: []
             }
         ],
         axisY:{
@@ -85,22 +85,6 @@ app.controller("ForecastCtrl", ['$scope', '$http','WeatherService', 'ChartFactor
         }
     };
 
-    $scope.updateForecast = function(data){
-        $scope.config.data[0].dataPoints = [];
-        $scope.config.data[1].dataPoints = [];
-
-        for (var i = 0; i < data.list.length; i++){
-            $scope.config.data[0].dataPoints.push({
-                x: new Date(data.list[i].dt * 1000),
-                y: data.list[i].temp.day
-            });
-            $scope.config.data[1].dataPoints.push({
-                x: new Date(data.list[i].dt * 1000),
-                y: data.list[i].pressure
-            });
-        }
-    };
-
     $scope.getForecast = function(){
         WeatherService.getLongForecast($scope.timeOption.value)
             .then(function (data) {
@@ -108,22 +92,17 @@ app.controller("ForecastCtrl", ['$scope', '$http','WeatherService', 'ChartFactor
             });
     };
 
-    //$scope.rangeChanged = function () {
-    //    console.log($scope.dateRange);
-    //    $scope.dateRange.fromDate = $scope.dateRange.setDate(Date.now().getDate() + $scope.dateRange.from);
-    //    $scope.dateRange.toDate = $scope.dateRange.setDate(Date.now().getDate() + $scope.dateRange.to);
-    //};
-    $scope.$watch('daysRange.from', function (value) {
+    $scope.$watch('daysRange.from', function () {
         $scope.dateRange.from.setDate((new Date()).getDate() + $scope.daysRange.from);
-        $scope.updateForecast2();
+        $scope.updateForecast();
     });
 
-    $scope.$watch('daysRange.to', function (value) {
+    $scope.$watch('daysRange.to', function () {
         $scope.dateRange.to.setDate((new Date()).getDate() + $scope.daysRange.to);
-        $scope.updateForecast2();
+        $scope.updateForecast();
     });
 
-    $scope.updateForecast2 = function (date1, date2) {
+    $scope.updateForecast = function () {
         var pressureObj;
         WeatherService.getForecastForDates($scope.dateRange.from, $scope.dateRange.to)
             .then(function(data){
@@ -155,8 +134,6 @@ app.controller("ForecastCtrl", ['$scope', '$http','WeatherService', 'ChartFactor
     $scope.getForecast();
     $scope.testForecast = function () {
         WeatherService.getForecastForDates(new Date('2015-07-16'), new Date('2015-07-18'))
-            .then(function(data){
-                console.log(data);
-            });
+            .then(function(data){});
     };
 }]);

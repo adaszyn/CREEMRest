@@ -10,7 +10,7 @@
                     <!--ng-change="getForecast()">-->
             <!--</select>-->
             <section data-range-slider class="range-slider" min="-7" max="7" step="1" ng-model="daysRange"></section>
-            {{dateRange.from}} -> {{dateRange.to}}
+            {{dateRange.from | date:'yyyy-MM-dd' }} -> {{dateRange.to | date:'yyyy-MM-dd'}}
 
         </div>
     </div>
