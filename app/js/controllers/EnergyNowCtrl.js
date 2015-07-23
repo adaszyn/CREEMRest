@@ -2,27 +2,65 @@
  * Created by wojtek on 7/14/15.
  */
 app.controller("EnergyNowCtrl", ['$scope', '$http', 'RESTEnergyService', 'ChartFactory', '$rootScope', function($scope, $http, RESTEnergyService, ChartFactory, $rootScope){
+    var i;
+    $scope.testedDevice = '1913061376';
     $scope.title = "Energy statistics";
     $scope.datasets = [];
     $scope.dataLimit = 10;
     $scope.deviceId = "1913061376";
     $rootScope.isLoggedIn = true;
+    $scope.customDateFrom = new Date();
+    $scope.customDateTo = new Date();
     $scope.dateOptions = [
-        {name:'Yesterday', dateFrom:-1, dateTo:""},
-        {name:'Today', dateFrom:0, dateTo:""},
-        {name:'This week', dateFrom:-7, dateTo:0},
-        {name:'This month', dateFrom:-30, dateTo:0},
-        {name:'Custom data', dateFrom:0, dateTo:0}
+        {name:'Yesterday', daysFrom: -1},
+        {name:'Today', daysFrom: 0},
+        {name:'This week', daysFrom: -7},
+        {name:'This month', daysFrom: -30},
+        {name:'Custom data', daysFrom: undefined}
     ];
     $scope.dateOption = $scope.dateOptions[1];
-    $scope.chartData = ChartFactory.getChartConfiguration({
+    $scope.stepOptions = [
+        {name: "hour", value: '3600000'},
+        {name: "day", value: '86400000'}
+    ];
+    $scope.stepOption = $scope.stepOptions[0];
+        $scope.chartData = ChartFactory.getChartConfiguration({
         domain: [],
         label: "Energy",
         data: []
     });
 
-    $scope.chartOptions = {
-        responsive : true
+    $scope.config = {
+        title: {
+            text: "EnergyNow"
+        },
+        data: [
+            {
+                name: "power",
+                showInLegend: true,
+                type: "column",
+                dataPoints: [],
+                axisYType: "secondary",
+            },
+            {
+                name: "energy consumed",
+                showInLegend: true,
+                type: "line",
+                dataPoints: []
+            }
+        ],
+        axisY:{
+            suffix: "KWh",
+            includeZero: false
+        },
+        axisY2:{
+            suffix: "KW",
+            includeZero: false
+        },
+        axisX:{
+            valueFormatString: "DD-MMM-Y" ,
+            labelAngle: -50
+        }
     };
 
     $scope.$on('$viewContentLoaded', function(event){
@@ -32,98 +70,84 @@ app.controller("EnergyNowCtrl", ['$scope', '$http', 'RESTEnergyService', 'ChartF
         }, 500);
     });
 
-    $scope.dateUpdate = function() {
-        $scope.dateFrom = $scope.getDate($scope.dateOption.dateFrom);
-        if ($scope.dateOption.dateTo === "") {
-            $scope.dateTo = "";
+    var getDateFromDays = function getDateFromDelta(daysFrom) {
+        if (daysFrom === undefined) {
+            return {
+                from: $scope.customDateFrom,
+                to: $scope.customDateTo
+            }
         }
         else {
-            $scope.dateTo = $scope.getDate($scope.dateOption.dateTo);
+            var date = new Date();
+            date.setDate(date.getDate() + daysFrom);
+            return {
+                from: date,
+                to: undefined
+            }
         }
-    };
-
-    $scope.getDate = function(days) {
-        var date = new Date();
-        date.setDate(date.getDate() + days);
-        return date;
     };
 
     $scope.submit = function(){
-        var url = RESTEnergyService.REST_URL + RESTEnergyService.createUrl({
-                deviceID: $scope.deviceId,
-                dateFrom: $scope.dateFrom,
-                dateTo: $scope.dateTo,
-                type: $scope.selectedDataset,
-                dateOption: $scope.dateOption
-            });
-        $http.get(url)
-            .success(function(data){
-                $scope.updateCharts(data);
-            })
-            .error(function(data){
-                console.log("NO");
-            })
+        var dateRange = getDateFromDays($scope.dateOption.daysFrom);
+        if (dateRange.to === undefined) {
+            dateRange.to = new Date();
+        }
+        if (dateRange.from.getDate() > dateRange.to.getDate()) {
+            window.alert("Impossible daterange!");
+            return;
+        }
+        var promise = RESTEnergyService.getEnergyPowerData({
+            deviceId: $scope.testedDevice,
+            step: $scope.stepOption.value,
+            dateTo: dateRange.to,
+            dateFrom: dateRange.from
+        });
+        promise.energy.then(function (data) {
+            var date1 = new Date(data.data[0].timestamp);
+            var date2 = new Date(data.data[data.data.length - 1].timestamp);
+            var daysDiff = Math.ceil(Math.abs(date2.getTime() - date1.getTime()) / (1000 * 3600 * 24));
+            console.log(daysDiff);
+            if (daysDiff <= 1) {
+                console.log("test");
+                $scope.config.axisX.valueFormatString = 'HH:mm';
+            }
+            $scope.config.data[1].dataPoints = [];
+            for (i = 0; i < data.data.length; i++){
+               if(!data.data[i].prediction){
+                   $scope.config.data[1].dataPoints.push({
+                       x: new Date(data.data[i].timestamp),
+                       y: data.data[i].value
+                   });
+               }
+            }
+        });
+        promise.power.then(function (data) {
+            $scope.config.data[0].dataPoints = [];
+            for (i = 0; i < data.data.length; i++){
+                $scope.config.data[0].dataPoints.push({
+                    x: new Date(data.data[i].timestamp),
+                    y: data.data[i].value
+                })
+            }
+        });
     };
 
     $scope.updateCharts = function updateCharts(data){
         var chartData = RESTEnergyService.getChartData(data);
-        $scope.chartData.labels = chartData.labels;
-        $scope.chartData.datasets[0].data = chartData.values;
-    };
-
-    /*$scope.updateCharts = function updateCharts(data){
         console.log(data);
-        var chartData = RESTEnergyService.getChartData(data);
-        console.log(data);
-        $scope.chartData.labels = chartData.labels;
-        $scope.chartData.datasets[0].data = chartData.values;
-        var len = data.length;
-        var nulls = [];
-        var measured = data.filter(function (obj) {
-            return !obj.prediction;
-        });
-        var predicted = data.filter(function (obj) {
-            return obj.prediction;
-        });
-        var measuredLength = measured.length;
-        var predictedData = [];
-        var measuredData = [];
-        for(var j = 0; j < len; j++){
-            if(!data[j].prediction){
-                measuredData.push(data[j].value);
-                predictedData.push(null);
+        $scope.config.data[0].dataPoints = [];
+        for (i = 0; i < data.length; i++) {
+            var point = {x: new Date(data[i].timestamp * 1000), y: data[i].value};
+            if (data[i].prediction === false) {
+                $scope.config.data[0].dataPoints.push(point);
             }
-            else{
-                measuredData.push(null);
-                predictedData.push(data[j].value);
+            else {
+                $scope.config.data[1].dataPoints.push(point);
             }
         }
-        $scope.chartData.datasets = [];
-        $scope.chartData.datasets.push({
-            label: 'measured',
-            fillColor: "rgba(0, 191, 255, 0.31)",
-            strokeColor: "rgb(0, 191, 255)",
-            pointColor: "rgb(0, 76, 102)",
-            pointStrokeColor: "#fff",
-            pointHighlightFill: "#fff",
-            pointHighlightStroke: "rgba(151,187,205,1)",
-            data: measuredData
-        });
-        $scope.chartData.datasets.push({
-            label: 'measured',
-            fillColor: "rgba(0, 191, 255, 0.9)",
-            strokeColor: "rgb(0, 191, 255)",
-            pointColor: "rgb(0, 76, 102)",
-            pointStrokeColor: "#fff",
-            pointHighlightFill: "#fff",
-            pointHighlightStroke: "rgba(151,187,205,1)",
-            data: predictedData
-        })
-        console.log('pred',predictedData);
-        console.log('meas',measuredData);
-
+        $scope.chartData.labels = chartData.labels;
+        $scope.chartData.datasets[0].data = chartData.values;
     };
-    */
 
     $scope.getDatasets = function(){
         $http.get(RESTEnergyService.REST_URL + "datasets")
@@ -135,13 +159,5 @@ app.controller("EnergyNowCtrl", ['$scope', '$http', 'RESTEnergyService', 'ChartF
             })
     };
 
-    $scope.$on('$viewContentLoaded', function(event){
-        setTimeout(function () {
-            var icon = document.getElementById("loading-img");
-            icon.className = "power-cord";
-        }, 500);
-    });
-
     $scope.getDatasets();
-    $scope.dateFrom = $scope.getDate(0);
 }]);

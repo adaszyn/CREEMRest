@@ -1,0 +1,69 @@
+.login-container {
+    position: fixed;
+    z-index: -1;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    background-image: url(/app/img/background.png);
+}
+
+.home-footer {
+    position: fixed;
+    left: 0;
+    bottom: 0px;
+    height: 60px;
+    width: 100%;
+    background-color: black;
+}
+
+.login-box {
+    text-align: center;
+    padding: 10px;
+    font-family: LatoLight;
+    font-size: 30px;
+    color: white;
+    height: 40vh !important;
+    width: 40vw !important;
+    position: fixed;
+    top: 30vh;
+    left: 30vw;
+    background: rgba(0, 0, 0, 0.62);
+}
+
+input.home-input {
+    width: 70%;
+    border: none;
+    border-radius: 0;
+    background-color: transparent;
+    border-bottom: 1px solid #c8c8c8;
+    -webkit-transition: border-bottom 0.4s linear;
+    -moz-transition: border-bottom 0.4s linear;
+    -ms-transition: border-bottom 0.4s linear;
+    -o-transition: border-bottom 0.4s linear;
+    transition: border-bottom 0.4s linear;
+}
+.home-input:active{
+    border-bottom: 1px solid white;
+}
+input.submit:active{
+    color: white;
+}
+input.submit:hover{
+    border: 1px solid white;
+    color: white;
+    background-color: rgba(0, 0, 0, 0.53);
+}
+input.submit{
+    font-family: LatoLight;
+    background-color: transparent;
+    -webkit-transition: background-color 0.3s;
+    -moz-transition: background-color 0.3s;
+    -ms-transition: background-color 0.3s;
+    -o-transition: background-color 0.3s;
+    transition: background-color 0.3s;
+    color: white;
+    border: 1px solid white;
+}
