@@ -42,13 +42,10 @@ It returns consumed energy results for __device__ in period of time between __da
 It returns one result for one hour/day - it is defined by parameter __step__.
 Missing results are being predicted the same way as in 1. or 2. of New version functionalities.
 
-We are taking results only for:
-    * total\_active\_consumed
-    * total\_active\_produced
-    * total\_active\_power
-    * total\_reactive\_consumed
-    * total\_reactive\_produced
-    * total\_reactive\_power
+7. energy/building
+The result is an ArrayList of BuildingEnergy objects.
+It returns data for bubble graph. The query was given to us by mail.
+We are not sure what exactly this data is representing.
 
 
 Old Version functionalities
