@@ -58,7 +58,7 @@ app.controller("EnergyNowCtrl", ['$scope', '$http', 'RESTEnergyService', 'ChartF
             includeZero: false
         },
         axisX:{
-            valueFormatString: "DD-MMM-Y" ,
+            valueFormatString: "DD-MMM-Y",
             labelAngle: -50
         }
     };
@@ -92,8 +92,8 @@ app.controller("EnergyNowCtrl", ['$scope', '$http', 'RESTEnergyService', 'ChartF
         if (dateRange.to === undefined) {
             dateRange.to = new Date();
         }
-        if (dateRange.from.getDate() > dateRange.to.getDate()) {
-            window.alert("Impossible daterange!");
+        if (dateRange.from > dateRange.to) {
+            window.alert("Impossible date range!");
             return;
         }
         var promise = RESTEnergyService.getEnergyPowerData({
@@ -103,22 +103,27 @@ app.controller("EnergyNowCtrl", ['$scope', '$http', 'RESTEnergyService', 'ChartF
             dateFrom: dateRange.from
         });
         promise.energy.then(function (data) {
-            var date1 = new Date(data.data[0].timestamp);
-            var date2 = new Date(data.data[data.data.length - 1].timestamp);
-            var daysDiff = Math.ceil(Math.abs(date2.getTime() - date1.getTime()) / (1000 * 3600 * 24));
-            console.log(daysDiff);
-            if (daysDiff <= 1) {
-                console.log("test");
-                $scope.config.axisX.valueFormatString = 'HH:mm';
+            try {
+                var date1 = new Date(data.data[0].timestamp);
+                var date2 = new Date(data.data[data.data.length - 1].timestamp);
+                var daysDiff = Math.ceil(Math.abs(date2.getTime() - date1.getTime()) / (1000 * 3600 * 24));
+                if (daysDiff <= 1) {
+                    $scope.config.axisX.valueFormatString = 'HH:mm';
+                }
+                else {
+                    $scope.config.axisX.valueFormatString = "DD-MMM-Y";
+
+                }
+                $scope.config.data[1].dataPoints = [];
+                for (i = 0; i < data.data.length; i++){
+                    $scope.config.data[1].dataPoints.push({
+                        x: new Date(data.data[i].timestamp),
+                        y: data.data[i].value
+                    });
+                }
             }
-            $scope.config.data[1].dataPoints = [];
-            for (i = 0; i < data.data.length; i++){
-               if(!data.data[i].prediction){
-                   $scope.config.data[1].dataPoints.push({
-                       x: new Date(data.data[i].timestamp),
-                       y: data.data[i].value
-                   });
-               }
+            catch(Exception) {
+                window.alert("No data to show");
             }
         });
         promise.power.then(function (data) {
@@ -134,7 +139,6 @@ app.controller("EnergyNowCtrl", ['$scope', '$http', 'RESTEnergyService', 'ChartF
 
     $scope.updateCharts = function updateCharts(data){
         var chartData = RESTEnergyService.getChartData(data);
-        console.log(data);
         $scope.config.data[0].dataPoints = [];
         for (i = 0; i < data.length; i++) {
             var point = {x: new Date(data[i].timestamp * 1000), y: data[i].value};

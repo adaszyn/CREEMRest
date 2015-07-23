@@ -110,6 +110,9 @@ public class EnergyDAOHelper {
             timeThen = new Timestamp(timeThen.getTime() + time);
         }
         for (int i=(int)timeDiff-1; i>=0; i--) {
+            if (i < timeDiff-1 && energyTime.get(i).getValue() > energyTime.get(i+1).getValue()) {
+                energyTime.get(i).setValue(energyTime.get(i + 1).getValue());
+            }
             if (energyTime.get(i).getValue() == -1.0) {
                 energyTime.remove(i);
             }

@@ -195,14 +195,13 @@ public class JdbcEnergyMeterDAO implements EnergyMeterDAO {
         ArrayList<ArrayList<Double>> lastPeriods = new ArrayList<>();
 
         ArrayList<EnergyAbstract> energyPeriod = new ArrayList<>();
-        ArrayList<EnergyAbstract> lastEnergyPeriod = new ArrayList<>();
+        ArrayList<EnergyAbstract> lastEnergyPeriod;
         java.sql.Date sqlDateFrom, sqlLastDateFrom;
         java.sql.Date sqlDateTo, sqlLastDateTo;
 
         long hour = 1000 * 60 * 60;
         long day = hour * 24;
-        long week = day * 7;
-        TimeUnit unit = null;
+        TimeUnit unit = TimeUnit.HOURS;
         if (step == hour) {
             unit = TimeUnit.HOURS;
         }
@@ -280,7 +279,7 @@ public class JdbcEnergyMeterDAO implements EnergyMeterDAO {
         long hour = 1000 * 60 * 60;
         long day = hour * 24;
         long week = day * 7;
-        TimeUnit unit = null;
+        TimeUnit unit = TimeUnit.HOURS;
         if (step == hour) {
             unit = TimeUnit.HOURS;
         }
