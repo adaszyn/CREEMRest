@@ -4,4 +4,3 @@ gs-rest-service.iml
 app/bower_components/
 app/node_modules/
 app/dist/
-src/main/resources/database/Spring-Datasource.xml
