@@ -124,22 +124,31 @@
 
 <div class="row">
 
-    <div class="seven columns box">
-        <div class="box-title">UPDATES</div>
-        <div class="content">
-            <form ng-submit="refreshDevice()">
-                <input class="device-input" type="text" style="width: 60%" ng-model="deviceId" placeholder="id of the device">
-                <button style="width: 30%" class="device-submit">OK</button>
-            </form>
-            <div ng-show="latestData.isLoaded">
-                <div class="row small-margin updates-row" ng-repeat="entry in latestData.data">
-                    <div class="four columns">{{entry.type | EnergyTypeFilter}}</div>
-                    <div class="four columns cell">{{entry.value}}</div>
-                    <div class="four columns">{{entry.timestamp | date:'yyyy-MM-dd HH:mm:ss'}}</div>
+    <div class="seven columns wraper">
+        <div class="box">
+            <div class="box-title">UPDATES</div>
+            <div class="content">
+                <form ng-submit="refreshDevice()">
+                    <input class="device-input" type="text" style="width: 60%" ng-model="deviceId" placeholder="id of the device">
+                    <button style="width: 30%" class="device-submit">OK</button>
+                </form>
+                <div ng-show="latestData.isLoaded">
+                    <div class="row small-margin updates-row" ng-repeat="entry in latestData.data">
+                        <div class="four columns">{{entry.type | EnergyTypeFilter}}</div>
+                        <div class="four columns cell">{{entry.value}}</div>
+                        <div class="four columns">{{entry.timestamp | date:'yyyy-MM-dd HH:mm:ss'}}</div>
+                    </div>
+                </div>
+                <div ng-hide="latestData.isLoaded">
+                    No data to show
                 </div>
             </div>
-            <div ng-hide="latestData.isLoaded">
-                No data to show
+        </div>
+
+        <div class="box">
+            <div class="box-title">BUILDING CHART</div>
+            <div class="content">
+                <canvasjs-plot conf="config"></canvasjs-plot>
             </div>
         </div>
     </div>

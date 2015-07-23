@@ -18,7 +18,7 @@
         <property name="driverClassName" value="com.mysql.jdbc.Driver" />
         <property name="url" value="jdbc:mysql://127.0.0.1/dss_creem" />
         <property name="username" value="root" />
-        <property name="password" value="stage4" />
+        <property name="password" value="dupa123" />
     </bean>
 
 </beans>
