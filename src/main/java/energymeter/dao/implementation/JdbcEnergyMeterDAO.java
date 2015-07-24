@@ -201,7 +201,7 @@ public class JdbcEnergyMeterDAO implements EnergyMeterDAO {
 
         long hour = 1000 * 60 * 60;
         long day = hour * 24;
-        TimeUnit unit = null;
+        TimeUnit unit = TimeUnit.HOURS;
         if (step == hour) {
             unit = TimeUnit.HOURS;
         }
@@ -217,7 +217,10 @@ public class JdbcEnergyMeterDAO implements EnergyMeterDAO {
                 periods.add(new ArrayList<>());
                 lastPeriods.add(new ArrayList<>());
             }
-            int predOffset=7;
+            int predOffset= 7 ;
+            if (TimeUnit.DAYS.convert(dateTo.getTime() - dateFrom.getTime(), TimeUnit.MILLISECONDS) > 28) {
+                predOffset = 28;
+            }
 
             connection = dataSource.getConnection();
             PreparedStatement ps = connection.prepareStatement(sql);
@@ -242,11 +245,9 @@ public class JdbcEnergyMeterDAO implements EnergyMeterDAO {
                 //in ArrayList of ArrayLists - every ArrayList has value from one period of time - one day)
                 EnergyDAOHelper.arrangeData(energyResults, dateFrom, unit, periods);
                 EnergyDAOHelper.arrangeData(lastEnergyResults, lastDateFrom, unit, lastPeriods);
-                System.out.println(periods);
-                System.out.println(lastPeriods);
 
                 Timestamp timeThen = new Timestamp(sqlDateFrom.getTime());
-                lastEnergyPeriod = EnergyDAOHelper.getFinalResults(timeThen, EnergyTypesEnum.TOTAL_ACTIVE_POWER, lastPeriods, id, 0.0, step, timeDiff);
+                lastEnergyPeriod = EnergyDAOHelper.getLastPowerResults(timeThen, EnergyTypesEnum.TOTAL_ACTIVE_POWER, lastPeriods, id, 0.0, step, timeDiff);
                 timeThen = new Timestamp(sqlDateFrom.getTime());
                 energyPeriod = EnergyDAOHelper.getPowerResults(timeThen, periods, id, step, timeDiff, lastEnergyPeriod);
             }
@@ -278,7 +279,7 @@ public class JdbcEnergyMeterDAO implements EnergyMeterDAO {
 
         long hour = 1000 * 60 * 60;
         long day = hour * 24;
-        TimeUnit unit = null;
+        TimeUnit unit = TimeUnit.HOURS;
         if (step == hour) {
             unit = TimeUnit.HOURS;
         }
@@ -306,7 +307,7 @@ public class JdbcEnergyMeterDAO implements EnergyMeterDAO {
 
             if (energyResults.size()>1) {
                 //calculate time and value differences per hour
-                double valuePerDay = EnergyDAOHelper.getValuePerTime(energyResults, day);
+                double valuePerDay = EnergyDAOHelper.getValuePerTime(energyResults, step);
 
                 //sort values throught the period by days (adding value to correct ArrayList
                 //in ArrayList of ArrayLists - every ArrayList has value from one period of time - one day)
