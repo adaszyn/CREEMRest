@@ -11,10 +11,8 @@ app.controller("DashboardCtrl", ['$scope', '$http', 'RESTEnergyService', 'Weathe
     };
     $scope.config = {
         zoomEnabled: true,
+        exportEnabled: true,
         animationEnabled: true,
-        title:{
-            text: "Buildings Chart"
-        },
         axisX: {
             title:"densita energia anno",
             valueFormatString: "#0.#",
@@ -151,7 +149,6 @@ app.controller("DashboardCtrl", ['$scope', '$http', 'RESTEnergyService', 'Weathe
     $scope.getBuildingChart = function () {
       RESTEnergyService.getBuildingData()
           .then(function (data) {
-              console.log(data);
               if (!data.data.length) return;
               $scope.config.data[0].dataPoints = [];
               data.data.forEach(function (element) {
@@ -167,5 +164,4 @@ app.controller("DashboardCtrl", ['$scope', '$http', 'RESTEnergyService', 'Weathe
     $scope.getBuildingChart();
     $scope.getDaily();
     $scope.refreshDevice();
-    console.log($scope.config);
 }]);

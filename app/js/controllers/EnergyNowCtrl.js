@@ -142,7 +142,6 @@ app.controller("EnergyNowCtrl", ['$scope', '$http', 'RESTEnergyService', 'ChartF
             }
         });
         promise.power.then(function (data) {
-            console.log(data.data);
             $scope.config.data[0].dataPoints = [];
             $scope.config.data[1].dataPoints = [];
             for (i = 0; i < data.data.length; i++){
