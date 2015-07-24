@@ -121,9 +121,7 @@ app.controller("EnergyNowCtrl", ['$scope', '$http', 'RESTEnergyService', 'ChartF
             var date1 = new Date(data.data[0].timestamp);
             var date2 = new Date(data.data[data.data.length - 1].timestamp);
             var daysDiff = Math.ceil(Math.abs(date2.getTime() - date1.getTime()) / (1000 * 3600 * 24));
-            console.log(daysDiff);
             if (daysDiff <= 1) {
-                console.log("test");
                 $scope.config.axisX.valueFormatString = 'HH:mm';
             }
             $scope.config.data[2].dataPoints = [];
@@ -144,6 +142,7 @@ app.controller("EnergyNowCtrl", ['$scope', '$http', 'RESTEnergyService', 'ChartF
             }
         });
         promise.power.then(function (data) {
+            console.log(data.data);
             $scope.config.data[0].dataPoints = [];
             $scope.config.data[1].dataPoints = [];
             for (i = 0; i < data.data.length; i++){
@@ -165,7 +164,6 @@ app.controller("EnergyNowCtrl", ['$scope', '$http', 'RESTEnergyService', 'ChartF
 
     $scope.updateCharts = function updateCharts(data){
         var chartData = RESTEnergyService.getChartData(data);
-        console.log(data);
         $scope.config.data[0].dataPoints = [];
         for (i = 0; i < data.length; i++) {
             var point = {x: new Date(data[i].timestamp * 1000), y: data[i].value};
