@@ -43,9 +43,24 @@ app.controller("EnergyNowCtrl", ['$scope', '$http', 'RESTEnergyService', 'ChartF
                 axisYType: "secondary",
             },
             {
-                name: "energy consumed",
+                name: "power pred",
+                showInLegend: true,
+                type: "column",
+                color: "yellow",
+                dataPoints: [],
+                axisYType: "secondary"
+            },
+            {
+                name: "energy",
                 showInLegend: true,
                 type: "line",
+                dataPoints: []
+            },
+            {
+                name: "energy pred",
+                showInLegend: true,
+                type: "line",
+                color: "pink",
                 dataPoints: []
             }
         ],
@@ -111,10 +126,17 @@ app.controller("EnergyNowCtrl", ['$scope', '$http', 'RESTEnergyService', 'ChartF
                 console.log("test");
                 $scope.config.axisX.valueFormatString = 'HH:mm';
             }
-            $scope.config.data[1].dataPoints = [];
+            $scope.config.data[2].dataPoints = [];
+            $scope.config.data[3].dataPoints = [];
             for (i = 0; i < data.data.length; i++){
                if(!data.data[i].prediction){
-                   $scope.config.data[1].dataPoints.push({
+                   $scope.config.data[2].dataPoints.push({
+                       x: new Date(data.data[i].timestamp),
+                       y: data.data[i].value
+                   });
+               }
+                else {
+                   $scope.config.data[3].dataPoints.push({
                        x: new Date(data.data[i].timestamp),
                        y: data.data[i].value
                    });
@@ -123,11 +145,20 @@ app.controller("EnergyNowCtrl", ['$scope', '$http', 'RESTEnergyService', 'ChartF
         });
         promise.power.then(function (data) {
             $scope.config.data[0].dataPoints = [];
+            $scope.config.data[1].dataPoints = [];
             for (i = 0; i < data.data.length; i++){
-                $scope.config.data[0].dataPoints.push({
-                    x: new Date(data.data[i].timestamp),
-                    y: data.data[i].value
-                })
+                if(!data.data[i].prediction) {
+                    $scope.config.data[0].dataPoints.push({
+                        x: new Date(data.data[i].timestamp),
+                        y: data.data[i].value
+                    })
+                }
+                else {
+                    $scope.config.data[1].dataPoints.push({
+                        x: new Date(data.data[i].timestamp),
+                        y: data.data[i].value
+                    })
+                }
             }
         });
     };

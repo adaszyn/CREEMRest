@@ -27,7 +27,7 @@
     font-family: LatoMedium;
 }
 body{
-    background-color: rgba(202, 255, 47, 0.2);
+    background-color: white;
 }
 .header{
     font-size: 30px;
@@ -141,7 +141,6 @@ div.box{
 
 }
 .content{
-    background-color: white;
     padding: 5px;
 }
 .page-name{
