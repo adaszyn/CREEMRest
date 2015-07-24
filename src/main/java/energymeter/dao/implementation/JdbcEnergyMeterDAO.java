@@ -195,13 +195,12 @@ public class JdbcEnergyMeterDAO implements EnergyMeterDAO {
         ArrayList<ArrayList<Double>> lastPeriods = new ArrayList<>();
 
         ArrayList<EnergyAbstract> energyPeriod = new ArrayList<>();
-        ArrayList<EnergyAbstract> lastEnergyPeriod = new ArrayList<>();
+        ArrayList<EnergyAbstract> lastEnergyPeriod;
         java.sql.Date sqlDateFrom, sqlLastDateFrom;
         java.sql.Date sqlDateTo, sqlLastDateTo;
 
         long hour = 1000 * 60 * 60;
         long day = hour * 24;
-        long week = day * 7;
         TimeUnit unit = null;
         if (step == hour) {
             unit = TimeUnit.HOURS;
@@ -219,9 +218,6 @@ public class JdbcEnergyMeterDAO implements EnergyMeterDAO {
                 lastPeriods.add(new ArrayList<>());
             }
             int predOffset=7;
-            if (TimeUnit.DAYS.convert(dateTo.getTime() - dateFrom.getTime(), TimeUnit.MILLISECONDS) + 1 > 27) {
-                predOffset=28;
-            }
 
             connection = dataSource.getConnection();
             PreparedStatement ps = connection.prepareStatement(sql);
@@ -246,9 +242,12 @@ public class JdbcEnergyMeterDAO implements EnergyMeterDAO {
                 //in ArrayList of ArrayLists - every ArrayList has value from one period of time - one day)
                 EnergyDAOHelper.arrangeData(energyResults, dateFrom, unit, periods);
                 EnergyDAOHelper.arrangeData(lastEnergyResults, lastDateFrom, unit, lastPeriods);
+                System.out.println(periods);
+                System.out.println(lastPeriods);
 
                 Timestamp timeThen = new Timestamp(sqlDateFrom.getTime());
                 lastEnergyPeriod = EnergyDAOHelper.getFinalResults(timeThen, EnergyTypesEnum.TOTAL_ACTIVE_POWER, lastPeriods, id, 0.0, step, timeDiff);
+                timeThen = new Timestamp(sqlDateFrom.getTime());
                 energyPeriod = EnergyDAOHelper.getPowerResults(timeThen, periods, id, step, timeDiff, lastEnergyPeriod);
             }
         }
