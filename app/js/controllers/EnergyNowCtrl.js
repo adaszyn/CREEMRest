@@ -43,9 +43,24 @@ app.controller("EnergyNowCtrl", ['$scope', '$http', 'RESTEnergyService', 'ChartF
                 axisYType: "secondary",
             },
             {
-                name: "energy consumed",
+                name: "power pred",
+                showInLegend: true,
+                type: "column",
+                color: "yellow",
+                dataPoints: [],
+                axisYType: "secondary"
+            },
+            {
+                name: "energy",
                 showInLegend: true,
                 type: "line",
+                dataPoints: []
+            },
+            {
+                name: "energy pred",
+                showInLegend: true,
+                type: "line",
+                color: "pink",
                 dataPoints: []
             }
         ],
@@ -58,7 +73,7 @@ app.controller("EnergyNowCtrl", ['$scope', '$http', 'RESTEnergyService', 'ChartF
             includeZero: false
         },
         axisX:{
-            valueFormatString: "DD-MMM-Y",
+            valueFormatString: "DD-MMM-Y" ,
             labelAngle: -50
         }
     };
@@ -92,8 +107,8 @@ app.controller("EnergyNowCtrl", ['$scope', '$http', 'RESTEnergyService', 'ChartF
         if (dateRange.to === undefined) {
             dateRange.to = new Date();
         }
-        if (dateRange.from > dateRange.to) {
-            window.alert("Impossible date range!");
+        if (dateRange.from.getDate() > dateRange.to.getDate()) {
+            window.alert("Impossible daterange!");
             return;
         }
         var promise = RESTEnergyService.getEnergyPowerData({
@@ -103,36 +118,46 @@ app.controller("EnergyNowCtrl", ['$scope', '$http', 'RESTEnergyService', 'ChartF
             dateFrom: dateRange.from
         });
         promise.energy.then(function (data) {
-            try {
-                var date1 = new Date(data.data[0].timestamp);
-                var date2 = new Date(data.data[data.data.length - 1].timestamp);
-                var daysDiff = Math.ceil(Math.abs(date2.getTime() - date1.getTime()) / (1000 * 3600 * 24));
-                if (daysDiff <= 1) {
-                    $scope.config.axisX.valueFormatString = 'HH:mm';
-                }
-                else {
-                    $scope.config.axisX.valueFormatString = "DD-MMM-Y";
-
-                }
-                $scope.config.data[1].dataPoints = [];
-                for (i = 0; i < data.data.length; i++){
-                    $scope.config.data[1].dataPoints.push({
-                        x: new Date(data.data[i].timestamp),
-                        y: data.data[i].value
-                    });
-                }
+            var date1 = new Date(data.data[0].timestamp);
+            var date2 = new Date(data.data[data.data.length - 1].timestamp);
+            var daysDiff = Math.ceil(Math.abs(date2.getTime() - date1.getTime()) / (1000 * 3600 * 24));
+            if (daysDiff <= 1) {
+                $scope.config.axisX.valueFormatString = 'HH:mm';
             }
-            catch(Exception) {
-                window.alert("No data to show");
+            $scope.config.data[2].dataPoints = [];
+            $scope.config.data[3].dataPoints = [];
+            for (i = 0; i < data.data.length; i++){
+               if(!data.data[i].prediction){
+                   $scope.config.data[2].dataPoints.push({
+                       x: new Date(data.data[i].timestamp),
+                       y: data.data[i].value
+                   });
+               }
+                else {
+                   $scope.config.data[3].dataPoints.push({
+                       x: new Date(data.data[i].timestamp),
+                       y: data.data[i].value
+                   });
+               }
             }
         });
         promise.power.then(function (data) {
+            console.log(data.data);
             $scope.config.data[0].dataPoints = [];
+            $scope.config.data[1].dataPoints = [];
             for (i = 0; i < data.data.length; i++){
-                $scope.config.data[0].dataPoints.push({
-                    x: new Date(data.data[i].timestamp),
-                    y: data.data[i].value
-                })
+                if(!data.data[i].prediction) {
+                    $scope.config.data[0].dataPoints.push({
+                        x: new Date(data.data[i].timestamp),
+                        y: data.data[i].value
+                    })
+                }
+                else {
+                    $scope.config.data[1].dataPoints.push({
+                        x: new Date(data.data[i].timestamp),
+                        y: data.data[i].value
+                    })
+                }
             }
         });
     };

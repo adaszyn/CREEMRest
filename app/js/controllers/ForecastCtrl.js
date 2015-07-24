@@ -1,5 +1,5 @@
 app.controller("ForecastCtrl", ['$scope', '$http','WeatherService', 'ChartFactory','$rootScope', function ($scope, $http, WeatherService, ChartFactory, $rootScope) {
-    $scope.title = "Forecast";
+    $scope.title = "Weather Forecast";
     $rootScope.isLoggedIn = true;
     $scope.timeOptions = [
         {name: "today", value:1},
