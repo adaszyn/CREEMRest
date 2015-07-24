@@ -107,7 +107,7 @@ app.controller("EnergyNowCtrl", ['$scope', '$http', 'RESTEnergyService', 'ChartF
         if (dateRange.to === undefined) {
             dateRange.to = new Date();
         }
-        if (dateRange.from.getDate() > dateRange.to.getDate()) {
+        if (dateRange.from > dateRange.to) {
             window.alert("Impossible daterange!");
             return;
         }
@@ -123,6 +123,9 @@ app.controller("EnergyNowCtrl", ['$scope', '$http', 'RESTEnergyService', 'ChartF
             var daysDiff = Math.ceil(Math.abs(date2.getTime() - date1.getTime()) / (1000 * 3600 * 24));
             if (daysDiff <= 1) {
                 $scope.config.axisX.valueFormatString = 'HH:mm';
+            }
+            else {
+                $scope.config.axisX.valueFormatString = 'DD-MMM-Y';
             }
             $scope.config.data[2].dataPoints = [];
             $scope.config.data[3].dataPoints = [];
