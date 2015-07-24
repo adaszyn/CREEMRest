@@ -1,12 +1,16 @@
 <style>
-
+    hr {
+        margin: 1px;
+    }
     .wraper {
         /*margin: auto !important;*/
         margin-right: 0 !important;
     }
 
-    .content {
-
+    .content {  }
+    
+    .content.centered{
+        text-align: center;
     }
 
     .page-name {
@@ -144,13 +148,31 @@
                 </div>
             </div>
         </div>
-
         <div class="box">
-            <div class="box-title">BUILDING CHART</div>
-            <div class="content">
-                <canvasjs-plot conf="config"></canvasjs-plot>
+            <div class="box-title">DAILY USAGE</div>
+            <div class="content centered">
+                <div class="device-usage-title">{{dailyUsage.day | date:'yyyy-MM-dd'}}</div>
+                <div class="usage-ratio-container">
+                    <div class="usage-ratio-text">
+                        <p style="margin-bottom: 2px; text-align: center">
+                            <span class="usage-ratio-value">{{dailyUsage.consumed | number: 2}}</span>
+                            <span class="usage-ratio-key">consumed</span>
+                        </p>
+                        <hr/>
+                        <p style="margin-bottom: 2px; text-align: center">
+                            <span class="usage-ratio-value">{{dailyUsage.produced | number: 2}}</span>
+                            <span class="usage-ratio-key">produced</span>
+                        </p>
+                        <hr/>
+                        <p style="margin-bottom: 2px; text-align: center">
+                            <span class="usage-ratio-value">{{dailyUsage.power | number: 2}}</span>
+                            <span class="usage-ratio-key">power</span>
+                        </p>
+                    </div>
+                </div>
             </div>
         </div>
+
     </div>
     <div class="five columns wraper">
         <div class="box">
@@ -187,28 +209,7 @@
                 Device is offline
             </div>
         </div>
-        <div class="box">
-            <div class="box-title">DAILY USAGE</div>
-            <div class="content">
-                <div class="device-usage-title">{{dailyUsage.day | date:'yyyy-MM-dd'}}</div>
-                <div class="usage-ratio-container">
-                    <div class="usage-ratio-text">
-                    <p style="margin-bottom: 2px">
-                        <span class="usage-ratio-value">{{dailyUsage.consumed | number: 2}}</span>
-                        <span class="usage-ratio-key">consumed</span>
-                    </p>
-                    <p style="margin-bottom: 2px">
-                        <span class="usage-ratio-value">{{dailyUsage.produced | number: 2}}</span>
-                        <span class="usage-ratio-key">produced</span>
-                    </p>
-                    <p style="margin-bottom: 2px">
-                        <span class="usage-ratio-value">{{dailyUsage.power | number: 2}}</span>
-                        <span class="usage-ratio-key">power</span>
-                    </p>
-                    </div>
-                </div>
-            </div>
-        </div>
+
         <div class="box">
             <div class="box-title">TEMPERATURE</div>
             <div class="content">
@@ -235,5 +236,17 @@
         </div>
 
     </div>
+    <div class="row">
+        <div class="box">
+            <div class="box-title">BUILDING CHART</div>
+            <div class="content" ng-show="config.data[0].dataPoints.length > 0">
+                <canvasjs-plot conf="config"></canvasjs-plot>
+            </div>
+            <div class="content" ng-hide="config.data[0].dataPoints.length > 0">
+                No data to show
+            </div>
+        </div>
+    </div>
+
 </div>
 
