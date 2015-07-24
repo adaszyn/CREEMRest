@@ -279,7 +279,6 @@ public class JdbcEnergyMeterDAO implements EnergyMeterDAO {
 
         long hour = 1000 * 60 * 60;
         long day = hour * 24;
-        long week = day * 7;
         TimeUnit unit = null;
         if (step == hour) {
             unit = TimeUnit.HOURS;
@@ -314,9 +313,8 @@ public class JdbcEnergyMeterDAO implements EnergyMeterDAO {
                 //in ArrayList of ArrayLists - every ArrayList has value from one period of time - one day)
                 EnergyDAOHelper.arrangeData(energyResults, dateFrom, unit, days);
 
-                //whichever time of the day, here - 12 A.M.
                 //Delta is always valuePerDay even if there are already deltas from database
-                Timestamp timeThen = new Timestamp(sqlDateFrom.getTime() + (12 * hour));
+                Timestamp timeThen = new Timestamp(sqlDateFrom.getTime());
                 energyPeriod = EnergyDAOHelper.getFinalResults(timeThen, EnergyTypesEnum.TOTAL_ACTIVE_CONSUMED, days, id, valuePerDay, step, timeDiff);
             }
         }
