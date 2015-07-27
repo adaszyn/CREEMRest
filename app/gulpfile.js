@@ -21,12 +21,10 @@ gulp.task('vendor', function(){
         "bower_components/angularjs/angular.js",
         "bower_components/angular-ui-router/release/angular-ui-router.js",
         "bower_components/Chart.js/Chart.js",
-        "bower_components/amcharts/dist/amcharts/amcharts.js",
-        "bower_components/amcharts/dist/amcharts/serial.js",
-        "bower_components/amcharts/dist/amcharts/plugins/responsive/responsive.js",
-        "bower_components/amcharts-angular/dist/amChartsDirective.js",
         "js/canvasjs.min.js",
-        "bower_components/angular-notify/dist/angular-notify.min.js"
+        "bower_components/canvasjsDirective/canvasjsDirective.js",
+        "bower_components/angular-notify/dist/angular-notify.min.js",
+        "bower_components/ng-range-slider/dist/ng-range-slider.js"
         ])
         .pipe(concat('vendor.js'))
         .pipe(gulp.dest('dist'))
@@ -37,10 +35,7 @@ gulp.task('vendor', function(){
 gulp.task('scripts', function() {
     return gulp.src([
         "js/app.js",
-        "js/controllers/EnergyMeterCtrl.js",
-        "js/controllers/WeatherCtrl.js",
         "js/controllers/ForecastCtrl.js",
-        "js/controllers/PredictionsCtrl.js",
         "js/controllers/HeaderCtrl.js",
         "js/controllers/HomepageCtrl.js",
         "js/controllers/EnergyNowCtrl.js",
@@ -51,7 +46,6 @@ gulp.task('scripts', function() {
         "js/services/ChartFactory.js",
         "js/services/RESTEnergyService.js",
         "js/filters/EnergyTypeFilter.js",
-        "js/directives/CanvasjsDirective.js",
         "js/ScrollMenu.js"])
         .pipe(concat('application.js'))
         .pipe(gulp.dest('dist'))
@@ -77,6 +71,19 @@ gulp.task('webserver', function() {
             open: true
         }));
 });
+gulp.task('copy', function () {
+   gulp.src([
+       'css/fonts/*'
+   ]).pipe(gulp.dest('dist/css/fonts'));
+
+    gulp.src([
+        'js/partials/**/*'
+    ]).pipe(gulp.dest('dist/js/partials'));
+
+    gulp.src([
+        'img/**/*'
+    ]).pipe(gulp.dest('dist/img'));
+});
 
 // Default Task
-gulp.task('default', ['lint', 'scripts', 'vendor', 'stylesheets', 'watch']);
+gulp.task('default', ['scripts', 'vendor', 'stylesheets', 'copy']);
