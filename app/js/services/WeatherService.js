@@ -44,28 +44,27 @@ app.service("WeatherService", ['$http', '$q', function($http, $q){
                 .success(function(pastData){
                     allData = allData.concat(pastData.list);
                     $http.get("http://api.openweathermap.org/data/2.5/forecast/daily?q=Genoa&mode=json&units=metric&cnt=16")
-                        .success(function(futureData){
+                        .success(function(futureData) {
                             allData = allData.concat(futureData.list);
                             allData = allData.filter(function(n){ return n != undefined }); //remove all falsy values
-                            console.log('all data:',allData);
                             if (allData.length === 0) {
                                 reject([]);
                                 return;
                             }
-                            daysForecast.forEach(function(day, index, array){
+                            daysForecast.forEach(function(day, index, array) {
                                 dayMeasures = allData.filter(function(measure){
-                                    if ((Math.floor(measure.dt / (60 * 60 *24))) === (Math.floor(day.x / (1000 * 60 * 60 *24)))){
-                                        return 1
+                                    if ((Math.floor(measure.dt / (60 * 60 *24))) === (Math.floor(day.x / (1000 * 60 * 60 *24)))) {
+                                        return 1;
                                     }
-                                    else{
+                                    else {
                                         return 0;
                                     }
                                 });
-                                if (dayMeasures.length === 0){
+                                if (dayMeasures.length === 0) {
                                     day.y = undefined;
                                 }
-                                else{
-                                    if (dayMeasures[0].main){
+                                else {
+                                    if (dayMeasures[0].main) {
                                         day.type = "history";
                                         day.y = dayMeasures[Math.floor(dayMeasures.length / 2)].main.temp - 273.1;
                                         day.pressure = dayMeasures[0].main.pressure;
@@ -90,6 +89,7 @@ app.service("WeatherService", ['$http', '$q', function($http, $q){
                             forecast.push(SERVICE_SCOPE.cachedData[i]);
                         }
                     }
+                    console.log(forecast);
                     resolve(forecast);
                 })
                 .error(function () {

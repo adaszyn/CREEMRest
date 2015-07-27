@@ -56,13 +56,18 @@ describe("Forecast page", function() {
                 ]
             };
         $httpBackend.whenGET(/http:\/\/api\.openweathermap\.org\/data\/2\.5\/.*/).respond(function () {
-            return [200, ['success'], {data: fakeResponse}];
+            return [200, fakeResponse];
+        });
+        $httpBackend.whenGET(/http:\/\/api\.openweathermap\.org\/data\/2\.5\/.*/).respond(function () {
+            return [200, fakeResponse];
         });
         scope.daysRange.to = 0;
         scope.daysRange.from = 0;
         scope.$digest();
         $httpBackend.flush();
-        console.log(scope.config);
-        expect(scope.config.data[1].dataPoints[0].x).toBe(todaysDate.getDate());
+        setTimeout(function () {
+            console.log(scope.config);
+            expect(scope.config.data[1].dataPoints[0].x).toBe(todaysDate.getDate());
+        }, 1000);
     })
 });

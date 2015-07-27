@@ -111,7 +111,9 @@ app.controller("ForecastCtrl", ['$scope', '$http','WeatherService', 'ChartFactor
                 $scope.config.data[2].dataPoints = [];
                 $scope.config.data[3].dataPoints = [];
                 for (var i = 0; i < data.length; i++) {
+                    console.log("data", data[i]);
                     if(data[i].type === 'history'){
+                        console.log("history", data[i]);
                         $scope.config.data[0].dataPoints.push(data[i]);
                         pressureObj = {
                             x: data[i].x,
