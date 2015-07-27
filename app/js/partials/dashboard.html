@@ -94,7 +94,7 @@
     }
 
     .predicted {
-        color: blue;
+        color: rgba(4, 0, 255, 0.98);
     }
 
     .progress-circle {
@@ -236,17 +236,18 @@
         </div>
 
     </div>
-    <div class="row">
-        <div class="box">
-            <div class="box-title">BUILDING CHART</div>
-            <div class="content" ng-show="config.data[0].dataPoints.length > 0">
-                <canvasjs-plot conf="config"></canvasjs-plot>
-            </div>
-            <div class="content" ng-hide="config.data[0].dataPoints.length > 0">
-                No data to show
-            </div>
+</div>
+<div class="row">
+    <div class="box">
+        <div class="box-title">BUILDING CHART</div>
+        <div class="content" ng-show="config.data[0].dataPoints.length > 0">
+            <canvasjs-plot conf="config"></canvasjs-plot>
+        </div>
+        <div class="content" ng-hide="config.data[0].dataPoints.length > 0">
+            No data to show
         </div>
     </div>
-
 </div>
+
+
 
