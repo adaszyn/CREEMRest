@@ -8,6 +8,7 @@ app.controller("HomepageCtrl", ['$scope', '$rootScope', '$state', function($scop
     $rootScope.isLoggedIn = false;
     $scope.logIn = function () {
         if ($scope.login === "admin" && $scope.password === "admin") {
+            $rootScope.isLoggedIn = true;
             $state.go('root.dashboard');
         }
     }

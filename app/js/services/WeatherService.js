@@ -46,7 +46,13 @@ app.service("WeatherService", ['$http', '$q', function($http, $q){
                     $http.get("http://api.openweathermap.org/data/2.5/forecast/daily?q=Genoa&mode=json&units=metric&cnt=16")
                         .success(function(futureData){
                             allData = allData.concat(futureData.list);
+                            allData = allData.filter(function(n){ return n != undefined }); //remove all falsy values
+                            if (allData.length === 0) {
+                                reject([]);
+                                return;
+                            }
                             daysForecast.forEach(function(day, index, array){
+                                console.log(allData);
                                 dayMeasures = allData.filter(function(measure){
                                     if ((Math.floor(measure.dt / (60 * 60 *24))) === (Math.floor(day.x / (1000 * 60 * 60 *24)))){
                                         return 1
