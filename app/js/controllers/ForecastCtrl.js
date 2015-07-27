@@ -82,6 +82,12 @@ app.controller("ForecastCtrl", ['$scope', '$http','WeatherService', 'ChartFactor
         }
     };
 
+    function addDays(date, days) {
+        var result = new Date(date);
+        result.setDate(result.getDate() + days);
+        return result;
+    }
+
     $scope.getForecast = function(){
         WeatherService.getLongForecast($scope.timeOption.value)
             .then(function (data) {
@@ -90,12 +96,12 @@ app.controller("ForecastCtrl", ['$scope', '$http','WeatherService', 'ChartFactor
     };
 
     $scope.$watch('daysRange.from', function () {
-        $scope.dateRange.from.setDate((new Date()).getDate() + $scope.daysRange.from);
+        $scope.dateRange.from = addDays(new Date(), $scope.daysRange.from);
         $scope.updateForecast();
     });
 
     $scope.$watch('daysRange.to', function () {
-        $scope.dateRange.to.setDate((new Date()).getDate() + $scope.daysRange.to);
+        $scope.dateRange.to = addDays(new Date(), $scope.daysRange.to);
         $scope.updateForecast();
     });
 

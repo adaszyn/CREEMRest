@@ -99,13 +99,12 @@ app.service("WeatherService", ['$http', '$q', function($http, $q){
 
     };
     this.getForecastForDates = function (date1, date2) {
-        console.log(SERVICE_SCOPE.cachedData);
         if (this.isCached) {
             return $q(function (resolve, reject) {
                 var forecast = [];
                 for (var i = 0; i < SERVICE_SCOPE.cachedData.length; i++) {
                     var tdate = new Date(SERVICE_SCOPE.cachedData[i].x);
-                    if (tdate.getDate() >= date1.getDate() && tdate.getDate() <= date2.getDate()){
+                    if (tdate.getTime() >= date1.getTime() && tdate.getTime() <= date2.getTime()){
                         forecast.push(SERVICE_SCOPE.cachedData[i]);
                     }
                 }
