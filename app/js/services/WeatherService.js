@@ -99,6 +99,7 @@ app.service("WeatherService", ['$http', '$q', function($http, $q){
 
     };
     this.getForecastForDates = function (date1, date2) {
+        console.log(SERVICE_SCOPE.cachedData);
         if (this.isCached) {
             return $q(function (resolve, reject) {
                 var forecast = [];

@@ -35,9 +35,6 @@ app.controller("ForecastCtrl", ['$scope', '$http','WeatherService', 'ChartFactor
       pressure: []
     };
     $scope.config = {
-        title: {
-            text: "Forecast"
-        },
         data: [
             {
                 name: "temperature",
