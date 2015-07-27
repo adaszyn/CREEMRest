@@ -52,7 +52,6 @@ app.service("WeatherService", ['$http', '$q', function($http, $q){
                                 return;
                             }
                             daysForecast.forEach(function(day, index, array){
-                                console.log(allData);
                                 dayMeasures = allData.filter(function(measure){
                                     if ((Math.floor(measure.dt / (60 * 60 *24))) === (Math.floor(day.x / (1000 * 60 * 60 *24)))){
                                         return 1
